@@ -1,0 +1,177 @@
+﻿<h4>
+    Status Entry Form</h4>
+<div class="line">
+</div>
+<div class="span11">
+    <div class="form-element">
+        <span class="form-content-label">From Date </span>
+        <input class="date" style="width: 100px !important" data-bind="value:From" id="From" />
+    </div>
+    <div class="form-element">
+        <span class="form-content-label">To Date </span>
+        <input class="date" style="width: 100px !important" data-bind="value:To" id="To" />
+    </div>
+   
+</div>
+<script id="activityTableTmpl" type="text/html">
+   <tr>
+        <td data-bind="text:From"></td>
+        <td data-bind="text:To"></td>
+        <td data-bind="text:Project"></td>
+        <td data-bind="text:Scope"></td>
+        <td data-bind="text:Schedule"></td>
+        <td data-bind="text:Quality"></td>
+        <td data-bind="text:ClientSatisfaction"></td>        
+        <td data-bind="text:ProjectStatus" style="text-align:left !important"></td>
+        <td data-bind="text:Risk" style="text-align:left !important"></td>
+        <td data-bind="text:Notes" style="text-align:left !important"></td>
+        <td><button data-bind="click:removeStatusReport" type="button" class="btn btn-danger btn-small">Remove</button></td>
+    </tr>
+</script>
+<script type="text/javascript">
+    var viewModal;
+
+      
+    function EmployeeModal() {
+        
+        var self = this;
+        this.taskId = ko.observable();
+        this.From = ko.observable().extend({ required: true });
+        this.To = ko.observable().extend({ required: true });
+        this.projectId = ko.observable();
+        this.Scope = ko.observable();
+        this.Schedule = ko.observable();
+        this.Quality = ko.observable();
+        this.ClientSatisfaction = ko.observable();
+        this.ProjectStatus = ko.observable();
+        this.Risk = ko.observable();
+        this.Notes = ko.observable();
+        this.reports = ko.observableArray([]);      
+
+        this.Project = ko.computed(function() {
+            return $("#projects option[value='" +self.projectId() + "']").text();
+        });        
+    }
+   
+
+   function report(modal) {           
+         return {
+           
+            id: ko.observable(modal.taskId()),
+            From: ko.observable(modal.From()),
+            To: ko.observable(modal.To()),
+            projectId: ko.observable(modal.projectId()),
+            Project: ko.observable(modal.Project()),
+            Scope: ko.observable(modal.Scope()),
+            Schedule: ko.observable(modal.Schedule()),
+            Quality: ko.observable(modal.Quality()),
+            ClientSatisfaction: ko.observable(modal.ClientSatisfaction()),
+            ProjectStatus: ko.observable(modal.ProjectStatus()),            
+            Risk: ko.observable(modal.Risk()),
+            Notes: ko.observable(modal.Risk()),
+
+            removeStatusReport: function () {
+                var self = this;                    
+                $.ajax({
+                    url: "@Url.Content("~/Home/RemoveStatusReport")",
+                    type: "POST",
+                    data: ko.toJSON({"taskId": this.id()}),
+                    contentType: "application/json",
+                    success: function(result) {
+                        
+                        if(result.message == 'success')
+                        {
+                            viewModal.reports.remove(self);
+                        }
+                        else
+                            alert(result.message);
+                    }
+                });
+            }
+        };
+    }
+
+    $(document).ready(function () {
+        
+        viewModal = new EmployeeModal();
+        
+        //Bind View model
+        ko.applyBindings(viewModal);
+
+        //Date Picker
+        $("#From").datepicker({
+          onSelect: function(dateFromText) {            
+            viewModal.From(dateFromText);
+            var fromdate = dateFromText;            
+
+            $("#To").datepicker({
+             onSelect: function(dateToText) {            
+            viewModal.To(dateToText);            
+             var todate = dateToText;
+            
+            $.ajax({
+                url: "@Url.Content("~/Home/GetStatusEntryReport")",
+                type: "POST",                
+                data: ko.toJSON({ fromDate: fromdate, toDate: todate }),                
+                contentType: "application/json",
+                success: function(result) {
+                    viewModal.reports.removeAll();
+                    $.each(result, function(i, item) {
+                        viewModal.reports.push(new report(ko.mapping.fromJS(item)));
+                    });
+                }
+            });
+          }
+          
+        });
+        }
+        });
+    });
+    
+    
+
+</script>
+<div class="span11">
+    <br />
+    <table class="custom table table-striped table-bordered" id="taskTable">
+        <thead>
+            <tr>
+                <th width="10%">
+                    From Date
+                </th>
+                <th width="10%">
+                    To Date
+                </th>
+                <th width="15%">
+                    Project
+                </th>
+                <th width="15%">
+                    Scope
+                </th>
+                <th width="15%">
+                    Schedule
+                </th>
+                <th width="15%">
+                    Quality
+                </th>
+                <th width="15%">
+                    Client Satisfaction
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+                    Risk
+                </th>
+                <th>
+                    Notes
+                </th>
+                <th width="8%">
+                    &nbsp;
+                </th>
+            </tr>
+        </thead>
+        <tbody data-bind="template: { name:'activityTableTmpl', foreach:reports }">
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,147 @@
+﻿<script type="text/javascript">
+
+    var selectedid;
+
+    $(document).ready(function () {
+
+        var oTable = $('#taskTable').dataTable({
+            "iDisplayLength": 10,
+            "aLengthMenu": [[10, 16, 24, 32, -1], [10, 16, 24, 32, "All"]],
+            "bSort": true,
+            "bPaginate": true,
+            "bFilter": true,
+            "bInfo": true,
+            "bAutoWidth": false,
+            "bProcessing": true,
+            "bServerSide": false,
+            "sAjaxSource": '@Url.Content("~/Master/GetWorkCode")',
+            "aoColumns": [{ "mData": "id", "sTitle": "Id", "sClass": "text-center" }
+                            , { "mData": "Name", "sTitle": "Work Code Name" }
+                            , { "mData": "Number", "sTitle": "Number", "sClass": "text-center" }
+                            , { "mData": "Billable", "sTitle": "Billable" }
+                            
+                    ]
+
+        });
+
+        $("#taskTable tbody").on('click', 'tr', function () {
+
+
+            if ($(this).hasClass('row_selected')) {
+
+                $(this).removeClass('row_selected');
+                $('#btnEditWorkCode').attr("disabled", "disabled");
+              //  $('#btnDeleteWorkCode').attr("disabled", "disabled");
+                
+            }
+            else {
+
+                $('#taskTable tbody tr.row_selected').removeClass('row_selected');
+                $(this).addClass('row_selected');
+
+                $('#btnEditWorkCode').removeAttr("disabled");
+              //  $('#btnDeleteWorkCode').removeAttr("disabled");
+
+            }
+            
+            var sData = oTable.fnGetData(this);
+
+            selectedid = sData.DT_RowId;
+        });
+
+
+
+    });
+
+
+    function AddWorkCode() {
+         $.ajax({
+         type: 'GET',
+         url: '@Url.Content("~/Master/AddWorkCode")',
+         success: function (data) {
+                $('div#MainPopUp').html(data);
+                $('div#MainPopUp').modal('show');
+            },
+         cache: false
+     });
+ }
+
+ function EditWorkCode() {
+   
+     $.ajax({
+         type: 'GET',
+         url: '@Url.Content("~/Master/EditWorkCode")',   
+         data:{"id":selectedid},
+         success: function (data) {
+             $('div#MainPopUp').html(data);
+             $('div#MainPopUp').modal('show');
+         },
+         cache: false
+     });
+ }
+ 
+
+// function DeleteWorkCode() {
+
+//     if (confirm("Do you want to delete this WorkCode?")) {
+//         $.ajax({
+//             type: 'POST',
+//             url: '@Url.Content("~/Master/DeleteWorkCode")',
+//             data: { "id": selectedid },
+//             success: function (data) {
+//                 window.location = '@Url.Content("~/Master/GetWorkCodes")';
+//             },
+//             cache: false
+//         });
+//    }
+
+    
+ 
+
+</script>
+
+<div class="row">
+    <div class="boxshade">
+        <div class="boxhead">
+            Work Codes
+        </div>
+        <div class="boxbody">
+            <div class="col-lg-12 gap-bottom10">
+            @*<button id="btnDeleteWorkCode" disabled="disabled" value="Cancel" onclick="DeleteWorkCode();" class="btn btn-info pull-right gap-right10">
+                <i class="fa-trash-o"></i>&nbsp;Delete WorkCode</button>*@
+            <button id="btnEditWorkCode" disabled="disabled" value="edit" class="btn btn-info pull-right gap-right10" onclick="EditWorkCode();">
+                <i class="fa-edit"></i>&nbsp;Edit WorkCode</button>
+            <button id="btnAddWorkCode" value="Ok" onclick="AddWorkCode();" class="btn btn-info pull-right gap-right10">
+                <i class="fa-plus"></i>&nbsp;Add WorkCode</button>
+             
+        </div>
+<div class="col-lg-12">
+     <table class="custom table table-striped table-bordered" id="taskTable">
+        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    WorkCode ID
+                                                </th>
+                                                <th class="text-center">
+                                                    WorkCode Name
+                                                </th>
+                                                 <th class="text-center">
+                                                    WorkCode Number
+                                                </th>
+                                                 <th class="text-center">
+                                                   Billable
+                                                </th>
+                                                
+                                                                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>                                        
+                                        </tbody>
+                                  </table>
+                            </div>
+                      </div>
+                  </div>
+            </div>
+
+
+

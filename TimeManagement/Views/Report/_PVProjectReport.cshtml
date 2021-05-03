@@ -1,0 +1,112 @@
+﻿@model TimeManagement.ViewModel.ProjectModel
+@using System.Data;
+@{
+    Layout = null;
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+      var variable = '@(Model.data.Rows.Count)';
+
+        if (variable != 0) {
+
+            showexport();
+            var oTable;
+            if (oTable) {
+                oTable.fnDestroy();
+            }
+        oTable = $("#ProjectReport").dataTable({
+            "iDisplayLength": 5,
+            "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+            "bPaginate": true,
+            "bFilter": true,
+            "bSort": false,
+            "bInfo": true
+//            "scrollX": true
+        }).wrap("<div style='position:relative;overflow:auto;'/>");
+    }
+
+        //$("#ProjectReport").find("tr:last td:eq(0)").css("font-weight", "bold");
+    });
+</script>
+@if (Model.data.Rows.Count == 0)
+{ 
+    <div class="" style="background-color: #F5F5F5; padding: 10px 10px;">
+        No Records Available
+    </div>
+}
+else
+{ 
+    <table id="ProjectReport" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                @for (int i = 0; i <= Model.data.Columns.Count - 1; i++)
+                {
+                    string[] arry = new string[2];
+                    if (Model.data.Columns[i].ColumnName.ToString().Contains("|"))
+                    {
+                        arry = Model.data.Columns[i].ColumnName.ToString().Split('|');
+                    <th style="background-color: #2481B7; color: #FFF; min-width: 120px;" class="text-center">@arry[0]
+                    </th>
+                    }
+                    else
+                    { 
+                    <th style="background-color: #2481B7; color: #FFF; min-width: 120px;" class="text-center">@Model.data.Columns[i].ColumnName.ToString()
+                    </th>
+                    }
+                }
+            </tr>
+            <tr>
+                @for (int i = 0; i <= Model.data.Columns.Count - 1; i++)
+                {
+                    if (i == 0)
+                    { <th> Project Type
+                    </th> }
+                    else
+                    {
+                        string[] arry = new string[2];
+                        if (Model.data.Columns[i].ColumnName.ToString().Contains("|"))
+                        {
+                            arry = Model.data.Columns[i].ColumnName.ToString().Split('|');
+                    <th>@arry[1]
+                    </th>
+                        }
+                        else
+                        { 
+                    <th>
+                        
+                    </th>
+                        }
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in Model.data.Rows)
+            {
+                if (row[1].ToString().Trim() != "Total :")
+                {
+                <tr id="@row[0].ToString()">
+                    @for (int i = 0; i <= row.Table.Columns.Count - 1; i++)
+                    {
+                        if (row.Table.Columns[i].DataType == System.Type.GetType("System.Decimal"))
+                        {
+                        <td class="text-right">@row[i].ToString()
+                        </td>
+                        }
+                        else if(row[i].ToString() == ("TOTAL") || (row.Table.Columns[i].DataType == System.Type.GetType("System.Decimal")))
+                        {
+                            <td class="text-left" style="font-weight:bold !important;">@row[i].ToString()
+                        </td>
+                        }
+                        else
+                        {
+                        <td class="text-left">@row[i].ToString()
+                        </td>
+                        }
+                    }
+                </tr>
+                }
+            }
+        </tbody>
+    </table>
+}

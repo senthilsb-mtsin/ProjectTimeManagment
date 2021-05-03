@@ -1,0 +1,101 @@
+﻿@model TimeManagement.Models.Customer                
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".datePicker").datepicker();
+
+    });
+</script>
+@using (Html.BeginForm("/EditCustomer", "Master", FormMethod.Post, new { id = "CustomerUpdateForm" }))
+{    
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">
+                    Edit Customer</h4>
+            </div>
+            @Html.HiddenFor(m => m.CustomerId)
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12 gap-bottom5">
+                        <div class="col-lg-4 gap-top5 text-right">
+                            <b>Customer Name</b></div>
+                        <div class="col-lg-7">
+                            @Html.TextBoxFor(m => m.CustomerName, new { @class = "required form-control", maxlength = "50" })
+                            <div>@Html.ValidationMessageFor(m => m.CustomerName)</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 gap-bottom5">
+                        <div class="col-lg-4 gap-top5 text-right">
+                            <b>Customer Type</b></div>
+                             @{
+                                    List<SelectListItem> Customertype = new List<SelectListItem>();
+
+                                    Customertype.Add(new SelectListItem { Value = "Banking", Text = "Banking" });
+
+                                    Customertype.Add(new SelectListItem { Value = "Commercial", Text = "Commercial" });
+
+                                    Customertype.Add(new SelectListItem { Value = "Education", Text = "Education" });
+
+                                    Customertype.Add(new SelectListItem { Value = "Government", Text = "Government" });
+
+                                    Customertype.Add(new SelectListItem { Value = "HealthCare", Text = "HealthCare" });
+
+                                    Customertype.Add(new SelectListItem { Value = "Insurance", Text = "Insurance", Selected = true });
+
+                                    Customertype.Add(new SelectListItem { Value = "Leasing", Text = "Leasing" });
+
+                                    Customertype.Add(new SelectListItem { Value = "Mortgage", Text = "Mortgage" });
+
+                                    ViewBag.Customertype1 = Customertype;
+
+
+                                    List<SelectListItem> Customertype2 = ViewBag.Customertype1;
+                                }
+                        <div class="col-lg-7">
+                            @*@Html.TextBoxFor(m => m.CustomerType, new { @class = "required form-control" })*@
+                            
+                          @Html.DropDownListFor(m => m.CustomerType, Customertype2, "---Select Customer Type ---", new { @class = "required form-control" })
+
+                            <div>@Html.ValidationMessageFor(m => m.CustomerType)</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 gap-bottom5">
+                        <div class="col-lg-4 gap-top5 text-right">
+                            <b>Customer Address1</b></div>
+                        <div class="col-lg-7">
+                            @Html.TextBoxFor(m => m.CustomerAddress1, new { @class = " form-control", maxlength = "200" })
+                            <div>@Html.ValidationMessageFor(m => m.CustomerAddress1)</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 gap-bottom5">
+                        <div class="col-lg-4 gap-top5 text-right">
+                            <b>Customer Address2</b></div>
+                        <div class="col-lg-7">
+                            @Html.TextBoxFor(m => m.CustomerAddress2, new { @class = " form-control ", maxlength = "200" })
+                            <div>@Html.ValidationMessageFor(m => m.CustomerAddress2)</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 gap-bottom5">
+                        <div class="col-lg-4 gap-top5 text-right">
+                            <b>Description</b></div>
+                        <div class="col-lg-7">
+                            @Html.TextBoxFor(m => m.Description, new { @class = " form-control", maxlength = "200" })
+                            <div>@Html.ValidationMessageFor(m => m.Description)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">
+                    Update</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">
+                    Close</button>
+            </div>
+        </div>
+    </div>
+}

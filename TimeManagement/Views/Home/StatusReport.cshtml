@@ -1,0 +1,214 @@
+﻿<h4>Project Status Report Entry Form</h4>
+<div class="line"></div>
+
+<div class="span11">
+  <div class="form-element">
+	    <span class="form-content-label">
+	  	    Project
+	    </span>
+        @Html.DropDownList("projects", (IEnumerable<SelectListItem>)ViewBag.Projects, new Dictionary<string, object>
+            {
+                {"data-bind", "value:projectId"},
+            })
+	        <!-- <input data-bind="value:project"/> -->
+    </div>
+
+    <div class="form-element">
+	    <span class="form-content-label">
+	  	    From
+	    </span>
+	    <input class="date" style="width:100px !important" data-bind="value:From"/>
+    </div>
+
+    <div class="form-element">
+	    <span class="form-content-label">
+	  	    To
+	    </span>
+	    <input class="date" style="width:100px !important" data-bind="value:To"/>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-element">
+	    <span class="form-content-label">
+	  	    Scope
+	    </span>
+        <div style="width:5px;">
+            <img src="../../Content/images/Slider.png" class="img-rounded sliderImg" />
+        </div>
+        <div id="Scope" class="slider"></div>
+    </div>
+
+    <div class="form-element">
+	    <span class="form-content-label">
+	  	    Schedule
+	    </span>
+        <div style="width:5px;">
+            <img src="../../Content/images/Slider.png" class="img-rounded sliderImg"  />
+        </div>
+        <div id="Schedule" class="slider"></div>
+    </div>
+
+    <div class="form-element">
+	    <span class="form-content-label">
+	  	    Quality
+	    </span>
+        <div style="width:5px;">
+            <img src="../../Content/images/Slider.png" class="img-rounded sliderImg" />
+        </div>
+        <div id="Quality" class="slider"></div>
+    </div>
+    
+    <div class="form-element">
+	    <span class="form-content-label">
+	  	    Client Satisfaction
+	    </span>
+        <div style="width:5px;">
+            <img src="../../Content/images/Slider.png" class="img-rounded sliderImg"/>
+        </div>
+        <div id="ClientSatisfaction" class="slider"></div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-element">
+	    <span class="form-content-label">
+	  	    Status
+	    </span>
+	    <textarea class="wysiwyg" style="width:680px !important; height:150px;" data-bind="value:ProjectStatus" id="ProjectStatus"></textarea>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-element">
+	    <span class="form-content-label">
+	  	    Risk/Concern
+	    </span>
+	    <textarea class="wysiwyg" style="width:680px !important; height:150px;" data-bind="value:Risk" id="Risk"></textarea>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-element">
+	    <span class="form-content-label">
+	  	    Note
+	    </span>
+	    <textarea class="wysiwyg" style="width:680px !important; height:150px;" data-bind="value:Notes" id="Notes"></textarea>
+    </div>
+
+    <div class="form-element">
+	    <span class="form-content-label">&nbsp;
+	    </span>	    
+        <button type="button" data-bind="click:addReport" class="btn btn-primary">Submit</button>     
+       
+    </div>
+  
+</div> <!-- .span11 -->
+
+<script type="text/javascript">
+
+    var viewModal;
+    
+    function report(modal) {  
+      
+         return {
+           
+            id: ko.observable(modal.taskId()),
+            From: ko.observable(modal.From()),
+            To: ko.observable(modal.To()),
+            projectId: ko.observable(modal.projectId()),
+            Project: ko.observable(modal.Project()),
+            Scope: ko.observable(modal.Scope()),
+            Schedule: ko.observable(modal.Schedule()),
+            Quality: ko.observable(modal.Quality()),
+            ClientSatisfaction: ko.observable(modal.ClientSatisfaction()),
+            ProjectStatus: ko.observable(modal.ProjectStatus()),                        
+            Risk: ko.observable(modal.Risk())
+        };
+    }
+
+ 
+
+      function EmployeeModal() {
+      
+        var self = this;  
+        this.taskId = ko.observable();
+        this.From = ko.observable().extend({ required: true });
+        this.To = ko.observable().extend({ required: true });
+        this.projectId = ko.observable();
+        this.Scope = ko.observable();
+        this.Schedule = ko.observable();
+        this.Quality = ko.observable();
+        this.ClientSatisfaction = ko.observable();
+        this.ProjectStatus = ko.observable();        
+        this.Risk = ko.observable();        
+                
+        this.Project = ko.computed(function() {
+            return $("#projects option[value='" +self.projectId() + "']").text();
+        });
+        
+
+        this.addReport = function() {        
+            
+            var newReport = new report(self);           
+           
+           newReport.Schedule = $('#Schedule').slider("value");
+           newReport.Scope = $('#Scope').slider("value");
+           newReport.Quality = $('#Quality').slider("value");
+           newReport.ClientSatisfaction = $('#ClientSatisfaction').slider("value");
+
+            $.ajax({
+                url: "@Url.Content("~/Home/AddStatusReport")",
+                type: "POST",
+                data: ko.toJSON(newReport),
+                contentType: "application/json",
+                success: function(result) 
+                {
+                    if(result.message == 'success')
+                    {   
+                        location.reload();
+                        newReport.id(result.Id);
+                        //self.tasks.push(newTask);
+                    }
+                    else
+                        alert(result.message);
+                }
+            });          
+        };
+    }
+
+    $(document).ready(function () {
+        $(".wysiwyg").wysiwyg();
+
+        $(".date").datepicker();
+
+        $(".slider").css("width", "150px").css("margin-left", "10px").slider({
+            value: 0,
+            min: 0,
+            max: 100,
+            orientation: "horizontal",
+            range: "min",
+            animate: true,
+            slide: function (event, ui) {
+//             from pure red to pure green
+
+            r = 255, g = 0, b = 0;
+            g = Math.round(255 / 100 * ui.value);
+            r = 255 - g;
+
+            var color = 'rgb(' + r + ',' + g + ',' + b + ')';
+            $(this).children(".ui-widget-header").css("background", color);
+            }
+            
+        });
+     
+        viewModal = new EmployeeModal();        
+        //Bind View model
+        ko.applyBindings(viewModal);
+
+     
+
+  
+
+    });
+</script>

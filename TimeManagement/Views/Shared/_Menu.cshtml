@@ -1,0 +1,126 @@
+﻿<div id="navbar-example" class="navbar navbar-static">
+    <div class="navbar-inner">
+        <div class="container" style="width: auto;">
+            <ul class="nav" role="navigation">
+                <li class="dropdown">
+                    <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Entry<b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+                        <li role="presentation">
+                            <a href="@Url.Content("~/Home/TimeEntry")" role="menuitem">Time</a>
+                        </li>
+                        @*<li role="presentation">
+                            <a href="@Url.Content("~/Home/StatusReport")" role="menuitem">Status Report</a>
+                        </li>*@
+                    </ul>
+                </li>
+                 <li class="dropdown">
+                    <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Profile<b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+                        <li role="presentation">
+                            <a href="@Url.Content("~/Home/ResetPassword")" role="menuitem">Change Password</a>
+                        </li>
+                        @*<li role="presentation">
+                            <a href="@Url.Content("~/Home/StatusReport")" role="menuitem">Status Report</a>
+                        </li>*@
+                    </ul>
+                </li>
+
+                 @if (User.IsInRole("Administrator"))
+                 {
+                 <li class="dropdown">
+                    <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Admin Masters<b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+                      
+                        
+
+                       
+                             <li role="presentation">
+                                <a href="@Url.Content("~/Master/GetCustomers")" role="menuitem">Customers</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="@Url.Content("~/Master/GetEmployees")" role="menuitem">Employees</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="@Url.Content("~/Master/GetLocations")" role="menuitem">Locations</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="@Url.Content("~/Master/GetProjects")" role="menuitem">Projects</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="@Url.Content("~/Master/GetWorkCodes")" role="menuitem">WorkCodes</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="@Url.Content("~/Master/GetConfigurations")" role="menuitem">Configuration</a>
+                            </li>
+                                            
+                        
+                    </ul>
+                </li>
+
+                 }
+
+                <li class="dropdown">
+                    <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Reports<b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+                        <li role="presentation">
+                            <a href="@Url.Content("~/Report/TimeByDate")" role="menuitem">Time</a>
+                        </li>
+                        
+
+                        @if (User.IsInRole("Administrator"))
+                        {
+                             <li role="presentation">
+                                <a href="@Url.Content("~/Report/TimeByWeek")" role="menuitem">Time-Weekly</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="@Url.Content("~/Report/Billing")" role="menuitem">Billing</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="@Url.Content("~/Report/MonthlyBilling")" role="menuitem">Monthly Billing</a>
+                            </li>
+                         @*   <li role="presentation">
+                                <a href="@Url.Content("~/Report/MonthlyAccountsPayable")" role="menuitem">Monthly Accounts Payable</a>
+                            </li>*@
+                            <li role="presentation">
+                                <a href="@Url.Content("~/Report/MTSInternalbilling")" role="menuitem">MTS Internal Billing Accounts Reconciliation</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="@Url.Content("~/Report/EmployeeActivities")" role="menuitem">Employee Activities</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="@Url.Content("~/Report/TimeSheetManagement")" role="menuitem">Time Sheet Management</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="@Url.Content("~/Report/CategoryWiseReport")" role="menuitem">Task - Category Wise Report</a>
+                            </li>
+                            
+                            @*<li role="presentation">
+                                <a href="@Url.Content("~/Report/StatusByDate")" role="menuitem">Status Report</a>
+                            </li>*@
+                            <li role="presentation">
+                                <a href="@Url.Content("~/Report/ProjectWise")" role="menuitem">Project - Type Wise Report</a>
+                            </li>
+                               <li role="presentation">
+                                <a href="@Url.Content("~/Report/EmployeeActivityWiseSummaryReport")" role="menuitem">Proj - Locn - Employee Activities – Summary</a>
+                            </li>
+                            
+                               <li role="presentation">
+                                <a href="@Url.Content("~/Report/EmployeeActivityWiseDetailedReport")" role="menuitem"> Proj - Employee Activities – Detailed</a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+                
+               @* @if (User.IsInRole("Administrator"))
+                {
+                    <li class="dropdown">
+                        <a href="@Url.Content("~/Home/Admin")" role="button">Admin Services</a>
+                    </li> 
+                } *@
+                <li class="dropdown">
+                    <a href="@Url.Content("~/Home/Logoff")" role="button">Logoff</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
