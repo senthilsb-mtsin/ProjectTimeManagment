@@ -1,0 +1,235 @@
+﻿@model TimeManagement.Models.CategoryWiseModel
+@using System.Data;
+@using System.Threading;
+@{
+    ViewBag.Title = "ResourceWiseTimeSheet";
+
+}
+<script type="text/javascript">
+
+    var oTable;
+    function showexport() {
+        $("#exporttoCSV").show();
+    }
+    function datevalidate() {
+        var fromdate = $('#fromdate').val();
+        var todate = $('#todate').val();
+
+        if ((Date.parse(fromdate) > Date.parse(todate))) {
+            alert("To Date should be greater than From date.");
+            document.getElementById("todate").value = "";
+            return false;
+        }
+
+        return true;
+
+    }
+
+    $(document).ready(function () {
+        $("#exporttoCSV").hide();
+        $("#exporttoCSV").click(function () {
+            var from_date = $('#fromdate').val();
+            var to_date = $('#todate').val();
+            var loc = $('#location').val();
+            //var url = '@Url.Action("ExportToCSVCategory", "Report",new{fromdate="fd",todate="td",location="lc"})';
+            //location.href = url.replace('fd', from_date).replace('td', to_date).replace('lc', loc);
+            window.location.href = '../Report/ExportToCSVCategory?fromdate=' + from_date + '&todate=' + to_date + '&location=' + loc;
+        });
+        $("#fromdate").change(function () {
+            var fromdate = $('#fromdate').val();
+            if (fromdate == "") {
+                $('#fdate').removeClass('hidden');
+                return false;
+            } else if (fromdate != "") {
+                $('#fdate').addClass('hidden');
+                return false;
+            }
+            return true;
+
+        });
+        $("#todate").change(function () {
+            var todate = $('#todate').val();
+            if (todate == "") {
+                $('#tdate').removeClass('hidden');
+                return false;
+            } else if (todate != "") {
+                $('#tdate').addClass('hidden');
+                return false;
+            }
+            return true;
+        });
+
+    });
+
+    function checkdate() {
+        var fromdate = $('#fromdate').val();
+        var todate = $('#todate').val();
+        if ((fromdate == "") && (todate == "")) {
+            $('#fdate').removeClass('hidden');
+            $('#tdate').removeClass('hidden');
+            $("#tablediv").html(' ');
+            $("#exporttoCSV").hide();     
+            return false;
+        } else if ((fromdate != "") && (todate == "")) {
+            $('#fdate').addClass('hidden');
+            $('#tdate').removeClass('hidden');
+            $("#tablediv").html(' ');
+            $("#exporttoCSV").hide();    
+            return false;
+        } else if ((fromdate == "") && (todate != "")) {
+            $('#fdate').removeClass('hidden');
+            $('#tdate').addclass('hidden');
+            $("#tablediv").html(' ');
+            $("#exporttoCSV").hide();    
+            return false;
+        }
+        if (datevalidate() == false) {
+            $("#tablediv").html(' ');
+            $("#exporttoCSV").hide();    
+            return false;
+        }
+        else {
+            $("#tablediv").html(' ');
+            $("#exporttoCSV").hide();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Content("~/Report/CategoryWiseReport")',
+                data: { fromdate: $("#fromdate").val(), todate: $("#todate").val(), LocationId: $("#location").val() },
+                success: function (data) {
+                    $("#tablediv").html(data);
+                },
+                cache: false
+
+            });
+
+        }
+
+    }
+
+   
+</script>
+<div class="row">
+    <div class="boxshade">
+        <div class="boxhead">
+            Category Wise Report
+        </div>
+        <div class="boxbody">
+            <div class="col-lg-12 pad10" style="background-color: #F5F5F5;">
+                <div class="col-lg-12 gap-bottom10">
+                    @* @using (Html.BeginForm("CategoryWiseReport", "Report", FormMethod.Post, new { id = "category" }))
+                    {
+                     *@
+                    <div class="col-lg-2">
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>From Date</b>
+                        </div>
+                        <div class="col-lg-12 pad0">
+                            <input type="text" id="fromdate" class="form-control datePicker required" placeholder="From"
+                                name="fromDate" />
+                            @*  @Html.TextBoxFor(m => m.fromdate, new { @class = "form-control datePicker required", placeholder = "From" })*@
+                            <div id="fdate" class="hidden">
+                                From Date Required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>To Date</b>
+                        </div>
+                        <div class="col-lg-12 pad0">
+                            @* @Html.TextBoxFor(m => m.todate, new { @class = "form-control datePicker required", placeholder = "To" })*@
+                            <input type="text" id="todate" class="form-control datePicker required" placeholder="To"
+                                name="toDate" />
+                            <div id="tdate" class="hidden">
+                                To Date Required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>Location</b></div>
+                            @{
+                                List<SelectListItem> list = ViewBag.Locations;
+                               }
+
+                        <div class="col-lg-12 pad0">
+                            @Html.DropDownList("locations", list, "Select Location", new { @class = "form-control", id = "location" })
+                        </div>
+                    </div>
+                    <div class="col-lg-12 gap-top5">
+                     <input type="button" class="btn btn-small btn-success pull-right gap-left5"
+                            id="exporttoCSV" value="Export" />
+                           
+                        <input type="submit" onclick="return checkdate();" class="btn btn-small btn-primary pull-right"
+                            id="getreport" value="Submit" />
+                    </div>
+                    @*   }*@
+                </div>
+            </div>
+            <div class="col-lg-12 gap-bottom10" style="padding-left:0px; padding-right:0px;"id="tablediv">
+                @*<table id="Categorytable" class="custom table table-striped table-bordered">
+                        @if (Model.data.Rows.Count > 0)
+                        {
+                            <thead>
+                                <tr>
+                                    @for (int i = 0; i <= Model.data.Columns.Count - 1; i++)
+                                    {
+                                        <th class="text-center">@Model.data.Columns[i]
+                                        </th>
+                
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (DataRow row in Model.data.AsEnumerable())
+                                {
+
+                                    if (row[0].ToString().Trim() != "Total")
+                                    {                 
+                                    <tr>
+                                        @for (int i = 0; i <= row.Table.Columns.Count - 1; i++)
+                                        {
+
+                                            if (Model.data.Columns[i].ColumnName.Trim() == "Resource")
+                                            {
+                                            <td class="text-left">@row[i].ToString()
+                                            </td>       
+                                            }
+                                            else if (Model.data.Columns[i].ColumnName.Trim() == "Role")
+                                            {
+                                            <td class="text-left">@row[i].ToString()
+                                            </td>
+                                            }
+                                            else
+                                            {
+                                            <td class="text-right">@row[i].ToString()
+                                            </td>  
+                                            }
+                                        }
+                                    </tr>
+                                    }
+                                }
+                            </tbody>
+                        }
+                        @if (Model.data.Rows.Count > 0)
+                        {
+                            <tfoot>
+                                <tr>
+                                    @{
+                            DataRow row = (DataRow)Model.data.Rows[Model.data.Rows.Count - 1];
+                            for (int j = 0; j <= Model.data.Columns.Count - 1; j++)
+                            {
+                                        <td class="text-right">
+                                            @row[j].ToString()
+                                        </td>                                 
+                           
+                            }                        
+                                    }
+                                </tr>
+                            </tfoot>
+                        }
+                    </table>*@
+            </div>
+        </div>
+    </div>
+</div>

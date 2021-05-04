@@ -1,0 +1,171 @@
+﻿@model TimeManagement.ViewModel.ProjectModel
+@using System.Data;
+<script type="text/javascript">
+
+    function showexport() {
+        $("#exporttoCSV").show();
+    }
+
+    function datevalidate() {
+
+        var fromdate = $('#fromdate').val();
+        var todate = $('#todate').val();
+
+        if ((Date.parse(fromdate) > Date.parse(todate))) {
+            alert("To Date should be greater than From date.");
+            document.getElementById("todate").value = "";
+            return false;
+        }
+
+        return true;
+
+    }
+
+    $(document).ready(function () {
+
+        $("#exporttoCSV").hide();
+        $("#exporttoCSV").click(function () {
+            var from_date = $('#fromdate').val();
+            var to_date = $('#todate').val();
+            var loc = $('#location').val();
+            //            var url = '@Url.Action("ExportToCSVProject", "Report",new{fromdate="fd",todate="td",location="lc"})';
+            //            location.href = url.replace('fd', from_date).replace('td', to_date).replace('lc', loc);
+            window.location = '../Report/ExportToCSVProject?fromdate=' + from_date + '&todate=' + to_date + '&location=' + loc;
+        });
+        //$("#ProjectReport").find("tr:last td:eq(0)").css("font-weight", "bold");
+
+        $("#fromdate").change(function () {
+            var fromdate = $('#fromdate').val();
+            if (fromdate == "") {
+                $('#fdate').removeClass('hidden');
+                return false;
+            } else if (fromdate != "") {
+                $('#fdate').addClass('hidden');
+                return false;
+            }
+            return true;
+
+        });
+
+        $("#todate").change(function () {
+            var todate = $('#todate').val();
+            if (todate == "") {
+                $('#tdate').removeClass('hidden');
+                return false;
+            } else if (todate != "") {
+                $('#tdate').addClass('hidden');
+                return false;
+            }
+            return true;
+
+        });
+    });
+
+    function fundate() {
+        var fromdate = $('#fromdate').val();
+        var todate = $('#todate').val();
+        if ((fromdate == "") && (todate == "")) {
+            $('#fdate').removeClass('hidden');
+            $('#tdate').removeClass('hidden');
+            $("#tablediv").html(' ');
+            $("#exporttoCSV").hide(); 
+            return false;
+        } else if ((fromdate != "") && (todate == "")) {
+            $('#fdate').addClass('hidden');
+            $('#tdate').removeClass('hidden');
+            $("#tablediv").html(' ');
+            $("#exporttoCSV").hide(); 
+            return false;
+        } else if ((fromdate == "") && (todate != "")) {
+            $('#fdate').removeClass('hidden');
+            $('#tdate').addclass('hidden');
+            $("#tablediv").html(' ');
+            $("#exporttoCSV").hide();
+            return false;
+        }
+        if (datevalidate() == false) {
+            $("#tablediv").html(' ');
+            $("#exporttoCSV").hide();   
+            return false;
+        }
+        else {
+            $("#tablediv").html(' ');
+            $("#exporttoCSV").hide();   
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Content("~/Report/AjaxProjectWise")',
+                data: { fromDate: $("#fromdate").val(), toDate: $("#todate").val() , location : $("#location").val()},
+                success: function (data) {
+                    $("#tablediv").html(data);
+                },
+                cache: false
+
+            });
+
+        }
+    }
+
+
+
+  
+
+</script>
+<style>
+    #ProjectReport_wrapper > .row {margin-top:10px !important}
+</style>
+
+    <div class="boxshade">
+        <div class="boxhead">
+            Project Wise Report
+        </div>
+        <div class="boxbody">
+            <div class="col-lg-12 pad10" style="background-color: #F5F5F5;">
+                <div class="col-lg-12">
+                    <div class="col-lg-2">
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>From Date</b></div>
+                        <div class="col-lg-12 pad0">
+                            @*<input type="text" class="form-control datePicker required" id="fromdate" placeholder="From"
+                                name="fromDate" />*@
+                                @Html.TextBoxFor(m => m.fromdate, new { @class = "form-control datePicker required", placeholder = "From" })
+                            <div id="fdate" class="hidden">
+                                From Date Required</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>To Date</b></div>
+                        <div class="col-lg-12 pad0">
+                            @*<input type="text" class="form-control datePicker required" id="todate" placeholder="To"
+                                name="toDate" />*@
+                                @Html.TextBoxFor(m => m.todate, new { @class = "form-control datePicker required", placeholder = "To" })
+                            <div id="tdate" class="hidden">
+                                To Date Required</div>
+                        </div>
+                    </div>
+		     <div class="col-lg-2">
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>Location</b></div>
+                            @{
+                                List<SelectListItem> list = ViewBag.Locations;
+                               }
+
+                        <div class="col-lg-12 pad0">
+                            @Html.DropDownList("locations", list, "Select Location", new { @class = "form-control", id = "location" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 gap-top5">
+                    <input type="button" class="btn btn-small btn-success pull-right gap-left5"
+                            id="exporttoCSV" value="Export" />
+                        <input type="submit" onclick="return fundate();" value="Submit" class="btn btn-small btn-primary pull-right" />
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <span style="font-size: 12px">@ViewBag.Message</span>
+                </div>
+            </div>
+            <div class="col-lg-12 gap-bottom10" id="tablediv" style="padding-left:0px; padding-right:0px;">
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,178 @@
+﻿body 
+{
+    background-color:#E5E5E5 !important;
+    line-height: 10px;
+}
+
+#main {
+    background-color: #FFFFFF;
+    box-shadow: 5px 5px 5px #AAAAAA;
+    height: 500px;
+    min-height: 500px;
+    overflow-y: auto;
+    padding: 10px;
+    width:auto;
+}
+
+#footer 
+{
+    font-size:12px;
+    width:100%;
+    text-align:center;
+    margin-top: 10px;
+}
+
+.line
+{
+    width:100%;
+    border-bottom: 2px solid #9B9B9B;   
+}
+
+.form-element {
+	float:left;
+	margin: 10px 15px 5px 0;
+	/*height:40px;*/
+}
+
+.form-label {
+	display:block;
+	font-weight:bold;
+	color:#ED8A1A;
+	font-size:.75em;
+}
+
+.form-content-label {
+	font-weight:bold;
+	color:#ED8A1A;
+	font-size:.75em;
+	padding:0 4px 4px;
+	display:block;
+}
+
+table.custom 
+{
+    font-size:12px;
+}
+
+table.custom th
+{
+    background-color: #2481B7;
+    color: #fff;
+    line-height: 15px;
+}
+
+.clear 
+{
+    clear:both;
+}
+
+
+
+.sliderImg 
+{
+    height: 10px;
+    width: 152px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+.container 
+{
+    font-size: 12px;
+}
+
+.message 
+{
+    margin-top: -50px;
+}
+
+.ui-datepicker-trigger
+{
+    height:25px;
+}
+
+#dataTable 
+{
+    font-size: 12px;
+}
+
+#dataTable_paginate a 
+{
+    margin-left: 10px;
+}
+
+div.dataTables_length label {
+	float: left;
+	text-align: left;
+	font-size: 12px;
+}
+
+div.dataTables_length select {
+	width: 75px;
+	font-size: 12px;
+}
+
+div.dataTables_filter label {
+	float: right;
+	font-size: 12px;
+}
+
+div.dataTables_info {
+	padding-top: 8px;
+	font-size: 12px;
+}
+
+div.dataTables_paginate {
+	float: right;
+	margin: 0;
+	font-size: 12px;
+}
+
+
+/**** Bootstrap *****/
+.form-horizontal .control-label 
+{
+    width: 100px;
+}
+
+.form-horizontal .controls {
+    margin-left: 115px;
+}
+
+.ui-widget-overlay
+{
+    opacity: 0.7;
+}
+
+.navbar-inner 
+{
+    background: #404040;
+}
+.ui-widget {
+    font-size: 0.8em;
+}
+
+.well 
+{
+    background-color: #F9F9FB;
+}
+
+.spinner {
+    background-image: url("./images/spinner.gif") ;
+    background-size: 50px;
+    background-repeat: no-repeat;
+    margin-left: 50%;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    z-index: 1000;
+}
+
+.navbar .nav > li > a
+{
+    text-shadow: none;
+}
+.navbar .nav > li > a:hover
+{
+    color:#000;
+}

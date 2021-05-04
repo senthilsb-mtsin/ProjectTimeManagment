@@ -1,0 +1,172 @@
+﻿@model TimeManagement.Models.Employee                
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".datePicker").datepicker();
+
+    });
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
+@using (Html.BeginForm("/EditEmployee", "Master", FormMethod.Post, new { id = "EmployeeEditForm" }))
+{    
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">
+                    Edit Employee
+                </h4>
+            </div>
+            @Html.HiddenFor(m => m.Id)
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Employee Code</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.EmployeeCode, new { @class = "required  form-control", maxlength = "50" })
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.EmployeeCode)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>First Name</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "required  form-control", maxlength = "50" })
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.FirstName)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Middle Name</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control", maxlength = "50" })
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.MiddleName)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Last Name</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "required  form-control", maxlength = "50" })
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.LastName)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Suffix</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.Suffix, new { @class = "form-control", maxlength = "25" })
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.Suffix)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Bill Rate($)</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.BillRate, new { @class = "required  form-control" })
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.BillRate)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Company Name</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.CompanyName, new { @class = "required  form-control", maxlength = "20" })
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.CompanyName)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Cost($)</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.Cost, new { @class = "required  form-control" })
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.Cost)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Date Of Birth</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.DOB, new { @class = "required  form-control datePicker" })
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.DOB)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Date Of Joining</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.DOJ, new { @class = "required  form-control datePicker" })
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.DOJ)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Email</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "required  form-control" })
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.Email)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Mobile</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.Mobile, new { @class = "required  form-control", onkeypress = "return isNumber(event)" })
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.Mobile)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Location </b>
+                            </div>
+                            @{
+    List<SelectListItem> Location = ViewBag.LocationList;
+                            }
+                            <div class="col-lg-7">
+                                @Html.DropDownListFor(m => m.LocationId, Location, "---Select Location ---", new { @class = "required form-control" })
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.LocationId)</div>
+                            </div>
+                        </div>
+                          <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Date Of Relieving</b></div>
+                            <div class="col-lg-7">
+                               @Html.TextBoxFor(m => m.DOR, new { @class = "form-control datePicker" })
+                             <div class="gap-top5">@Html.ValidationMessageFor(m => m.DOR)</div>
+                            </div>
+                        </div>
+                          <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Email Reminder</b>
+                            </div>
+                           <div class="col-lg-7">
+                                @Html.CheckBox("EmailReminder", 0)
+                                <div class="gap-top5">@Html.ValidationMessageFor(m => m.EmailReminder)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer clear">
+                <button type="submit" class="btn btn-primary">
+                    Update</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">
+                    Close</button>
+            </div>
+        </div>
+    </div>   
+}

@@ -1,0 +1,143 @@
+﻿<script type="text/javascript">
+
+    var selectedid;
+
+    $(document).ready(function () {
+
+        var oTable = $('#taskTable').dataTable({
+            "iDisplayLength": 10,
+            "aLengthMenu": [[10, 16, 24, 32, -1], [10, 16, 24, 32, "All"]],
+            "bSort": true,
+            "bPaginate": true,
+            "bFilter": true,
+            "bInfo": true,
+            "bAutoWidth": false,
+            "bProcessing": true,
+            "bServerSide": false,
+            "sAjaxSource": '@Url.Content("~/Master/GetConfiguration")',
+            "aoColumns": [ 
+                             { "mData": "Name", "sTitle": "Configuration Name" }
+                            , { "mData": "Percentage", "sTitle": "Percentage", "sClass": "text-center" }
+                            , { "mData": "Rate", "sTitle": "Rate", "sClass": "text-right" }
+                            
+                    ]
+
+        });
+
+        $("#taskTable tbody").on('click', 'tr', function () {
+
+
+            if ($(this).hasClass('row_selected')) {
+
+                $(this).removeClass('row_selected');
+                $('#btnEditConfiguration').attr("disabled", "disabled");
+                $('#btnDeleteConfiguration').attr("disabled", "disabled");
+                
+            }
+            else {
+
+                $('#taskTable tbody tr.row_selected').removeClass('row_selected');
+                $(this).addClass('row_selected');
+
+                $('#btnEditConfiguration').removeAttr("disabled");
+                $('#btnDeleteConfiguration').removeAttr("disabled");
+
+            }
+            
+            var sData = oTable.fnGetData(this);
+
+            selectedid = sData.DT_RowId;
+        });
+
+
+
+    });
+
+
+    function AddConfiguration() {
+         $.ajax({
+         type: 'GET',
+         url: '@Url.Content("~/Master/AddConfiguration")',
+         success: function (data) {
+                $('div#MainPopUp').html(data);
+                $('div#MainPopUp').modal('show');
+            },
+         cache: false
+     });
+ }
+
+ function EditConfiguration() {
+   
+     $.ajax({
+         type: 'GET',
+         url: '@Url.Content("~/Master/EditConfiguration")',   
+         data:{"id":selectedid},
+         success: function (data) {
+             $('div#MainPopUp').html(data);
+             $('div#MainPopUp').modal('show');
+         },
+         cache: false
+     });
+ }
+
+
+ function DeleteConfiguration() {
+
+     if (confirm("Do you want to delete this Configuration?")) {
+         $.ajax({
+             type: 'POST',
+             url: '@Url.Content("~/Master/DeleteConfiguration")',
+             data: { "id": selectedid },
+             success: function (data) {
+                 window.location = '@Url.Content("~/Master/GetConfigurations")';
+             },
+             cache: false
+         });
+     }
+ }
+
+</script>
+
+<div class="row">
+    <div class="boxshade">
+        <div class="boxhead">
+           Configuration
+        </div>
+        <div class="boxbody">
+            <div class="col-lg-12 gap-bottom10">
+            <button id="btnDeleteConfiguration" disabled="disabled" value="Cancel" onclick="DeleteConfiguration();" class="btn btn-info pull-right gap-right10">
+                <i class="fa-trash-o"></i>&nbsp;Delete Configuration</button>
+            <button id="btnEditConfiguration" disabled="disabled" value="edit" class="btn btn-info pull-right gap-right10" onclick="EditConfiguration();">
+                <i class="fa-edit"></i>&nbsp;Edit Configuration</button>
+            <button id="btnAddConfiguration" value="Ok" onclick="AddConfiguration();" class="btn btn-info pull-right gap-right10">
+                <i class="fa-plus"></i>&nbsp;Add Configuration</button>
+             
+        </div>
+<div class="col-lg-12">
+     <table class="custom table table-striped table-bordered" id="taskTable">
+        <thead>
+                                            <tr>
+                                               
+                                                <th class="text-center">
+                                                    Configuration Name
+                                                </th>
+                                                 <th class="text-center">
+                                                    Configuration Percentage
+                                                </th>
+                                                 <th class="text-center">
+                                                   Rate
+                                                </th>
+                                                
+                                                                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>                                        
+                                        </tbody>
+                                  </table>
+                            </div>
+                      </div>
+                  </div>
+            </div>
+
+
+
