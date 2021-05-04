@@ -13,9 +13,9 @@ namespace TimeManagement.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class PortalDBEntities : DbContext
+    public partial class PortalDBContext : DbContext
     {
-        public PortalDBEntities()
+        public PortalDBContext()
             : base("name=PortalDBEntities")
         {
         }
