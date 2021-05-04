@@ -1,0 +1,37 @@
+﻿@{
+    Layout = null;
+}
+<email>
+  <To>@ViewBag.To</To> 
+<Subject> Time Sheet Entry Notification  @System.DateTime.Now.ToShortDateString()</Subject>
+  <From>info@mtsin.com</From>
+    <Cc/>
+  <BCc />
+  <Body>
+  <![CDATA[
+     <div>  
+       <p> Hi <B>@ViewBag.LastName @ViewBag.FirstName</B> ,</p>
+    <p>Please complete the timesheet for the following respective days.</p>   
+  
+    <p>     <table border="1" cellspacing="0" cellpadding="3">
+          <tr><td>Date</td><td>Day</td><td>Hours</td></tr>
+          @foreach (var item in @ViewBag.OvertimeTbl)
+          {
+              <tr>
+                <td>@item["executiondate"].ToShortDateString()</td>
+                  <td>@item["Dayofweekname"]</td>        
+                  @{
+                       if(!Convert.IsDBNull(item["Sumofhours"]))
+                       {<td>@item["Sumofhours"]</td>} 
+                        else  
+                       {<td>0</td>} 
+                                                 }                
+              </tr> 
+          }
+      </table> </p>
+    <p>      Thanks,    </p>
+    <p>Admin</p>
+  </div>
+  ]]>
+  </Body>
+  </email>

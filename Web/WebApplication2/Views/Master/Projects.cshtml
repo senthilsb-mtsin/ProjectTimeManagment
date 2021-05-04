@@ -1,0 +1,167 @@
+﻿<script type="text/javascript">
+
+    var selectedid;
+
+    $(document).ready(function () {
+
+        var oTable = $('#taskTable').dataTable({
+            "iDisplayLength": 10,
+            "aLengthMenu": [[10, 16, 24, 32, -1], [10, 16, 24, 32, "All"]],
+            "bSort": true,
+            "bPaginate": true,
+            "bFilter": true,
+            "bInfo": true,
+            "bAutoWidth": false,
+            "bProcessing": true,
+            "bServerSide": false,
+            "sAjaxSource": '@Url.Content("~/Master/GetProject")',
+            "aoColumns": [{ "mData": "projectcode", "sTitle": "Project Code", "sClass": "text-center" }
+                            , { "mData": "projectname", "sTitle": "Project Name" }
+                            , { "mData": "estdstartdate", "sTitle": "Estimated Start Date", "sType" : "date", "sClass": "text-center" }
+                            , { "mData": "estdenddate", "sTitle": "Estimated End Date", "sType": "date", "sClass": "text-center" }
+                            , { "mData": "Customer", "sTitle": "Customer" }
+                            , { "mData": "TotalAmount", "sTitle": "Total Amount($)", "sClass": "text-right" }
+                            , { "mData": "Risk", "sTitle": "Risk", "sClass": "text-center" }
+                            , { "mData": "Discount", "sTitle": "Discount %", "sClass": "text-center" }
+                            , { "mData": "MarginValue", "sTitle": "Margin Value", "sClass": "text-center" }
+                            , { "mData": "DiscountAmount", "sTitle": "Discount Amount($)", "sType": "string", "sClass": "text-center" }
+                            , { "mData": "Completed", "sTitle": "Completed %", "sClass": "text-center" }
+                    ]
+
+        });
+
+        $("#taskTable tbody").on('click', 'tr', function () {
+
+
+            if ($(this).hasClass('row_selected')) {
+
+                $(this).removeClass('row_selected');
+                $('#btnEditProject').attr("disabled", "disabled");
+                $('#btnDeleteProject').attr("disabled", "disabled");
+
+            }
+            else {
+
+                $('#taskTable tbody tr.row_selected').removeClass('row_selected');
+                $(this).addClass('row_selected');
+
+                $('#btnEditProject').removeAttr("disabled");
+                $('#btnDeleteProject').removeAttr("disabled");
+
+            }
+
+            var sData = oTable.fnGetData(this);
+
+            selectedid = sData.DT_RowId;
+        });
+
+
+
+    });
+
+
+    function AddProject() {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Content("~/Master/AddProject")',
+            success: function (data) {
+                $('div#MainPopUp').html(data);
+                $('div#MainPopUp').modal('show');
+            },
+            cache: false
+        });
+    }
+
+    function EditProject() {
+
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Content("~/Master/EditProject")',
+            data: { "id": selectedid },
+            success: function (data) {
+                $('div#MainPopUp').html(data);
+                $('div#MainPopUp').modal('show');
+            },
+            cache: false
+        });
+    }
+
+
+    function DeleteProject() {
+
+        if (confirm("Do you want to delete this project?")) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Content("~/Master/DeleteProject")',
+                data: { "id": selectedid },
+                success: function (data) {
+                    window.location = '@Url.Content("~/Master/GetProjects")';
+                },
+                cache: false
+            });
+        }
+    }
+
+</script>
+<div class="row">
+    <div class="boxshade">
+        <div class="boxhead">
+            Projects
+        </div>
+        <div class="boxbody">
+            <div class="col-lg-12 gap-bottom10">
+                <button id="btnDeleteProject" disabled="disabled" value="Cancel" onclick="DeleteProject();"
+                    class="btn btn-info pull-right gap-right10">
+                    <i class="fa-trash-o"></i>&nbsp;Delete Project</button>
+                <button id="btnEditProject" disabled="disabled" value="edit" class="btn btn-info pull-right gap-right10"
+                    onclick="EditProject();">
+                    <i class="fa-edit"></i>&nbsp;Edit Project</button>
+                <button id="btnAddProject" value="Ok" onclick="AddProject();" class="btn btn-info pull-right gap-right10">
+                    <i class="fa-plus"></i>&nbsp;Add Project</button>
+            </div>
+            <div class="col-lg-12">
+                <table class="custom table table-striped table-bordered" id="taskTable">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                Project Code
+                            </th>
+                            <th class="text-center">
+                                Project Name
+                            </th>
+                            <th class="text-center">
+                                Estimated Start Date
+                            </th>
+                            <th class="text-center">
+                                Estimated End Date
+                            </th>
+                            <th class="text-center">
+                                Customer
+                            </th>
+                            <th class="text-center">
+                                Revenue
+                            </th>
+                            <th class="text-center">
+                                Risk %
+                            </th>
+                            <th class="text-center">
+                                Discount 
+                            </th>
+                            <th class="text-center">
+                                Margin Value
+                            </th>
+                            <th class="text-center">
+                                Discount Amount
+                            </th>
+                            <th class="text-center">
+                                Completed %
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

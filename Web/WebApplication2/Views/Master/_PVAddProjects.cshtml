@@ -1,0 +1,219 @@
+﻿@model TimeManagement.Models.Project                
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".datePicker").datepicker();
+
+        $("#ProjCode").attr("disabled", "disabled");
+
+    });
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
+@using (Html.BeginForm("/AddProject", "Master", FormMethod.Post, new { id = "ProjectAddForm" }))
+{    
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">
+                    Add New Project</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Project Name</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.Name, new { @class = "required form-control", maxlength = "150" })
+                                <div>
+                                    &nbsp</div>
+                                <div>@Html.ValidationMessageFor(m => m.Name)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Estimated Start Date</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.EstStartDate, new { @class = "required form-control datePicker" })
+                                <div>
+                                    &nbsp</div>
+                                <div>@Html.ValidationMessageFor(m => m.EstStartDate)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Customer</b></div>
+                            @{
+    List<SelectListItem> customer = ViewBag.CustomerList;
+                            }
+                            <div class="col-lg-7">
+                                @Html.DropDownListFor(m => m.Customer, customer, "---Select Customer ---", new { @class = "required form-control" })
+                                <div>
+                                    &nbsp</div>
+                                <div>@Html.ValidationMessageFor(m => m.Customer)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Risk</b></div>
+                            @{
+    List<SelectListItem> Risk = new List<SelectListItem>();
+
+    Risk.Add(new SelectListItem { Value = "Low", Text = "10% (Low)" });
+
+    Risk.Add(new SelectListItem { Value = "Medium", Text = "15% (Med)" });
+
+    Risk.Add(new SelectListItem { Value = "High", Text = "25% (High)" });
+
+    ViewBag.Risk1 = Risk;
+
+
+    List<SelectListItem> Risk2 = ViewBag.Risk1;
+                            }
+                            <div class="col-lg-7">
+                                @Html.DropDownListFor(m => m.Risk, Risk2, "---Select Risk ---", new { @class = "required form-control" })
+                                <div>
+                                    &nbsp</div>
+                                <div>@Html.ValidationMessageFor(m => m.Risk)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Margin Value</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.MarginValue, new { @class = "required form-control", maxlength = "20" })
+                                <div>
+                                    &nbsp</div>
+                                <div>@Html.ValidationMessageFor(m => m.MarginValue)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Completed %</b></div>
+                            @{
+    int i;
+    List<SelectListItem> Completed = new List<SelectListItem>();
+
+    //var $select = $("#Completed");
+    for (i = 1; i <= 100; i++)
+    {
+        Completed.Add(new SelectListItem { Value = i.ToString(), Text = i.ToString() });
+
+    }
+
+                                        
+                            }
+                            <div class="col-lg-7">
+                                @Html.DropDownListFor(m => m.Completed, Completed, "---Select Completed ---", new { @class = "required form-control" })
+                                @Html.HiddenFor(m => m.Completed)
+                                <div>
+                                    &nbsp</div>
+                                <div>@Html.ValidationMessageFor(m => m.Completed)</div>
+                            </div>
+                        </div>
+                       <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Type Of Project</b></div>
+                           @{
+                              
+    List<SelectListItem> ProjectType = ViewBag.ProjectTypeList;
+                                        
+                            }
+                                 <div class="col-lg-7">
+                                @Html.DropDownListFor(m => m.TypeOfProject, ProjectType, "---Select Project Type ---", new { @class = "required form-control" })
+                                @Html.HiddenFor(m => m.TypeOfProject)
+                                <div>
+                                    &nbsp</div>
+                                <div>@Html.ValidationMessageFor(m => m.TypeOfProject)</div>
+                            </div>
+                                </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Project Code</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.Number, new { @class = "required form-control", id = "ProjCode" })
+                                @Html.HiddenFor(m => m.Number)
+                                <div>
+                                    &nbsp</div>
+                                <div>@Html.ValidationMessageFor(m => m.Number)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Estimated End Date</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.EstEndDate, new { @class = "required form-control datePicker" })
+                                <div>
+                                    &nbsp</div>
+                                <div>@Html.ValidationMessageFor(m => m.EstEndDate)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Total Amount($)</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.TotalAmount, new { @class = "required form-control" })
+                                <div>
+                                    &nbsp</div>
+                                <div>@Html.ValidationMessageFor(m => m.TotalAmount)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Discount %</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.Discount, new { @class = "required form-control", maxlength = "50", onkeypress = "return isNumber(event)" })
+                                <div>
+                                    &nbsp</div>
+                                <div>@Html.ValidationMessageFor(m => m.Discount)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Discount Amount($)</b></div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.DiscountAmount, new { @class = "required form-control", maxlength = "50" })
+                                <div>
+                                    &nbsp</div>
+                                <div>@Html.ValidationMessageFor(m => m.DiscountAmount)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>T & E Billable</b></div>
+                            <div class="col-lg-7 gap-top5">
+                                @Html.CheckBoxFor(m => m.Te)
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>T & M</b></div>
+                            <div class="col-lg-7 gap-top5">
+                                @Html.CheckBoxFor(m => m.Tm)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer clear">
+                <button type="submit" class="btn btn-primary">
+                    Add</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">
+                    Close</button>
+            </div>
+        </div>
+    </div>
+}

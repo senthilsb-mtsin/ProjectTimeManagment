@@ -1,0 +1,114 @@
+﻿<h4>
+    Admin</h4>
+<div class="line">
+</div>
+<div class="span11">
+    <div class="form-element">
+        <span class="form-content-label">From Date </span>
+        <input class="date" style="width: 100px !important" data-bind="value:From" id="From" />
+    </div>
+    <div class="form-element">
+        <span class="form-content-label">To Date </span>
+        <input class="date" style="width: 100px !important" data-bind="value:To" id="To" />
+    </div>
+</div>
+<script id="activityTableTmpl" type="text/html">
+   <tr>
+        <td data-bind="text:projectid"></td>
+        <td data-bind="text:projectname"></td>          
+    </tr>
+</script>
+<script type="text/javascript">
+    var viewModal;   
+      
+    function TaskGroupModel() {
+        
+        var self = this;
+        this.projectid = ko.observable();
+       // this.workcode = ko.observable();
+        this.projectname = ko.observable();
+     //   this.From = ko.observable().extend({ required: true });
+     //   this.To = ko.observable().extend({ required: true });
+        this.taskgrps =  ko.observableArray([]);
+    }   
+
+   function task(modal) {           
+         return {
+           
+            projectid: ko.observable(modal.projectid()),
+            //workcode: ko.observable(modal.workcode()),
+            projectname: ko.observable(modal.projectname()),
+//            From: ko.observable(modal.From()),            
+//            To: ko.observable(modal.To())
+         };
+    }
+   
+    $(document).ready(function () {
+        
+        result= new TaskGroupModel();
+        if(@ViewData["Data"]!=null)
+        {
+            result= @ViewData["Data"];
+        }
+//        //Bind View model
+        ko.applyBindings(viewModal);
+
+
+        //Date Picker
+        $("#From").datepicker({
+          onSelect: function(dateFromText) {            
+           viewModal.From(dateFromText);
+            var fromdate = dateFromText;            
+
+            $("#To").datepicker({
+             onSelect: function(dateToText) {            
+             viewModal.To(dateToText);            
+             var todate = dateToText;              
+          
+                $.ajax(
+                {
+                    url: "@Url.Content("~/Home/GetProjects")",
+                    type: "POST",                
+                  //  data: ko.toJSON({"fromDate": fromdate, "toDate": todate}),
+                    contentType: "application/json",
+                    success: function(result) 
+                    {
+                    alert(JSON.stringify(result));
+                        viewModal.taskgrps.removeAll();
+                        $.each(result, function(i, item) 
+                        {
+                           viewModal.taskgrps.push(new task(ko.mapping.fromJS(item)));
+                        });
+                    }
+                });          
+           
+          }
+          
+        });
+        }
+        });
+    });
+    
+    
+
+</script>
+<div class="span11">
+    <br />
+    <table class="custom table table-striped table-bordered" id="taskTable">
+        <thead>
+            <tr>
+            <th width="15%">
+                   Project ID
+                </th>               
+                 <th width="15%">
+                    Project Name
+                </th>
+@*                <th width="15%">
+                    Project
+                </th>               *@
+            </tr>
+        </thead>
+        <tbody data-bind="template: { name:'activityTableTmpl',foreach:taskgrps }">
+        </tbody>
+    </table>
+</div>

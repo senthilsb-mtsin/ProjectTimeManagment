@@ -1,0 +1,204 @@
+﻿@model TimeManagement.ViewModel.BillingModel
+@{
+    ViewBag.Title = "MonthlyAccountsPayable";
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#btnExport").click(function () {
+            location.href = '@Url.Content("~/Report/ExportBillingDetails")';
+        });
+
+        $("#todate").change(function () {
+            var startDate = document.getElementById("fromdate").value;
+            var endDate = document.getElementById("todate").value;
+
+            if ((Date.parse(startDate) >= Date.parse(endDate))) {
+                alert("To Date should be greater than From date.");
+                document.getElementById("todate").value = "";
+            }
+        });
+    });
+
+    $(document).ready(function () {
+
+        oTable = $('#AccountpayabledataTable').dataTable({
+            "fnDrawCallback": function (oSettings) {
+                if (oSettings.aiDisplay.length == 0) {
+                    return;
+                }
+
+                var nTrs = $('#AccountpayabledataTable tbody tr');
+                var iColspan = nTrs[0].getElementsByTagName('td').length;
+                var GroupText;
+                var TotalHours = 0;
+                var TotalCost = 0;
+                for (var i = 0; i < nTrs.length; i++) {
+                    var iDisplayIndex = oSettings._iDisplayStart + i;
+
+                    var SHours = oSettings.aoData[oSettings.aiDisplay[iDisplayIndex]]._aData[5];
+                    var SCost = oSettings.aoData[oSettings.aiDisplay[iDisplayIndex]]._aData[6];
+                    TotalHours = parseFloat(TotalHours) + parseFloat(SHours)
+                    TotalCost = parseFloat(TotalCost) + parseFloat(SCost.substr(1, SCost.length))
+
+                    if (nTrs.length == i + 1) {
+                        var nGroup = document.createElement('tr');
+                        var nCell = document.createElement('td');
+                        var nhours = document.createElement('td');
+                        var nCost = document.createElement('td');
+                        nCell.colSpan = 4;
+                        nCell.className = "strongBig";
+                        nhours.className = "strongBig";
+                        nCost.className = "strongBig";
+                        nCell.innerHTML = "Total";
+                        nhours.innerHTML = TotalHours.toFixed(2);
+                        nCost.innerHTML = "$" + TotalCost.toFixed(2);
+                        nGroup.appendChild(nCell);
+                        nGroup.appendChild(nhours);
+                        nGroup.appendChild(nCost);
+                        $("#AccountpayabledataTable").find("tbody tr:last").after(nGroup);
+                    }
+
+
+                }
+            },
+            "aoColumnDefs": [
+			{ "bVisible": false, "aTargets": [0] }
+		],
+            "bPaginate": false,
+            "aaSortingFixed": [[0, 'asc']],
+            "aaSorting": [[0, 'asc']],
+            "sDom": 'lfr<"giveHeight"t>ip'
+        });
+    });
+
+</script>
+<div class="row">
+    <div class="boxshade">
+        <div class="boxhead">
+            Monthly Accounts Payable Report
+        </div>
+        <div class="boxbody">
+            <div class="col-lg-12 pad10 gap-bottom10" style="background-color: #F5F5F5;">
+                <div class="col-lg-12 gap-bottom10">
+                    @using (Html.BeginForm("MonthlyAccountsPayable", "Report", FormMethod.Post, new { @class = "form-inline" }))
+                    {
+                        <div class="col-lg-2">
+                            <div class="col-lg-12 pad0 gap-bottom5">
+                                <b>From Date</b></div>
+                            <div class="col-lg-12 pad0">
+                                <input type="text" class="form-control datePicker required" id="fromdate" placeholder="From"
+                                    name="fromDate" id="txtfromdate" />
+                                <div id="fdate" class="hidden">
+                                    From Date Required</div>
+                            </div>
+                        </div>
+                 
+                        <div class="col-lg-2">
+                            <div class="col-lg-12 pad0 gap-bottom5">
+                                <b>To Date</b></div>
+                            <div class="col-lg-12 pad0">
+                                <input type="text" class="form-control datePicker required" id="todate" placeholder="To" name="toDate"
+                                    id="txttodate" />
+                                <div id="tdate" class="hidden">
+                                    To Date Required</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="col-lg-12 pad0 gap-bottom5">
+                                <b>Company</b></div>
+                            <div class="col-lg-12 pad0">
+                                <select id="Company" name="Company" class="form-control required">
+                                    <option value="0"></option>
+                                    <option value="MTS">MTS</option>
+                                    <option value="eDocs">eDocs</option>
+                                    <option value="Ephesoft">Ephesoft</option>
+                                </select>
+                                @*  @Html.DropDownList("Projects", null, new { @class = "form-control", id = "project", multiple = "multiple" })*@
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-top5">
+                            <button type="submit" class="btn btn-small btn-primary pull-right" >
+                                Submit</button>
+                        </div>
+                             
+                        
+                      
+                    }
+                </div>
+                <div class="col-lg-12">
+                    <span style="font-size: 12px">@ViewBag.Message</span>
+                </div>
+            </div>
+            @if (Model != null && Model.Summary.Count > 0)
+            {
+                <div class="col-lg-12 gap-bottom10">
+                    <table id="AccountpayabledataTable" class="table table-striped table-bordered" style="font-size: 12px">
+                        <thead>
+                            <tr>
+                                <th style="background-color: #2481B7; color: #FFF">
+                                    GroupBy
+                                </th>
+                                <th style="background-color: #2481B7; color: #FFF">
+                                    Company
+                                </th>
+                                <th style="background-color: #2481B7; color: #FFF">
+                                    Consultant Name
+                                </th>
+                                <th style="background-color: #2481B7; color: #FFF">
+                                    Task
+                                </th>
+                                <th style="background-color: #2481B7; color: #FFF">
+                                    Charge/Hr
+                                </th>
+                                <th style="background-color: #2481B7; color: #FFF">
+                                    Hours
+                                </th>
+                                <th style="background-color: #2481B7; color: #FFF">
+                                    Payable Amount
+                                </th>
+                            </tr>
+                        </thead>
+                        @{
+                decimal total = 0;
+                foreach (TimeManagement.Domain.WorkSummary workSummary in Model.Summary)
+                {
+                    total = 0;
+                        
+                            <tr>
+                                <td style="text-align: right">
+                                    $@workSummary.Company
+                                </td>
+                                <td style="text-align: left">@workSummary.Company
+                                </td>
+                                <td style="text-align: left">@workSummary.Employee
+                                </td>
+                                <td style="text-align: left">@workSummary.WorkCode
+                                </td>
+                                <td style="text-align: right">
+                                    $@workSummary.Costperhour
+                                </td>
+                                <td style="text-align: right">@workSummary.Hours
+                                </td>
+                                <td style="text-align: right">
+                                    $@String.Format("{0:0.00}", workSummary.PayableAmount)
+                                </td>
+                            </tr>
+			       
+                }
+                        }
+                    </table>
+                </div>
+                <div class="col-lg-12 gap-bottom10">
+                    <button type="button" class="btn btn-success export pull-right" id="btnExport">
+                        Export</button>
+                </div>
+            }
+            else
+            {
+               @* <div class="col-lg-12 gap-bottom10">
+                    <span class="label label-important">No record found</span></div>*@
+            }
+        </div>
