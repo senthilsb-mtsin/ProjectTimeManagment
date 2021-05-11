@@ -43,7 +43,7 @@ namespace TimeManagement.Controllers
         /// </summary>
         /// <param name="requestContext"></param>
         protected override void Initialize(RequestContext requestContext)
-        {
+         {
             if (taskService == null)
                 taskService = new TaskService();
 

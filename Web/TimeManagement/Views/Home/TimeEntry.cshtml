@@ -1,4 +1,6 @@
-﻿<div class="row">
+﻿<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+<div class="row">
     <div class="boxshade">
         <div class="boxhead">
             Time Entry Form
@@ -7,16 +9,19 @@
             <div class="col-lg-12 pad10 gap-bottom10" style="background-color: #F5F5F5;">
                 <div class="col-lg-1">
                     <div class="col-lg-12 pad0 gap-bottom5">
-                        <b>Date</b></div>
+                        <b>Date</b>
+                    </div>
                     <div class="col-lg-12 pad0">
                         <input class="date form-control required" id="date" style="width: 100px !important" data-bind="value:executionDate" />
                         <div id="Date" class="requi">
-                            Date is Required</div>
+                            Date is Required
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="col-lg-12 pad0 gap-bottom5">
-                        <b>Project</b></div>
+                        <b>Project</b>
+                    </div>
                     <div class="col-lg-12 pad0">
                         @Html.DropDownList("projects", (IEnumerable<SelectListItem>)ViewBag.Projects, new Dictionary<string, object>
                 {
@@ -24,12 +29,14 @@
                      {"class", "form-control required"}
                 })
                         <div id="project" class="requi">
-                            Project is Required</div>
+                            Project is Required
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="col-lg-12 pad0 gap-bottom5">
-                        <b>Work Code</b></div>
+                        <b>Work Code</b>
+                    </div>
                     <div class="col-lg-12 pad0">
                         @Html.DropDownList("workCodes", (IEnumerable<SelectListItem>)ViewBag.WorkCodes, new Dictionary<string, object>
                 {
@@ -37,16 +44,19 @@
                      {"class", "form-control required"}
                 })
                         <div id="workcode" class="requi">
-                            Workcode is Required</div>
+                            Workcode is Required
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-1">
                     <div class="col-lg-12 pad0 gap-bottom5">
-                        <b>Hours</b></div>
+                        <b>Hours</b>
+                    </div>
                     <div class="col-lg-12 pad0">
                         <input data-bind="value:hours" class="form-control required" id="hours" />
                         <div id="Hours" class="requi">
-                            Hours is Required</div>
+                            Hours is Required
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-2">
@@ -55,9 +65,10 @@
                     </div>
                     <div class="col-lg-12 pad0">
                         <textarea data-bind="value:description" id="description" class="form-control required" style="width: 100%;"
-                            cols="" rows="2"></textarea>
+                                  cols="" rows="2"></textarea>
                         <div id="desc" class="requi">
-                            Description is Required</div>
+                            Description is Required
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-2">
@@ -66,11 +77,14 @@
                     </div>
                     <div class="col-lg-12 pad0">
                         <button id="btnAdd" data-bind="click:addTask" type="button" class="btn btn-primary btn-small">
-                            Add</button>
+                            Add
+                        </button>
                         <button id="btnEdit" data-bind="click:editTask" type="button" class="btn btn-primary btn-small">
-                            Save</button>
+                            Save
+                        </button>
                         <button id="btnCancel" type="button" class="btn btn-primary btn-small">
-                            Cancel</button>
+                            Cancel
+                        </button>
                     </div>
                 </div>
             </div>
@@ -154,37 +168,37 @@
 
         if (date == "") {
             $('#Date').show();
-           // return false;
+            // return false;
         }
 
         if (project == "") {
             $('#project').show();
-          //  return false;
+            //  return false;
         }
 
         if (workcode == "") {
             $('#workcode').show();
-          //  return false;
+            //  return false;
         }
         if (hours == "") {
             $('#Hours').show();
-           // return false;
+            // return false;
         }
         if (description == "") {
             $('#desc').show();
-          //  return false;
+            //  return false;
         }
 
 
     }
-    
+
 
 
     $("#date").on('click', function () {
         var date = $('#date').val();
         if (date == "") {
             $('#Date').show();
-            $('#Date').hide();          
+            $('#Date').hide();
             return false;
         } else {
             $('#Date').hide();
@@ -205,6 +219,14 @@
         }
         return false;
 
+    });
+
+    $("#projects").select2({
+        sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
+    });
+
+    $("#workCodes").select2({
+     sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
     });
 
     $("#workCodes").on('click', function () {
@@ -250,17 +272,17 @@
 
 
 
-    
 
-     
-   
+
+
+
 </script>
 <script type="text/javascript">
     var viewModal;
 
 
     function task(modal) {
-       
+
          return {
             id: ko.observable(modal.taskId()),
             executionDate: ko.observable(modal.executionDate()),
@@ -273,9 +295,9 @@
 
             removeTask: function () {
                 var self = this;
-                
+
                 var r=confirm("Do you want to Delete the selected task?");
-                
+
                 if (r==true)
                 {
                     $("#spinner").show();
@@ -285,7 +307,7 @@
                         data: ko.toJSON({"taskId": this.id()}),
                         contentType: "application/json",
                         success: function(result) {
-                        
+
                             if(result.message == 'success')
                             {
                                 $("#spinner").hide();
@@ -297,10 +319,10 @@
                         }
                     });
                 }
-            }, 
+            },
 
             editTask: function() {
-                
+
                 $("#btnAdd").hide();
                 $("#btnEdit").show();
                 $("#btnCancel").show();
@@ -309,14 +331,14 @@
 
                 viewModal.taskId(self.id());
                 viewModal.executionDate(self.executionDate());
-                
+
                 $("#projects option").find('option').removeAttr("selected");
                 $("#projects option:contains("+self.project() +")").attr("selected",true);
                 viewModal.projectId($("#projects").val());
 
                 $("#workCodes option").find('option').removeAttr("selected");
                 $("#workCodes option:contains("+self.workCode() +")").attr("selected",true);
-                viewModal.workCodeId($("#workCodes").val()); 
+                viewModal.workCodeId($("#workCodes").val());
 
                 viewModal.hours(self.hours());
                 viewModal.description(self.description());
@@ -327,9 +349,9 @@
     }
 
     function EmployeeModal() {
-        
+
         var self = this;
-        this.taskId = ko.observable();       
+        this.taskId = ko.observable();
         this.executionDate = ko.observable()
         this.projectId = ko.observable()
         this.workCodeId = ko.observable();
@@ -346,7 +368,7 @@
         });
 
         this.addTask = function() {
-            
+
             validate();
             var newTask = new task(self);
             $("#spinner").show();
@@ -358,7 +380,7 @@
                 success: function(result) {
                     $("#spinner").hide();
                     if(result.message == 'success')
-                    {   
+                    {
                         newTask.id(result.Id);
                         self.tasks.push(newTask);
 
@@ -405,21 +427,21 @@
     }
 
     $(document).ready(function () {
-        
+
         $("#spinner").hide();
         $("#data").hide();
         $("#btnEdit").hide();
         $("#btnCancel").hide();
 
         viewModal = new EmployeeModal();
-        
+
         //Bind View model
         ko.applyBindings(viewModal);
 
         //Date Picker
         $(".date").datepicker({
           onSelect: function(dateText) {
-            
+
             $("#spinner").show();
             $("#btnAdd").show();
             $("#btnEdit").hide();
@@ -458,10 +480,10 @@
 
 function clearData()
 {
-   
+
     $('.date').val("");
     viewModal.taskId("");
-                
+
     viewModal.projectId("");
     $("#projects option").find('option').removeAttr("selected");
     $("#projects option:first").attr("selected",true);
@@ -476,11 +498,11 @@ function clearData()
 
 function clearDataonadd()
 {
-   
-    
+
+
     viewModal.taskId("");
-                
-   
+
+
 
     viewModal.workCodeId("");
     $("#workCodes option").find('option').removeAttr("selected");
@@ -496,7 +518,7 @@ function calculateTotal()
 
     $.each(viewModal.tasks(), function(i){
         var task = viewModal.tasks()[i];
-        
+
         total += parseFloat(task.hours());
     });
     $("#total").text(total.toFixed(2));
