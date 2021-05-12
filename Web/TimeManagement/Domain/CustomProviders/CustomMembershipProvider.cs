@@ -34,7 +34,7 @@ namespace TimeManagment.Domain.CustomProviders
             if (String.IsNullOrEmpty(password))
                 throw new ArgumentException("Value cannot be null or empty.", "password");
 
-            using (PortalDBContext db = new PortalDBContext())
+            using (PortalDBEntities db = new PortalDBEntities())
             {
                 //Get the login information by user name
                 Login login = db.Logins.SingleOrDefault(x => x.UserId.ToUpper().Equals(userName.ToUpper()));
@@ -95,7 +95,7 @@ namespace TimeManagment.Domain.CustomProviders
             retVal.Tables.Add(dt1);
 
 
-            using (PortalDBContext db = new PortalDBContext())
+            using (PortalDBEntities db = new PortalDBEntities())
             {
                 var entityConn = db.Database.Connection;
                 var cmd = entityConn.CreateCommand();
@@ -113,7 +113,7 @@ namespace TimeManagment.Domain.CustomProviders
         }
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
         {
-            using (PortalDBContext db = new PortalDBContext())
+            using (PortalDBEntities db = new PortalDBEntities())
             {
                 //Get the login information by user name
                 Login login = db.Logins.SingleOrDefault(x => x.UserId.ToUpper().Equals(username.ToUpper()));
