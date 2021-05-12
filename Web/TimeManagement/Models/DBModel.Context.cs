@@ -13,9 +13,9 @@ namespace TimeManagement.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class PortalDBContext : DbContext
+    public partial class PortalDBEntities : DbContext
     {
-        public PortalDBContext()
+        public PortalDBEntities()
             : base("name=PortalDBEntities")
         {
         }
@@ -39,5 +39,12 @@ namespace TimeManagement.Models
         public virtual DbSet<WeeklyReport> WeeklyReports { get; set; }
         public virtual DbSet<WorkCode> WorkCodes { get; set; }
         public virtual DbSet<MTS_PROJECTTYPE> MTS_PROJECTTYPE { get; set; }
+        public virtual DbSet<MTS_EMAILMASTER> MTS_EMAILMASTER { get; set; }
+        public virtual DbSet<MTS_EMAILSCHEDULE> MTS_EMAILSCHEDULE { get; set; }
+        public virtual DbSet<MTS_EMAILTEMPLATE> MTS_EMAILTEMPLATE { get; set; }
+        public virtual DbSet<MTS_GROUPS> MTS_GROUPS { get; set; }
+        public virtual DbSet<MTS_SMTPDETAILS> MTS_SMTPDETAILS { get; set; }
+        public virtual DbSet<MTS_WORK_GROUP_MAPPING> MTS_WORK_GROUP_MAPPING { get; set; }
+        public virtual DbSet<MTS_SERVICECONFIG> MTS_SERVICECONFIG { get; set; }
     }
 }
