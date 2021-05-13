@@ -20,14 +20,16 @@ namespace TimeManagement.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("TimeEntry");
-            }
+           if (User.Identity.IsAuthenticated)
+             {
+                 return RedirectToAction("TimeEntry");
+             }
+          
+             return View();
+            
 
-            return View();
         }
-
+         
         /// <summary>
         /// 
         /// </summary>
@@ -270,6 +272,7 @@ namespace TimeManagement.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             else
+
                 return new JsonResult();
         }
 

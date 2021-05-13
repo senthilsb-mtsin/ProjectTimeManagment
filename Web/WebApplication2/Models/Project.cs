@@ -24,6 +24,7 @@ namespace TimeManagement.Models
     
         public int Id { get; set; }
         public string Name { get; set; }
+
         public string Number { get; set; }
         public Nullable<System.DateTime> EstStartDate { get; set; }
         public Nullable<System.DateTime> EstEndDate { get; set; }

@@ -4,7 +4,8 @@
     Layout = null;
 }
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function ()
+    {
       var variable = '@(Model.data.Rows.Count)';
 
         if (variable != 0) {
@@ -24,7 +25,7 @@
 //            "scrollX": true
         }).wrap("<div style='position:relative;overflow:auto;'/>");
     }
-
+       
         //$("#ProjectReport").find("tr:last td:eq(0)").css("font-weight", "bold");
     });
 </script>
@@ -38,6 +39,7 @@ else
 { 
     <table id="ProjectReport" class="table table-striped table-bordered">
         <thead>
+           
             <tr>
                 @for (int i = 0; i <= Model.data.Columns.Count - 1; i++)
                 {
@@ -74,7 +76,7 @@ else
                         { 
                     <th>
                         
-                    </th>
+                    </th> 
                         }
                     }
                 }
@@ -84,7 +86,7 @@ else
             @foreach (DataRow row in Model.data.Rows)
             {
                 if (row[1].ToString().Trim() != "Total :")
-                {
+                {   
                 <tr id="@row[0].ToString()">
                     @for (int i = 0; i <= row.Table.Columns.Count - 1; i++)
                     {

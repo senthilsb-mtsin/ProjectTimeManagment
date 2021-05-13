@@ -88,10 +88,12 @@
             $("#exporttoCSV").hide();   
             return false;
         }
+        
         else {
             $("#tablediv").html(' ');
             $("#exporttoCSV").hide();   
             $.ajax({
+      
                 type: 'POST',
                 url: '@Url.Content("~/Report/AjaxProjectWise")',
                 data: { fromDate: $("#fromdate").val(), toDate: $("#todate").val() , location : $("#location").val()},

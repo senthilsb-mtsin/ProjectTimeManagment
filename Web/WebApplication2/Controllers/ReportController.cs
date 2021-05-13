@@ -281,7 +281,7 @@ namespace TimeManagement.Controllers
                     ViewBag.Message = "Result of " + fromDate;
             }
 
-
+                                                                         
             var result = from task in tasks
                          select new
                          {
@@ -289,6 +289,7 @@ namespace TimeManagement.Controllers
                              EmployeeName = task.Employee.LastName + ',' + task.Employee.FirstName,
                              ProjectName = task.Project.Name,
                              WorkCodeName = task.WorkCode.Name,
+                            // Hours = task.Hours,
                              Hours = Convert.ToDecimal(task.Hours).ToString("0.00"),
                              Description = task.Description,
                              Date = Convert.ToDateTime(task.ExecutionDate).ToString("MM/dd/yyyy")
@@ -544,7 +545,7 @@ namespace TimeManagement.Controllers
             return View();
         }
 
-
+        
         public ActionResult AjaxProjectWise(string fromDate, string toDate, string location)
         {
 
