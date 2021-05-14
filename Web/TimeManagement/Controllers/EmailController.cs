@@ -14,8 +14,7 @@ namespace TimeManagement.Controllers
 
         DataSet dtEmailData;
 
-       
-    
+
         public ActionResult TSEntryNotificationWeekly()
         {
             ////ttp://localhost:49610/email/TSEntryNotificationWeekly?ID=EmpTimeSheetEntry|4|05/07/2015
@@ -29,7 +28,7 @@ namespace TimeManagement.Controllers
           return View();
         }
 
-        public ActionResult EntryForgetPassword()
+        public ActionResult ForgetPasswordNotification()
         {
             //sample data - string[] sparr = { "admin@email.com", "new Password", "admin", "admin" };
             var param = HttpUtility.UrlDecode(Request.QueryString["ID"]);

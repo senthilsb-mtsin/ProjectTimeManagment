@@ -10,13 +10,13 @@ namespace TimeManagement.Controllers
     public class ForgetPasswordController : BaseController
     {
         // GET: ForgetPassword
-        public ActionResult GetUserId()
+        public ActionResult UserIdForForgetPassword()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Entry()
+        public ActionResult ForgetPasswordEntry()
         {
             string userName = Request.Form["UserId"];
             Login login = this.db.Logins.Where(x => x.UserId.ToUpper().Equals(userName.ToUpper())).FirstOrDefault();
