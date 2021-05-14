@@ -29,6 +29,18 @@ namespace TimeManagement.Controllers
           return View();
         }
 
+        public ActionResult EntryForgetPassword()
+        {
+            //sample data - string[] sparr = { "admin@email.com", "new Password", "admin", "admin" };
+            var param = HttpUtility.UrlDecode(Request.QueryString["ID"]);
+            string[] sparr = param.ToString().Split('|');
+            ViewBag.To = sparr[0];
+            ViewBag.Password = sparr[1];
+            ViewBag.FirstName = sparr[2];
+            ViewBag.LastName = sparr[3];
+            return View();
+        }
+
     }
    
 }

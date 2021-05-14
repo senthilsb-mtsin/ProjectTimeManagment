@@ -133,6 +133,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\Encryption.cs" />
+    <Compile Include="Controllers\ForgetPasswordController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -713,6 +714,8 @@
     <Content Include="Views\Home\Status.cshtml" />
     <Content Include="Views\Home\StatusReport.cshtml" />
     <Content Include="Views\Home\TimeEntry.cshtml" />
+    <Content Include="Views\ForgetPassword\GetUserId.cshtml" />
+    <Content Include="Views\Email\EntryForgetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

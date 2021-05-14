@@ -49,9 +49,11 @@
                 </div>
             </div>
         </div>
-        <div class="btm_b clearfix">
+        <div class="row btm_b clearfix">
+            @Html.ActionLink("Forget Password ?", "GetUserId", "ForgetPassword", null, new { @class = "btn" })
             <button class="btn btn-primary pull-right" type="submit" id="btnSignIn">
-                Sign In</button>
+                Sign In
+            </button>
         </div>
     </div>
     
