@@ -714,7 +714,7 @@
     <Content Include="Views\Home\Status.cshtml" />
     <Content Include="Views\Home\StatusReport.cshtml" />
     <Content Include="Views\Home\TimeEntry.cshtml" />
-    <Content Include="Views\ForgetPassword\UserIdForForgetPassword.cshtml" />
+    <Content Include="Views\ForgetPassword\AuthenticateUserId.cshtml" />
     <Content Include="Views\Email\ForgetPasswordNotification.cshtml" />
   </ItemGroup>
   <ItemGroup>

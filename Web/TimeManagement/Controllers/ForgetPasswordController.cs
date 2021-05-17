@@ -10,7 +10,7 @@ namespace TimeManagement.Controllers
     public class ForgetPasswordController : BaseController
     {
         // GET: ForgetPassword
-        public ActionResult UserIdForForgetPassword()
+        public ActionResult AuthenticateUserId()
         {
             return View();
         }
@@ -33,6 +33,13 @@ namespace TimeManagement.Controllers
 
                 this.db.MTS_EMAILMASTER.Add(mtsEmailMaster);
                 this.db.SaveChanges();
+
+                TempData["success"] = "New password has been send to your email";
+            }
+            else
+            {
+                TempData["error"] = "The user name provided is incorrect.";
+                
             }
 
             return RedirectToAction("Index", "Home");
