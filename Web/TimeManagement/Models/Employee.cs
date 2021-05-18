@@ -41,6 +41,7 @@ namespace TimeManagement.Models
         public string Mobile { get; set; }
         public string DOR { get; set; }
         public Nullable<bool> EmailReminder { get; set; }
+        public bool Active { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeProject> EmployeeProjects { get; set; }

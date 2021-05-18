@@ -59,11 +59,12 @@
              "bServerSide": false,
              "sAjaxSource": '@Url.Content("~/Master/GetEmployee")',
              "aoColumns": [
-                             { "mData": "EmployeeCode", "sTitle": "Employee Code", "sClass": "text-center" }
+                             { "mData": "LoginUserID", "sTitle": "Login UserID" }
+                             ,{ "mData": "EmployeeCode", "sTitle": "Employee Code", "sClass": "text-center" }
                             , { "mData": "FirstName", "sTitle": "First Name" }
                             , { "mData": "MiddleName", "sTitle": "Middle Name" }
                             , { "mData": "LastName", "sTitle": "Last Name" }
-                            , { "mData": "Suffix", "sTitle": "Suffix" }
+                            , { "mData": "Suffix" }
                             , { "mData": "BillRate", "sTitle": "Bill Rate($)", "sClass": "text-right" }
                             , { "mData": "CompanyName", "sTitle": "Company Name" }
                             , { "mData": "LocationId", "sTitle": "Location Name" }
@@ -71,7 +72,10 @@
                             , { "mData": "DOB", "sTitle": "DOB", "sClass": "text-center" }
                             , { "mData": "DOJ", "sTitle": "DOJ", "sClass": "text-center" }
                             , { "mData": "Email", "sTitle": "Email" }
-                            , { "mData": "Mobile", "sTitle": "Mobile", "sClass": "text-center" }
+                           , { "mData": "Mobile", "sTitle": "Mobile", "sClass": "text-center" }
+                          , { "mData": "Active", "sTitle": "Active" }
+                 , {"mData": "Exam","sTitle": "exam"}
+
                     ]
 
          });
@@ -194,6 +198,9 @@
                     <thead>
                         <tr>
                             <th class="text-center">
+                                Login UserID
+                            </th>
+                            <th class="text-center">
                                 Employee Code
                             </th>
                             <th class="text-center">
@@ -205,15 +212,17 @@
                             <th class="text-center">
                                 Last Name
                             </th>
-                            <th class="text-center">
-                                Suffix
-                            </th>
+
                             <th class="text-center">
                                 Bill Rate
                             </th>
                             <th class="text-center">
                                 Company Name
                             </th>
+                            <th class="text-center">
+                                Active
+                            </th>
+
                             <th class="text-center">
                                 Location Name
                             </th>
@@ -232,6 +241,10 @@
                             <th class="text-center">
                                 Mobile
                             </th>
+                            <th class="text-center">
+                                exam
+                            </th>
+
                         </tr>
                     </thead>
                     <tbody>
