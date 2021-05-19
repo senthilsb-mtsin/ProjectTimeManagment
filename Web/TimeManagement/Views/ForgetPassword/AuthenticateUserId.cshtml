@@ -1,0 +1,56 @@
+﻿@model TimeManagement.Models.Login
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Focus
+        $('#userName').focus();
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#sumbitUserId").click(function () {
+            var userId = $("#UserId").val();
+            $.ajax({
+                url: '@Url.Action("ForgetPasswordEntry", "ForgetPassword")?userId=' + userId,
+                success: function (data) {
+                    if (data.status == "success") {
+                        window.location = "../Home/Index";
+                    } else {
+                        $("#UserId").val('');
+                        $('#incorrectMessage').text("The user name provided is incorrect.");
+                    }
+                }
+            });
+        });
+    });
+</script>
+@*@using (Html.BeginForm("ForgetPasswordEntry", "ForgetPassword", FormMethod.Post, new { @class = "form-horizontal" }))*@
+<div class="login_box clearfix">
+    <div class="top_b">
+        Forget Password
+    </div>
+    <div class="cnt_b">
+        <div class="row">
+            <div class="col-lg-10 gap-left25 pad-left20">
+                <div class="col-lg-12 gap-bottom10">
+                    <div class="input-group">
+
+                        <span class="input-group-addon"><i class="fa-user"></i></span>
+                        @Html.TextBoxFor(m => m.UserId, new { @class = "required  form-control", id = "UserId", name = "UserId" })
+                    </div>
+                    <div>@Html.ValidationMessageFor(m => m.UserId)</div>
+                </div>
+                <div id="incorrectMessage" class="col-lg-12 gap-bottom5 text-danger">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="btm_b clearfix">
+        <button id="sumbitUserId" class="btn btn-primary pull-right" type="submit">
+            Submit
+        </button>
+    </div>
+
+</div>
+

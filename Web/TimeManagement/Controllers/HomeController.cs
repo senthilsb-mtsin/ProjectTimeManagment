@@ -67,11 +67,9 @@ namespace TimeManagement.Controllers
         [HttpPost]
         public ActionResult ChangePassword()
         {
-            //string userName = Request.Form["UserName"];
             string userName = User.Identity.Name;
             string password = Request.Form["Password"];
             // string confirmpassword = Request.Form["confirmPassword"];
-
 
 
             if (this.MembershipService.ChangePassword(userName, password))
