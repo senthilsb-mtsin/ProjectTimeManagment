@@ -1,7 +1,5 @@
 ﻿@model List<TimeManagement.Models.Task>
-<link href="~/Content/css/select2.min.css" rel="stylesheet" />
-<script src="~/Scripts/select2.min.js"></script>
-<script type="text/javascript" src="~/Scripts/TableTools.js"></script>
+@*<script type="text/javascript" src="~/Scripts/TableTools.js"></script>*@
 <script type="text/javascript">
     var oTable;
     function showexport() {
@@ -231,7 +229,7 @@
                                     <b>Location</b>
                                 </div>
                                 <div class="col-lg-12 pad0">
-                                    @Html.DropDownList("locations", null," ", new { @class = "form-control", id = "location"})
+                                    @Html.DropDownList("locations", null, " ", new { @class = "form-control", id = "location" })
                                 </div>
                             </div>
                             <div class="col-lg-2">
@@ -239,7 +237,7 @@
                                     <b>Project</b>
                                 </div>
                                 <div class="col-lg-12 pad0">
-                                    @Html.DropDownList("Projects", null," ", new { @class = "form-control", id = "project" })
+                                    @Html.DropDownList("Projects", null, " ", new { @class = "form-control", id = "project" })
                                 </div>
                             </div>
                             <div class="col-lg-2">
@@ -247,7 +245,7 @@
                                     <b>Work Code</b>
                                 </div>
                                 <div class="col-lg-12 pad0">
-                                    @Html.DropDownList("WorkCodes", null," ", new { @class = "form-control", id = "workcode"})
+                                    @Html.DropDownList("WorkCodes", null, " ", new { @class = "form-control", id = "workcode" })
                                 </div>
                             </div>
                             <div class="col-lg-2">
@@ -255,7 +253,7 @@
                                     <b>Employee</b>
                                 </div>
                                 <div class="col-lg-12 pad0">
-                                    @Html.DropDownList("Employees", null," ", new { @class = "form-control", id = "employee" })
+                                    @Html.DropDownList("Employees", null, " ", new { @class = "form-control", id = "employee" })
                                 </div>
                             </div>
                         }

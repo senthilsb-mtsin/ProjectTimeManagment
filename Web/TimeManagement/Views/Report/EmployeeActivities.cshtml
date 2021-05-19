@@ -1,7 +1,5 @@
 ﻿@model List<TimeManagement.Models.Task>
-<link href="~/Content/css/select2.min.css" rel="stylesheet" />
-<script src="~/Scripts/select2.min.js"></script>
-<script type="text/javascript" src="~/Scripts/TableTools.js"></script>
+@*<script type="text/javascript" src="~/Scripts/TableTools.js"></script>*@
 <script type="text/javascript">
     var oTable;
     function showexport() {
@@ -60,13 +58,13 @@
         });
 
         $('#project').select2({
-            sorter: project_id => project_id.sort((a, b) => a.text.localeCompare(b.text)),
+           // sorter: project_id => project_id.sort((a, b) => a.text.localeCompare(b.text)),
             allowClear: true,
             placeholder: "Select Project",
         });
 
         $('#location').select2({
-            sorter: list => list.sort((a, b) => a.text.localeCompare(b.text)),
+           // sorter: list => list.sort((a, b) => a.text.localeCompare(b.text)),
             allowClear: true,
             placeholder: "Select Location",
         });
@@ -161,7 +159,7 @@
 
 
 
-                                            ]
+            ]
 
         });
 
