@@ -4,6 +4,8 @@
 @{
     ViewBag.Title = "EmployeeActivityWiseSummaryReport";
 }
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
 <script type="text/javascript">
 
     var oTable;
@@ -44,6 +46,7 @@
                 $('#fdate').addClass('hidden');
                 return false;
             }
+
             return true;
 
         });
@@ -57,6 +60,20 @@
                 return false;
             }
             return true;
+        });
+
+
+        $('#project').select2({
+            sorter: project_id => project_id.sort((a, b) => a.text.localeCompare(b.text)),
+            allowClear: true,
+            placeholder:"Select Project",
+        });
+
+
+        $('#location').select2({
+            sorter: list => list.sort((a, b) => a.text.localeCompare(b.text)),
+            allowClear: true,
+            placeholder:"Select Location",
         });
 
     });
@@ -111,19 +128,19 @@
 <div class="row">
     <div class="boxshade">
         <div class="boxhead">
-           Employee Activity Summary Report
+            Employee Activity Summary Report
         </div>
         <div class="boxbody">
             <div class="col-lg-12 pad10" style="background-color: #F5F5F5;">
                 <div class="col-lg-12 gap-bottom10">
-                  
+
                     <div class="col-lg-2">
                         <div class="col-lg-12 pad0 gap-bottom5">
                             <b>From Date</b>
                         </div>
                         <div class="col-lg-12 pad0">
                             <input type="text" id="fromdate" class="form-control datePicker required" placeholder="From"
-                                name="fromDate" />
+                                   name="fromDate" />
                             @*  @Html.TextBoxFor(m => m.fromdate, new { @class = "form-control datePicker required", placeholder = "From" })*@
                             <div id="fdate" class="hidden">
                                 From Date Required
@@ -137,49 +154,51 @@
                         <div class="col-lg-12 pad0">
                             @* @Html.TextBoxFor(m => m.todate, new { @class = "form-control datePicker required", placeholder = "To" })*@
                             <input type="text" id="todate" class="form-control datePicker required" placeholder="To"
-                                name="toDate" />
+                                   name="toDate" />
                             <div id="tdate" class="hidden">
                                 To Date Required
                             </div>
                         </div>
                     </div>
-                 
+
                     <div class="col-lg-2">
-                            <div class="col-lg-12 pad0 gap-bottom5">
-                                <b>Project</b></div>
-                         @{
-                             List<SelectListItem> Projectlist = ViewBag.projects;
-                               }
-                            <div class="col-lg-12 pad0">
-                                @Html.DropDownList("Projects", Projectlist,"Select Project", new { @class = "form-control", id = "project" })
-                            </div>
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>Project</b>
                         </div>
+                        @{
+                            List<SelectListItem> Projectlist = ViewBag.projects;
+                        }
+                        <div class="col-lg-12 pad0">
+                            @Html.DropDownList("Projects", Projectlist," ", new { @class = "form-control", id = "project" })
+                        </div>
+                    </div>
                     <div class="col-lg-2">
-                        <div class="col-lg-12 pad0 gap-bottom5">    
-                            <b>Location</b></div>
-                            @{
-                                List<SelectListItem> list = ViewBag.locations;
-                               }
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>Location</b>
+                        </div>
+                        @{
+                            List<SelectListItem> list = ViewBag.locations;
+                        }
 
                         <div class="col-lg-12 pad0">
-                           @Html.DropDownList("locations", list, "Select Location", new { @class = "form-control", id = "location" })
+                            @Html.DropDownList("locations", list, " ", new { @class = "form-control", id = "location" })
                         </div>
                     </div>
                     <div class="col-lg-12 gap-top5">
-                     <input type="button" class="btn btn-small btn-success pull-right gap-left5"
-                            id="exporttoCSV" value="Export" />
-                           
+                        <input type="button" class="btn btn-small btn-success pull-right gap-left5"
+                               id="exporttoCSV" value="Export" />
+
                         <input type="submit" onclick="return checkdate();" class="btn btn-small btn-primary pull-right"
-                            id="getreport" value="Submit" />
+                               id="getreport" value="Submit" />
                     </div>
                     @*   }*@
                 </div>
-                   
-                       
+
+
             </div>
-                   
-            <div class="col-lg-12 gap-bottom10" style="padding-left:0px; padding-right:0px;"id="tablediv">
-               
+
+            <div class="col-lg-12 gap-bottom10" style="padding-left:0px; padding-right:0px;" id="tablediv">
+
             </div>
         </div>
     </div>

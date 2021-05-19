@@ -4,7 +4,10 @@
 @{
     ViewBag.Title = "EmployeeActivityWiseDetailedReport";
 }
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
 <script type="text/javascript">
+
 
     var oTable;
     function showexport() {
@@ -32,7 +35,7 @@
             var project_id = $('#project').val();
             var employee_id = $('#employeeid').val();
             //var url = '@Url.Action("ExportToCSVDetailedActivity", "Report",new{fromdate="fd",todate="td",Project_ID="project_id",Employee_ID="emp_id"})';
-           
+
             window.location.href = '../Report/ExportToCSVDetailedActivity?fromdate=' + from_date + '&todate=' + to_date + '&Project_ID=' + project_id + '&Employee_ID=' + employee_id;
         });
         $("#fromdate").change(function () {
@@ -47,7 +50,7 @@
             return true;
 
         });
-       
+
         $("#todate").change(function () {
             var todate = $('#todate').val();
             if (todate == "") {
@@ -57,11 +60,24 @@
                 $('#tdate').addClass('hidden');
                 return false;
             }
-            return true;
+            return true;  
         });
+
+
+        $('#project').select2(
+            {
+                sorter: project_id => project_id.sort((a, b) => a.text.localeCompare(b.text)),
+                allowClear: true,
+                placeholder:"Select Project",
+            });
+
+        $("#employeeid").select2({
+            sorter: employee_id => employee_id.sort((a, b) => a.text.localeCompare(b.text)),
+        });
+
         $("#project").change(function () {
             var _projectId = $('#project').val();
-           
+
                 $.ajax({
                     url: '../Report/GetEmployeeByProjectId',
                     data: { projectId: _projectId },
@@ -83,7 +99,7 @@
                     }
 
                 });
-            
+
             return true;
         });
 
@@ -134,25 +150,24 @@
 
     }
 
-
-</script>
+</script>    
 <div class="row">
     <div class="boxshade">
         <div class="boxhead">
-           Employee Activity Detailed Report
+            Employee Activity Detailed Report
         </div>
         <div class="boxbody">
             <div class="col-lg-12 pad10" style="background-color: #F5F5F5;">
                 <div class="col-lg-12 gap-bottom10">
-                  
+
                     <div class="col-lg-2">
                         <div class="col-lg-12 pad0 gap-bottom5">
                             <b>From Date</b>
                         </div>
                         <div class="col-lg-12 pad0">
                             <input type="text" id="fromdate" class="form-control datePicker required" placeholder="From"
-                                name="fromDate" />
-                            
+                                   name="fromDate" />
+
                             <div id="fdate" class="hidden">
                                 From Date Required
                             </div>
@@ -163,51 +178,53 @@
                             <b>To Date</b>
                         </div>
                         <div class="col-lg-12 pad0">
-                           
+
                             <input type="text" id="todate" class="form-control datePicker required" placeholder="To"
-                                name="toDate" />
+                                   name="toDate" />
                             <div id="tdate" class="hidden">
                                 To Date Required
                             </div>
                         </div>
                     </div>
-                 
+
                     <div class="col-lg-2">
-                            <div class="col-lg-12 pad0 gap-bottom5">
-                                <b>Project</b></div>
-                         @{
-                             List<SelectListItem> Projectlist = ViewBag.projects;
-                               }
-                            <div class="col-lg-12 pad0">
-                                @Html.DropDownList("Projects", Projectlist,"Select Project", new { @class = "form-control", id = "project" })
-                            </div>
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>Project</b>
                         </div>
+                        @{
+                            List<SelectListItem> Projectlist = ViewBag.projects;
+                        }
+                        <div class="col-lg-12 pad0">  
+                            @Html.DropDownList("Projects", Projectlist," ", new { @class = "form-control", id = "project" })
+                        </div>
+                    </div>
                     <div class="col-lg-2">
-                        <div class="col-lg-12 pad0 gap-bottom5">    
-                            <b>Employee</b></div>
-                                        @{
-                                            List<SelectListItem> emplist = ViewBag.Employee;
-                                            }
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>Employee</b>
+                        </div>
+                        @{
+                            List<SelectListItem> emplist = ViewBag.Employee;
+                        }
                         <div class="col-lg-12 pad0">
-                         
-                           @Html.DropDownList("Resource",emplist,"Select Employee", new { @class = "form-control", id = "employeeid"})
+
+                            @Html.DropDownList("Resource", emplist, "Select Employee", new { @class = "form-control", id = "employeeid" })
                         </div>
                     </div>
                     <div class="col-lg-12 gap-top5">
-                     <input type="button" class="btn btn-small btn-success pull-right gap-left5"
-                            id="exporttoCSV" value="Export" />
-                           
+                        <input type="button" class="btn btn-small btn-success pull-right gap-left5"
+                               id="exporttoCSV" value="Export" />
+
                         <input type="submit" onclick="return checkdate();" class="btn btn-small btn-primary pull-right"
-                            id="getreport" value="Submit" />
+                               id="getreport" value="Submit" />
                     </div>
                     @*   }*@
                 </div>
-                   
-                       
+
+
             </div>
-                   
-            <div class="col-lg-12 gap-bottom10" style="padding-left:0px; padding-right:0px;"id="tablediv">
-               
+
+            <div class="col-lg-12 gap-bottom10" style="padding-left:0px; padding-right:0px;" id="tablediv">
+
             </div>
         </div>
     </div>

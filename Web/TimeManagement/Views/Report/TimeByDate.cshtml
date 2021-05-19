@@ -1,5 +1,7 @@
 ﻿@model List<TimeManagement.Models.Task>
-<script type="text/javascript" src="~/Scripts/TableTools.js"></script>
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+@*<script type="text/javascript" src="~/Scripts/TableTools.js"></script>*@
 <script type="text/javascript">
     var oTable;
     function showexport() {
@@ -30,9 +32,9 @@
             location.href = '@Url.Content("~/Report/ExportTaskDetails")';
         });
 
-        $('#location').selectpicker({ noneSelectedText: 'Select Location' });
-        $('#project').selectpicker({ noneSelectedText: 'Select Project' });
-        $('#workcode').selectpicker({ noneSelectedText: 'Select Work Code' });
+        //$('#location').selectpicker({ noneSelectedText: 'Select Location' });
+        //$('#project').selectpicker({ noneSelectedText: 'Select Project' });
+        //$('#workcode').selectpicker({ noneSelectedText: 'Select Work Code' });
 
         $("#fromdate").change(function () {
             var fromdate = $('#fromdate').val();
@@ -60,9 +62,32 @@
 
         });
 
-    });
+        $("#employee").select2({
+            sorter: employee_id => employee_id.sort((a, b) => a.text.localeCompare(b.text)),
+            allowClear: true,
+            placeholder: "Select Employee",
+        });
+
+        $('#project').select2({
+            //data: projects,
+            allowClear: true,
+            placeholder: "Select Project",
+        });
+
+        $('#workcode').select2({
+            allowClear: true,
+            placeholder: "Select WorkCode",
+        });
+
+        $("#location").select2({
+            allowClear: true,
+            placeholder: "Select Location",
+        });
+
+        
 
 
+   });
 
     function fundate() {
         var fromdate = $('#fromdate').val();
@@ -96,7 +121,7 @@
 
 
         var location_l = '';
-        $('#location').find('option:selected').each(function () {
+        $('#location').find('option:selected').each(function () {0
             if (location_l != '') {
                 location_l = location_l + ','
             }
@@ -161,8 +186,7 @@
         });
 
     }
-                
-    
+
 
 </script>
 <div class="row">
@@ -177,62 +201,71 @@
                     {
                         <div class="col-lg-2">
                             <div class="col-lg-12 pad0 gap-bottom5">
-                                <b>From Date</b></div>
+                                <b>From Date</b>
+                            </div>
                             <div class="col-lg-12 pad0">
                                 <input type="text" id="fromdate" class="form-control datePicker required" placeholder="From"
-                                    name="fromDate" />
+                                       name="fromDate" />
                                 <div id="fdate" class="hidden">
-                                    From Date Required</div>
+                                    From Date Required
+                                </div>
                             </div>
                         </div>
-                 
+
                         <div class="col-lg-2">
                             <div class="col-lg-12 pad0 gap-bottom5">
-                                <b>To Date</b></div>
+                                <b>To Date</b>
+                            </div>
                             <div class="col-lg-12 pad0">
                                 <input type="text" id="todate" class="form-control datePicker required" placeholder="To"
-                                    name="toDate" />
+                                       name="toDate" />
                                 <div id="tdate" class="hidden">
-                                    To Date Required</div>
+                                    To Date Required
+                                </div>
                             </div>
                         </div>
                         if (User.IsInRole("Administrator"))
                         {
-                        <div class="col-lg-2">
-                            <div class="col-lg-12 pad0 gap-bottom5">
-                                <b>Location</b></div>
-                            <div class="col-lg-12 pad0">
-                                @Html.DropDownList("locations", null, new { @class = "form-control", id = "location", multiple = "multiple" })
+                            <div class="col-lg-2">
+                                <div class="col-lg-12 pad0 gap-bottom5">
+                                    <b>Location</b>
+                                </div>
+                                <div class="col-lg-12 pad0">
+                                    @Html.DropDownList("locations", null," ", new { @class = "form-control", id = "location" })
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="col-lg-12 pad0 gap-bottom5">
-                                <b>Project</b></div>
-                            <div class="col-lg-12 pad0">
-                                @Html.DropDownList("Projects", null, new { @class = "form-control", id = "project", multiple = "multiple" })
+                            <div class="col-lg-2">
+                                <div class="col-lg-12 pad0 gap-bottom5">
+                                    <b>Project</b>
+                                </div>
+                                <div class="col-lg-12 pad0">
+                                    @Html.DropDownList("Projects", null," ", new { @class = "form-control", id = "project"})
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="col-lg-12 pad0 gap-bottom5">
-                                <b>Work Code</b></div>
-                            <div class="col-lg-12 pad0">
-                                @Html.DropDownList("WorkCodes", null, new { @class = "form-control", id = "workcode", multiple = "multiple" })
+                            <div class="col-lg-2">
+                                <div class="col-lg-12 pad0 gap-bottom5">
+                                    <b>Work Code</b>
+                                </div>
+                                <div class="col-lg-12 pad0">
+                                    @Html.DropDownList("WorkCodes", null," ", new { @class = "form-control", id = "workcode" })
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="col-lg-12 pad0 gap-bottom5">
-                                <b>Employee</b></div>
-                            <div class="col-lg-12 pad0">
-                                @Html.DropDownList("Employees", null, new { @class = "form-control", id = "employee" })
+                            <div class="col-lg-2">
+                                <div class="col-lg-12 pad0 gap-bottom5">
+                                    <b>Employee</b>
+                                </div>
+                                <div class="col-lg-12 pad0">
+                                    @Html.DropDownList("Employees", null," ", new { @class = "form-control",id = "employee" })
+                                </div>
                             </div>
-                        </div>
                         }
                         <div class="col-lg-12 gap-top5">
                             <button type="button" onclick="return fundate();" class="btn btn-small btn-primary pull-right"
-                                id="getreport">
-                                Submit</button>
+                                    id="getreport">
+                                Submit
+                            </button>
                         </div>
-                       
+
                     }
                 </div>
                 <div class="col-lg-12">
@@ -244,7 +277,8 @@
                 </table>
                 <div class="col-lg-12 gap-bottom10" id="export">
                     <button type="button" class="btn btn-success export pull-right" id="btnExport">
-                        Export</button>
+                        Export
+                    </button>
                 </div>
             </div>
         </div>
