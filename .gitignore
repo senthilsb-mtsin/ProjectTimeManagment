@@ -1,3 +1,7 @@
 packages
 bin
 obj
+*.suo
+*.dll
+*.csproj.user
+.vs
