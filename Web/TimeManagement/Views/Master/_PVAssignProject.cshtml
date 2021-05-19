@@ -1,0 +1,162 @@
+﻿@model TimeManagement.Models.EmployeeProject  
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type ="text/javascript">
+    $(document).ready(function () {
+
+    });
+</script>
+@using (Html.BeginForm("/Addrole", "Master", FormMethod.Post, new { id = "frmSetAccess" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">
+                    Assign Projects 
+                </h4>
+               
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12 pad0">
+                        <div class="col-lg-5">
+                            <div class="pad5" id="divCategory2">
+                                <b>Available Projects</b>
+                                @{
+    List<SelectListItem> Project = ViewBag.ProjectList;
+                                }
+                            </div>
+                            <div class="pad5">
+                                @Html.ListBox("Project",new SelectList(Project.ToList(),"Value","Text") , new { @class = "form-control", style = "height:260px ", @id = "AvailableAccess" })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 text-center gap-top20 pad-top20">
+                            <button id="MoveRight" class="btn btn-warning gap-top20" title="Assign" type="button">
+                                <i class="fa-fast-forward"></i>
+                            </button>
+                            <button id="MoveLeft" class="btn btn-warning gap-top20" title="Re-Assign" type="button">
+                                <i class="fa-fast-backward"></i>
+                            </button>
+                        </div>
+                        <div class="col-lg-5 marg0">
+                            <div class="pad5">
+                                <b>Selected Projects</b>
+                              
+                                @{
+    List<SelectListItem> AssignedProject = ViewBag.AssignedProjectList;
+                                }
+                            </div>
+                            <div class="pad5">
+                                @Html.ListBox("AssignedProject",new SelectList(AssignedProject.ToList(), "Value", "Text"), new { @class = "form-control", style = "height:250px ", @id = "SelectedAccess" })
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer clear">
+                <input type="button" name="btn" value="Save" class="btn btn-info pull-right gap-right10" onclick="return fnConfirm();" />
+                <button type="button" data-dismiss="modal" class="btn btn-info pull-right gap-right10">
+                    Close</button>
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.EmployeeId) 
+    @Html.HiddenFor(m => m.ProjectId)
+   
+}
+<script language="javascript" type="text/javascript">
+    var Alloptions = [];
+    function Sort(userlist) {
+        var $r = $(userlist + " option");
+        $r.sort(function (a, b) {
+            if (a.text < b.text) return -1;
+            if (a.text == b.text) return 0;
+            return 1;
+        });
+        $($r).remove();
+        $(userlist).append($($r));
+    }
+
+
+    $(function () {
+        $("#MoveRight,#MoveLeft").click(function (event) {
+
+            var e = event || window.event;
+            var target = e.target || e.srcElement;
+            var id = target.id;
+            var selectFrom = id == "MoveRight" ? "#AvailableAccess" : "#SelectedAccess";
+            var moveTo = id == "MoveRight" ? "#SelectedAccess" : "#AvailableAccess";
+            var selectedItems = $(selectFrom + " :selected").toArray();
+
+            var isExist = 0;
+            var itemIndex = 0;
+            $.each(selectedItems, function (i) {
+                var items = selectedItems[i];
+
+                $.each(Alloptions, function (j) {
+                    var allitmes = Alloptions[j];
+
+                    if (items.value == allitmes.value) {
+                        isExist = 1;
+                        itemIndex = j;
+                    }
+                });
+                if (id == "MoveLeft") {
+                    $(moveTo).append(selectedItems);
+                    Sort('#AvailableAccess');
+                    $("#AvailableAccess").val(-1);
+
+
+                }
+                else {
+                    $(moveTo).append(selectedItems);
+                }
+                if (isExist == 1) {
+                    Alloptions.splice(itemIndex, 1);
+                    isExist = 0;
+
+                } else {
+
+                    Alloptions.push({ value: $(items).val(), text: $(items).text() });
+
+                }
+
+            });
+            selectedItems.remove;
+        });
+
+    });
+    $(document).ready(function () {
+        Sort('#AvailableAccess');
+        $('#AvailableAccess').dblclick(function () {
+            $('#MoveRight').trigger('click');
+        });
+        $('#SelectedAccess').dblclick(function () {
+            $('#MoveLeft').trigger('click');
+        });
+    });
+
+    function fnConfirm() {
+        var acc = '';
+        var acc = '';
+        $("#SelectedAccess option").each(function () {
+            if (acc != '') {
+                acc = acc + ",";
+            }
+            acc = acc + $(this).val();
+        });
+        $.ajax({
+            url: '@Url.Content("~/Master/AssignProject")',
+            type: 'POST',
+            data: { EmployeeID: $("#EmployeeId").val(), AssignedProjects: acc },
+            success: function (data) {
+                alertMsg = data;
+                $('div#MainPopUp').modal('hide');               
+            },
+            cache: false
+        });
+    }     
+</script>

@@ -1,0 +1,1336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MTSTrexModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Configurations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Percentage" Type="varchar" MaxLength="50" />
+          <Property Name="Rate" Type="numeric" Precision="15" Scale="2" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="200" />
+          <Property Name="CustomerType" Type="nvarchar" MaxLength="200" />
+          <Property Name="CustomerAddress1" Type="nvarchar" MaxLength="200" />
+          <Property Name="CustomerAddress2" Type="nvarchar" MaxLength="200" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="EmployeeProjects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="Prefix" Type="nvarchar" MaxLength="25" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Suffix" Type="nvarchar" MaxLength="25" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="20" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="BillRate" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="EmployeeCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="DOB" Type="nvarchar" MaxLength="50" />
+          <Property Name="DOJ" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="DOR" Type="varchar" MaxLength="50" />
+          <Property Name="EmailReminder" Type="bit" />
+        </EntityType>
+        <EntityType Name="Locations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Logins">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Employee_Id" Type="int" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="MTS_EMAILMASTER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TEMPLATEID" Type="bigint" Nullable="false" />
+          <Property Name="EMAILSP" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="REQUESTTIME" Type="datetime" Nullable="false" />
+          <Property Name="STATUS" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MTS_EMAILSCHEDULE">
+          <Key>
+            <PropertyRef Name="SCHEDULEID" />
+          </Key>
+          <Property Name="SCHEDULEID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TEMPLATEID" Type="bigint" Nullable="false" />
+          <Property Name="SCHEDULEDESCRIPTION" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="SENDBY" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="DAY" Type="nvarchar" MaxLength="100" />
+          <Property Name="TIME" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="MTS_EMAILTEMPLATE">
+          <Key>
+            <PropertyRef Name="TEMPLATEID" />
+          </Key>
+          <Property Name="TEMPLATEID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TEMPLATENAME" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="XMLTEMPLATE" Type="xml" Nullable="false" />
+          <Property Name="SMTPID" Type="bigint" Nullable="false" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="HtmlPage" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="MTS_GROUPS">
+          <Key>
+            <PropertyRef Name="Group_ID" />
+          </Key>
+          <Property Name="Group_ID" Type="int" Nullable="false" />
+          <Property Name="Group_Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MTSTrexProd.dbo.MTS_PROJECTTYPE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MTS_PROJECTTYPE">
+          <Key>
+            <PropertyRef Name="Project_TypeID" />
+            <PropertyRef Name="Project_Type" />
+          </Key>
+          <Property Name="Project_TypeID" Type="int" Nullable="false" />
+          <Property Name="Project_Type" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MTSTrexProd.dbo.MTS_SERVICECONFIG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MTS_SERVICECONFIG">
+          <Key>
+            <PropertyRef Name="SERVICEID" />
+            <PropertyRef Name="SERVICENAME" />
+            <PropertyRef Name="SERVICEDISPLAYNAME" />
+            <PropertyRef Name="SERVICEDESCRIPTION" />
+            <PropertyRef Name="SERVICEINVOKETYPE" />
+            <PropertyRef Name="DLLNAME" />
+          </Key>
+          <Property Name="SERVICEID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SERVICENAME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SERVICEDISPLAYNAME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SERVICEDESCRIPTION" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="SERVICEINVOKETYPE" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="DLLNAME" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="SERVICEPARAMS" Type="xml" />
+          <Property Name="TIME" Type="varchar" MaxLength="5" />
+          <Property Name="RETRYCOUNT" Type="smallint" />
+          <Property Name="MAXERRORS" Type="smallint" />
+          <Property Name="STATUS" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="MTS_SMTPDETAILS">
+          <Key>
+            <PropertyRef Name="SmtpID" />
+          </Key>
+          <Property Name="SmtpID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SmtpName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="SmtpClientHost" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SmtpClientPort" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varbinary" MaxLength="128" />
+          <Property Name="Domain" Type="varchar" MaxLength="100" />
+          <Property Name="EnableSsl" Type="bit" Nullable="false" />
+          <Property Name="TimeOut" Type="int" Nullable="false" />
+          <Property Name="SmtpDeliveryMethod" Type="tinyint" Nullable="false" />
+          <Property Name="UseDefaultCredentials" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MTS_WORK_GROUP_MAPPING">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="WORK_ID" Type="int" Nullable="false" />
+          <Property Name="GROUP_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Notes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="WeeklyReportId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="10" />
+          <Property Name="EstStartDate" Type="datetime" />
+          <Property Name="EstEndDate" Type="datetime" />
+          <Property Name="IsCommon" Type="bit" />
+          <Property Name="TotalAmount" Type="numeric" Precision="15" Scale="2" />
+          <Property Name="Risk" Type="nvarchar" MaxLength="20" />
+          <Property Name="Discount" Type="nvarchar" MaxLength="20" />
+          <Property Name="MarginValue" Type="nvarchar" MaxLength="20" />
+          <Property Name="DiscountAmount" Type="numeric" Precision="15" Scale="2" />
+          <Property Name="Completed" Type="nvarchar" MaxLength="20" />
+          <Property Name="Customer" Type="nvarchar" MaxLength="50" />
+          <Property Name="Te" Type="bit" Nullable="false" />
+          <Property Name="Tm" Type="bit" Nullable="false" />
+          <Property Name="TypeOfProject" Type="int" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkCodeId" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ExecutionDate" Type="datetime" Nullable="false" />
+          <Property Name="Hours" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="Charge" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="WeeklyReports">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="Scope" Type="int" Nullable="false" />
+          <Property Name="Schedule" Type="int" Nullable="false" />
+          <Property Name="Quality" Type="int" Nullable="false" />
+          <Property Name="ClientSatisfaction" Type="int" Nullable="false" />
+          <Property Name="ProjectStatus" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Risk" Type="nvarchar(max)" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="From" Type="datetime" Nullable="false" />
+          <Property Name="To" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkCodes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="10" />
+          <Property Name="Billable" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EmployeeEmployeeProject">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="EmployeeProjects" Type="Self.EmployeeProjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeProjects">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeEmployeeRole">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="EmployeeRoles" Type="Self.EmployeeRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRoles">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeTask">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeWeeklyReport">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="WeeklyReports" Type="Self.WeeklyReports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WeeklyReports">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationEmployee">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LoginEmployee">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Logins" Type="Self.Logins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Logins">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
+          <End Role="MTS_GROUPS" Type="Self.MTS_GROUPS" Multiplicity="1" />
+          <End Role="MTS_WORK_GROUP_MAPPING" Type="Self.MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MTS_GROUPS">
+              <PropertyRef Name="Group_ID" />
+            </Principal>
+            <Dependent Role="MTS_WORK_GROUP_MAPPING">
+              <PropertyRef Name="GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MTS_WORK_GROUP_MAPPING_WorkCodes">
+          <End Role="WorkCodes" Type="Self.WorkCodes" Multiplicity="1" />
+          <End Role="MTS_WORK_GROUP_MAPPING" Type="Self.MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkCodes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MTS_WORK_GROUP_MAPPING">
+              <PropertyRef Name="WORK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectEmployeeProject">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="EmployeeProjects" Type="Self.EmployeeProjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeProjects">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectTask">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectWeeklyReport">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="WeeklyReports" Type="Self.WeeklyReports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WeeklyReports">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleEmployeeRole">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="EmployeeRoles" Type="Self.EmployeeRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WeeklyReportNote">
+          <End Role="WeeklyReports" Type="Self.WeeklyReports" Multiplicity="1" />
+          <End Role="Notes" Type="Self.Notes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WeeklyReports">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notes">
+              <PropertyRef Name="WeeklyReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkCodeTask">
+          <End Role="WorkCodes" Type="Self.WorkCodes" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkCodes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="WorkCodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MTSTrexModelStoreContainer">
+          <EntitySet Name="Configurations" EntityType="Self.Configurations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeProjects" EntityType="Self.EmployeeProjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeRoles" EntityType="Self.EmployeeRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Logins" EntityType="Self.Logins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MTS_EMAILMASTER" EntityType="Self.MTS_EMAILMASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MTS_EMAILSCHEDULE" EntityType="Self.MTS_EMAILSCHEDULE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MTS_EMAILTEMPLATE" EntityType="Self.MTS_EMAILTEMPLATE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MTS_GROUPS" EntityType="Self.MTS_GROUPS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MTS_SMTPDETAILS" EntityType="Self.MTS_SMTPDETAILS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MTS_WORK_GROUP_MAPPING" EntityType="Self.MTS_WORK_GROUP_MAPPING" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notes" EntityType="Self.Notes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WeeklyReports" EntityType="Self.WeeklyReports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkCodes" EntityType="Self.WorkCodes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MTS_PROJECTTYPE" EntityType="Self.MTS_PROJECTTYPE" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MTS_PROJECTTYPE].[Project_TypeID] AS [Project_TypeID], 
+    [MTS_PROJECTTYPE].[Project_Type] AS [Project_Type]
+    FROM [dbo].[MTS_PROJECTTYPE] AS [MTS_PROJECTTYPE]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MTS_SERVICECONFIG" EntityType="Self.MTS_SERVICECONFIG" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MTS_SERVICECONFIG].[SERVICEID] AS [SERVICEID], 
+    [MTS_SERVICECONFIG].[SERVICENAME] AS [SERVICENAME], 
+    [MTS_SERVICECONFIG].[SERVICEDISPLAYNAME] AS [SERVICEDISPLAYNAME], 
+    [MTS_SERVICECONFIG].[SERVICEDESCRIPTION] AS [SERVICEDESCRIPTION], 
+    [MTS_SERVICECONFIG].[SERVICEINVOKETYPE] AS [SERVICEINVOKETYPE], 
+    [MTS_SERVICECONFIG].[DLLNAME] AS [DLLNAME], 
+    [MTS_SERVICECONFIG].[SERVICEPARAMS] AS [SERVICEPARAMS], 
+    [MTS_SERVICECONFIG].[TIME] AS [TIME], 
+    [MTS_SERVICECONFIG].[RETRYCOUNT] AS [RETRYCOUNT], 
+    [MTS_SERVICECONFIG].[MAXERRORS] AS [MAXERRORS], 
+    [MTS_SERVICECONFIG].[STATUS] AS [STATUS]
+    FROM [dbo].[MTS_SERVICECONFIG] AS [MTS_SERVICECONFIG]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_EmployeeEmployeeProject" Association="Self.FK_EmployeeEmployeeProject">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="EmployeeProjects" EntitySet="EmployeeProjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeEmployeeRole" Association="Self.FK_EmployeeEmployeeRole">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="EmployeeRoles" EntitySet="EmployeeRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeTask" Association="Self.FK_EmployeeTask">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeWeeklyReport" Association="Self.FK_EmployeeWeeklyReport">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="WeeklyReports" EntitySet="WeeklyReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationEmployee" Association="Self.FK_LocationEmployee">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LoginEmployee" Association="Self.FK_LoginEmployee">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Logins" EntitySet="Logins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" Association="Self.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
+            <End Role="MTS_GROUPS" EntitySet="MTS_GROUPS" />
+            <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MTS_WORK_GROUP_MAPPING_WorkCodes" Association="Self.FK_MTS_WORK_GROUP_MAPPING_WorkCodes">
+            <End Role="WorkCodes" EntitySet="WorkCodes" />
+            <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectEmployeeProject" Association="Self.FK_ProjectEmployeeProject">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="EmployeeProjects" EntitySet="EmployeeProjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectTask" Association="Self.FK_ProjectTask">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectWeeklyReport" Association="Self.FK_ProjectWeeklyReport">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="WeeklyReports" EntitySet="WeeklyReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleEmployeeRole" Association="Self.FK_RoleEmployeeRole">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="EmployeeRoles" EntitySet="EmployeeRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WeeklyReportNote" Association="Self.FK_WeeklyReportNote">
+            <End Role="WeeklyReports" EntitySet="WeeklyReports" />
+            <End Role="Notes" EntitySet="Notes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkCodeTask" Association="Self.FK_WorkCodeTask">
+            <End Role="WorkCodes" EntitySet="WorkCodes" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MTSTrexModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Configuration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Percentage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Rate" Type="Decimal" Precision="15" Scale="2" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerAddress1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerAddress2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EmployeeProject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_EmployeeEmployeeProject" FromRole="EmployeeProjects" ToRole="Employees" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_ProjectEmployeeProject" FromRole="EmployeeProjects" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="EmployeeRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_EmployeeEmployeeRole" FromRole="EmployeeRoles" ToRole="Employees" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_RoleEmployeeRole" FromRole="EmployeeRoles" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <Property Name="Prefix" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Suffix" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="BillRate" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="EmployeeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DOJ" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailReminder" Type="Boolean" />
+          <NavigationProperty Name="EmployeeProjects" Relationship="Self.FK_EmployeeEmployeeProject" FromRole="Employees" ToRole="EmployeeProjects" />
+          <NavigationProperty Name="EmployeeRoles" Relationship="Self.FK_EmployeeEmployeeRole" FromRole="Employees" ToRole="EmployeeRoles" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_EmployeeTask" FromRole="Employees" ToRole="Tasks" />
+          <NavigationProperty Name="WeeklyReports" Relationship="Self.FK_EmployeeWeeklyReport" FromRole="Employees" ToRole="WeeklyReports" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_LocationEmployee" FromRole="Employees" ToRole="Locations" />
+          <NavigationProperty Name="Logins" Relationship="Self.FK_LoginEmployee" FromRole="Employees" ToRole="Logins" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_LocationEmployee" FromRole="Locations" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Employee_Id" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_LoginEmployee" FromRole="Logins" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Note">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="WeeklyReportId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="WeeklyReport" Relationship="Self.FK_WeeklyReportNote" FromRole="Notes" ToRole="WeeklyReports" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EstStartDate" Type="DateTime" Precision="3" />
+          <Property Name="EstEndDate" Type="DateTime" Precision="3" />
+          <Property Name="IsCommon" Type="Boolean" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="Risk" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Discount" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="MarginValue" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DiscountAmount" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="Completed" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Customer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Te" Type="Boolean" Nullable="false" />
+          <Property Name="Tm" Type="Boolean" Nullable="false" />
+          <Property Name="TypeOfProject" Type="Int32" />
+          <NavigationProperty Name="EmployeeProjects" Relationship="Self.FK_ProjectEmployeeProject" FromRole="Projects" ToRole="EmployeeProjects" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_ProjectTask" FromRole="Projects" ToRole="Tasks" />
+          <NavigationProperty Name="WeeklyReports" Relationship="Self.FK_ProjectWeeklyReport" FromRole="Projects" ToRole="WeeklyReports" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="EmployeeRoles" Relationship="Self.FK_RoleEmployeeRole" FromRole="Roles" ToRole="EmployeeRoles" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkCodeId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ExecutionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Hours" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Charge" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_EmployeeTask" FromRole="Tasks" ToRole="Employees" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_ProjectTask" FromRole="Tasks" ToRole="Projects" />
+          <NavigationProperty Name="WorkCode" Relationship="Self.FK_WorkCodeTask" FromRole="Tasks" ToRole="WorkCodes" />
+        </EntityType>
+        <EntityType Name="WeeklyReport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="Scope" Type="Int32" Nullable="false" />
+          <Property Name="Schedule" Type="Int32" Nullable="false" />
+          <Property Name="Quality" Type="Int32" Nullable="false" />
+          <Property Name="ClientSatisfaction" Type="Int32" Nullable="false" />
+          <Property Name="ProjectStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Risk" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="From" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="To" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_EmployeeWeeklyReport" FromRole="WeeklyReports" ToRole="Employees" />
+          <NavigationProperty Name="Notes" Relationship="Self.FK_WeeklyReportNote" FromRole="WeeklyReports" ToRole="Notes" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_ProjectWeeklyReport" FromRole="WeeklyReports" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="WorkCode">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Billable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_WorkCodeTask" FromRole="WorkCodes" ToRole="Tasks" />
+          <NavigationProperty Name="MTS_WORK_GROUP_MAPPING" Relationship="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_WorkCodes" FromRole="WorkCode" ToRole="MTS_WORK_GROUP_MAPPING" />
+        </EntityType>
+        <EntityType Name="MTS_PROJECTTYPE">
+          <Key>
+            <PropertyRef Name="Project_TypeID" />
+            <PropertyRef Name="Project_Type" />
+          </Key>
+          <Property Name="Project_TypeID" Type="Int32" Nullable="false" />
+          <Property Name="Project_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EmployeeEmployeeProject">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeProjects" Type="Self.EmployeeProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeProjects">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectEmployeeProject">
+          <End Role="Projects" Type="Self.Project" Multiplicity="1" />
+          <End Role="EmployeeProjects" Type="Self.EmployeeProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeProjects">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeEmployeeRole">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeRoles" Type="Self.EmployeeRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRoles">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleEmployeeRole">
+          <End Role="Roles" Type="Self.Role" Multiplicity="1" />
+          <End Role="EmployeeRoles" Type="Self.EmployeeRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeTask">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeWeeklyReport">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
+          <End Role="WeeklyReports" Type="Self.WeeklyReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WeeklyReports">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationEmployee">
+          <End Role="Locations" Type="Self.Location" Multiplicity="1" />
+          <End Role="Employees" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LoginEmployee">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Logins" Type="Self.Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Logins">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WeeklyReportNote">
+          <End Role="WeeklyReports" Type="Self.WeeklyReport" Multiplicity="1" />
+          <End Role="Notes" Type="Self.Note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WeeklyReports">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notes">
+              <PropertyRef Name="WeeklyReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectTask">
+          <End Role="Projects" Type="Self.Project" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectWeeklyReport">
+          <End Role="Projects" Type="Self.Project" Multiplicity="1" />
+          <End Role="WeeklyReports" Type="Self.WeeklyReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WeeklyReports">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkCodeTask">
+          <End Role="WorkCodes" Type="Self.WorkCode" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkCodes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="WorkCodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PortalDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Configurations" EntityType="Self.Configuration" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="EmployeeProjects" EntityType="Self.EmployeeProject" />
+          <EntitySet Name="EmployeeRoles" EntityType="Self.EmployeeRole" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
+          <EntitySet Name="Logins" EntityType="Self.Login" />
+          <EntitySet Name="Notes" EntityType="Self.Note" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="Tasks" EntityType="Self.Task" />
+          <EntitySet Name="WeeklyReports" EntityType="Self.WeeklyReport" />
+          <EntitySet Name="WorkCodes" EntityType="Self.WorkCode" />
+          <EntitySet Name="MTS_PROJECTTYPE" EntityType="Self.MTS_PROJECTTYPE" />
+          <AssociationSet Name="FK_EmployeeEmployeeProject" Association="Self.FK_EmployeeEmployeeProject">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="EmployeeProjects" EntitySet="EmployeeProjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectEmployeeProject" Association="Self.FK_ProjectEmployeeProject">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="EmployeeProjects" EntitySet="EmployeeProjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeEmployeeRole" Association="Self.FK_EmployeeEmployeeRole">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="EmployeeRoles" EntitySet="EmployeeRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleEmployeeRole" Association="Self.FK_RoleEmployeeRole">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="EmployeeRoles" EntitySet="EmployeeRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeTask" Association="Self.FK_EmployeeTask">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeWeeklyReport" Association="Self.FK_EmployeeWeeklyReport">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="WeeklyReports" EntitySet="WeeklyReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationEmployee" Association="Self.FK_LocationEmployee">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LoginEmployee" Association="Self.FK_LoginEmployee">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Logins" EntitySet="Logins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WeeklyReportNote" Association="Self.FK_WeeklyReportNote">
+            <End Role="WeeklyReports" EntitySet="WeeklyReports" />
+            <End Role="Notes" EntitySet="Notes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectTask" Association="Self.FK_ProjectTask">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectWeeklyReport" Association="Self.FK_ProjectWeeklyReport">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="WeeklyReports" EntitySet="WeeklyReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkCodeTask" Association="Self.FK_WorkCodeTask">
+            <End Role="WorkCodes" EntitySet="WorkCodes" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <EntitySet Name="MTS_EMAILMASTER" EntityType="MTSTrexModel.MTS_EMAILMASTER" />
+          <EntitySet Name="MTS_EMAILSCHEDULE" EntityType="MTSTrexModel.MTS_EMAILSCHEDULE" />
+          <EntitySet Name="MTS_EMAILTEMPLATE" EntityType="MTSTrexModel.MTS_EMAILTEMPLATE" />
+          <EntitySet Name="MTS_GROUPS" EntityType="MTSTrexModel.MTS_GROUPS" />
+          <EntitySet Name="MTS_SMTPDETAILS" EntityType="MTSTrexModel.MTS_SMTPDETAILS" />
+          <EntitySet Name="MTS_WORK_GROUP_MAPPING" EntityType="MTSTrexModel.MTS_WORK_GROUP_MAPPING" />
+          <EntitySet Name="MTS_SERVICECONFIG" EntityType="MTSTrexModel.MTS_SERVICECONFIG" />
+          <AssociationSet Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
+            <End Role="MTS_GROUPS" EntitySet="MTS_GROUPS" />
+            <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MTS_WORK_GROUP_MAPPING_WorkCodes" Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_WorkCodes">
+            <End Role="WorkCode" EntitySet="WorkCodes" />
+            <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="MTS_EMAILMASTER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TEMPLATEID" Type="Int64" Nullable="false" />
+          <Property Name="EMAILSP" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="REQUESTTIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="STATUS" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MTS_EMAILSCHEDULE">
+          <Key>
+            <PropertyRef Name="SCHEDULEID" />
+          </Key>
+          <Property Name="SCHEDULEID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TEMPLATEID" Type="Int64" Nullable="false" />
+          <Property Name="SCHEDULEDESCRIPTION" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="SENDBY" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DAY" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TIME" Type="Time" Precision="7" />
+        </EntityType>
+        <EntityType Name="MTS_EMAILTEMPLATE">
+          <Key>
+            <PropertyRef Name="TEMPLATEID" />
+          </Key>
+          <Property Name="TEMPLATEID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TEMPLATENAME" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="XMLTEMPLATE" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SMTPID" Type="Int64" Nullable="false" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="HtmlPage" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MTS_GROUPS">
+          <Key>
+            <PropertyRef Name="Group_ID" />
+          </Key>
+          <Property Name="Group_ID" Type="Int32" Nullable="false" />
+          <Property Name="Group_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MTS_WORK_GROUP_MAPPING" Relationship="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" FromRole="MTS_GROUPS" ToRole="MTS_WORK_GROUP_MAPPING" />
+        </EntityType>
+        <EntityType Name="MTS_SMTPDETAILS">
+          <Key>
+            <PropertyRef Name="SmtpID" />
+          </Key>
+          <Property Name="SmtpID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SmtpName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpClientHost" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpClientPort" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="Binary" MaxLength="128" FixedLength="false" />
+          <Property Name="Domain" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EnableSsl" Type="Boolean" Nullable="false" />
+          <Property Name="TimeOut" Type="Int32" Nullable="false" />
+          <Property Name="SmtpDeliveryMethod" Type="Byte" Nullable="false" />
+          <Property Name="UseDefaultCredentials" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MTS_WORK_GROUP_MAPPING">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="WORK_ID" Type="Int32" Nullable="false" />
+          <Property Name="GROUP_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MTS_GROUPS" Relationship="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" FromRole="MTS_WORK_GROUP_MAPPING" ToRole="MTS_GROUPS" />
+          <NavigationProperty Name="WorkCode" Relationship="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_WorkCodes" FromRole="MTS_WORK_GROUP_MAPPING" ToRole="WorkCode" />
+        </EntityType>
+        <EntityType Name="MTS_SERVICECONFIG">
+          <Key>
+            <PropertyRef Name="SERVICEID" />
+            <PropertyRef Name="SERVICENAME" />
+            <PropertyRef Name="SERVICEDISPLAYNAME" />
+            <PropertyRef Name="SERVICEDESCRIPTION" />
+            <PropertyRef Name="SERVICEINVOKETYPE" />
+            <PropertyRef Name="DLLNAME" />
+          </Key>
+          <Property Name="SERVICEID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SERVICENAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SERVICEDISPLAYNAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SERVICEDESCRIPTION" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SERVICEINVOKETYPE" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DLLNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SERVICEPARAMS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TIME" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="RETRYCOUNT" Type="Int16" />
+          <Property Name="MAXERRORS" Type="Int16" />
+          <Property Name="STATUS" Type="Byte" />
+        </EntityType>
+        <Association Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
+          <End Type="MTSTrexModel.MTS_GROUPS" Role="MTS_GROUPS" Multiplicity="1" />
+          <End Type="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Role="MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MTS_GROUPS">
+              <PropertyRef Name="Group_ID" />
+            </Principal>
+            <Dependent Role="MTS_WORK_GROUP_MAPPING">
+              <PropertyRef Name="GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MTS_WORK_GROUP_MAPPING_WorkCodes">
+          <End Type="MTSTrexModel.WorkCode" Role="WorkCode" Multiplicity="1" />
+          <End Type="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Role="MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkCode">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MTS_WORK_GROUP_MAPPING">
+              <PropertyRef Name="WORK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MTSTrexModelStoreContainer" CdmEntityContainer="PortalDBEntities">
+          <EntitySetMapping Name="Configurations">
+            <EntityTypeMapping TypeName="MTSTrexModel.Configuration">
+              <MappingFragment StoreEntitySet="Configurations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="MTSTrexModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
+                <ScalarProperty Name="CustomerAddress1" ColumnName="CustomerAddress1" />
+                <ScalarProperty Name="CustomerAddress2" ColumnName="CustomerAddress2" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeProjects">
+            <EntityTypeMapping TypeName="MTSTrexModel.EmployeeProject">
+              <MappingFragment StoreEntitySet="EmployeeProjects">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeRoles">
+            <EntityTypeMapping TypeName="MTSTrexModel.EmployeeRole">
+              <MappingFragment StoreEntitySet="EmployeeRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="MTSTrexModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="Prefix" ColumnName="Prefix" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Suffix" ColumnName="Suffix" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="BillRate" ColumnName="BillRate" />
+                <ScalarProperty Name="EmployeeCode" ColumnName="EmployeeCode" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="DOJ" ColumnName="DOJ" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="DOR" ColumnName="DOR" />
+                <ScalarProperty Name="EmailReminder" ColumnName="EmailReminder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="MTSTrexModel.Location">
+              <MappingFragment StoreEntitySet="Locations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logins">
+            <EntityTypeMapping TypeName="MTSTrexModel.Login">
+              <MappingFragment StoreEntitySet="Logins">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Employee_Id" ColumnName="Employee_Id" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notes">
+            <EntityTypeMapping TypeName="MTSTrexModel.Note">
+              <MappingFragment StoreEntitySet="Notes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="WeeklyReportId" ColumnName="WeeklyReportId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="MTSTrexModel.Project">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="EstStartDate" ColumnName="EstStartDate" />
+                <ScalarProperty Name="EstEndDate" ColumnName="EstEndDate" />
+                <ScalarProperty Name="IsCommon" ColumnName="IsCommon" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="Risk" ColumnName="Risk" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="MarginValue" ColumnName="MarginValue" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="Te" ColumnName="Te" />
+                <ScalarProperty Name="Tm" ColumnName="Tm" />
+                <ScalarProperty Name="TypeOfProject" ColumnName="TypeOfProject" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="MTSTrexModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="MTSTrexModel.Task">
+              <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="WorkCodeId" ColumnName="WorkCodeId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ExecutionDate" ColumnName="ExecutionDate" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Charge" ColumnName="Charge" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WeeklyReports">
+            <EntityTypeMapping TypeName="MTSTrexModel.WeeklyReport">
+              <MappingFragment StoreEntitySet="WeeklyReports">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Scope" ColumnName="Scope" />
+                <ScalarProperty Name="Schedule" ColumnName="Schedule" />
+                <ScalarProperty Name="Quality" ColumnName="Quality" />
+                <ScalarProperty Name="ClientSatisfaction" ColumnName="ClientSatisfaction" />
+                <ScalarProperty Name="ProjectStatus" ColumnName="ProjectStatus" />
+                <ScalarProperty Name="Risk" ColumnName="Risk" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="From" ColumnName="From" />
+                <ScalarProperty Name="To" ColumnName="To" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkCodes">
+            <EntityTypeMapping TypeName="MTSTrexModel.WorkCode">
+              <MappingFragment StoreEntitySet="WorkCodes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Billable" ColumnName="Billable" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MTS_PROJECTTYPE">
+            <EntityTypeMapping TypeName="MTSTrexModel.MTS_PROJECTTYPE">
+              <MappingFragment StoreEntitySet="MTS_PROJECTTYPE">
+                <ScalarProperty Name="Project_TypeID" ColumnName="Project_TypeID" />
+                <ScalarProperty Name="Project_Type" ColumnName="Project_Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MTS_EMAILMASTER">
+            <EntityTypeMapping TypeName="MTSTrexModel.MTS_EMAILMASTER">
+              <MappingFragment StoreEntitySet="MTS_EMAILMASTER">
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="REQUESTTIME" ColumnName="REQUESTTIME" />
+                <ScalarProperty Name="EMAILSP" ColumnName="EMAILSP" />
+                <ScalarProperty Name="TEMPLATEID" ColumnName="TEMPLATEID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MTS_EMAILSCHEDULE">
+            <EntityTypeMapping TypeName="MTSTrexModel.MTS_EMAILSCHEDULE">
+              <MappingFragment StoreEntitySet="MTS_EMAILSCHEDULE">
+                <ScalarProperty Name="TIME" ColumnName="TIME" />
+                <ScalarProperty Name="DAY" ColumnName="DAY" />
+                <ScalarProperty Name="SENDBY" ColumnName="SENDBY" />
+                <ScalarProperty Name="SCHEDULEDESCRIPTION" ColumnName="SCHEDULEDESCRIPTION" />
+                <ScalarProperty Name="TEMPLATEID" ColumnName="TEMPLATEID" />
+                <ScalarProperty Name="SCHEDULEID" ColumnName="SCHEDULEID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MTS_EMAILTEMPLATE">
+            <EntityTypeMapping TypeName="MTSTrexModel.MTS_EMAILTEMPLATE">
+              <MappingFragment StoreEntitySet="MTS_EMAILTEMPLATE">
+                <ScalarProperty Name="HtmlPage" ColumnName="HtmlPage" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="SMTPID" ColumnName="SMTPID" />
+                <ScalarProperty Name="XMLTEMPLATE" ColumnName="XMLTEMPLATE" />
+                <ScalarProperty Name="TEMPLATENAME" ColumnName="TEMPLATENAME" />
+                <ScalarProperty Name="TEMPLATEID" ColumnName="TEMPLATEID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MTS_GROUPS">
+            <EntityTypeMapping TypeName="MTSTrexModel.MTS_GROUPS">
+              <MappingFragment StoreEntitySet="MTS_GROUPS">
+                <ScalarProperty Name="Group_Name" ColumnName="Group_Name" />
+                <ScalarProperty Name="Group_ID" ColumnName="Group_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MTS_SMTPDETAILS">
+            <EntityTypeMapping TypeName="MTSTrexModel.MTS_SMTPDETAILS">
+              <MappingFragment StoreEntitySet="MTS_SMTPDETAILS">
+                <ScalarProperty Name="UseDefaultCredentials" ColumnName="UseDefaultCredentials" />
+                <ScalarProperty Name="SmtpDeliveryMethod" ColumnName="SmtpDeliveryMethod" />
+                <ScalarProperty Name="TimeOut" ColumnName="TimeOut" />
+                <ScalarProperty Name="EnableSsl" ColumnName="EnableSsl" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="SmtpClientPort" ColumnName="SmtpClientPort" />
+                <ScalarProperty Name="SmtpClientHost" ColumnName="SmtpClientHost" />
+                <ScalarProperty Name="SmtpName" ColumnName="SmtpName" />
+                <ScalarProperty Name="SmtpID" ColumnName="SmtpID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MTS_WORK_GROUP_MAPPING">
+            <EntityTypeMapping TypeName="MTSTrexModel.MTS_WORK_GROUP_MAPPING">
+              <MappingFragment StoreEntitySet="MTS_WORK_GROUP_MAPPING">
+                <ScalarProperty Name="GROUP_ID" ColumnName="GROUP_ID" />
+                <ScalarProperty Name="WORK_ID" ColumnName="WORK_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MTS_SERVICECONFIG">
+            <EntityTypeMapping TypeName="MTSTrexModel.MTS_SERVICECONFIG">
+              <MappingFragment StoreEntitySet="MTS_SERVICECONFIG">
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="MAXERRORS" ColumnName="MAXERRORS" />
+                <ScalarProperty Name="RETRYCOUNT" ColumnName="RETRYCOUNT" />
+                <ScalarProperty Name="TIME" ColumnName="TIME" />
+                <ScalarProperty Name="SERVICEPARAMS" ColumnName="SERVICEPARAMS" />
+                <ScalarProperty Name="DLLNAME" ColumnName="DLLNAME" />
+                <ScalarProperty Name="SERVICEINVOKETYPE" ColumnName="SERVICEINVOKETYPE" />
+                <ScalarProperty Name="SERVICEDESCRIPTION" ColumnName="SERVICEDESCRIPTION" />
+                <ScalarProperty Name="SERVICEDISPLAYNAME" ColumnName="SERVICEDISPLAYNAME" />
+                <ScalarProperty Name="SERVICENAME" ColumnName="SERVICENAME" />
+                <ScalarProperty Name="SERVICEID" ColumnName="SERVICEID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
