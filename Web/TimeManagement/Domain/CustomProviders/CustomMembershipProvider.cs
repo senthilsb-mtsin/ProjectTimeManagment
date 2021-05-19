@@ -25,6 +25,7 @@ namespace TimeManagment.Domain.CustomProviders
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="password"></param>
+        /// <param name="active"></param>
         /// <returns></returns>
         public override bool ValidateUser(string userName, string password)
         {
@@ -38,6 +39,10 @@ namespace TimeManagment.Domain.CustomProviders
             {
                 //Get the login information by user name
                 Login login = db.Logins.SingleOrDefault(x => x.UserId.ToUpper().Equals(userName.ToUpper()));
+                //Employee emp = db.Employees.SingleOrDefault(x => x.Active.Equals(0));
+                Employee emp =db.Employees.Where(x => x.Id==login.Employee_Id ).FirstOrDefault();
+                //if (emp.Active.Equals(0))
+                    //return false;
 
                 if (login == null)
                     return false;
@@ -46,6 +51,8 @@ namespace TimeManagment.Domain.CustomProviders
                 string decryptedPassword = password;
 
                 if (!login.Password.Equals(decryptedPassword))
+                    return false;
+                if (!emp.Active)
                     return false;
 
                 return true;
