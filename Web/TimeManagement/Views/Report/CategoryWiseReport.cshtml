@@ -3,8 +3,9 @@
 @using System.Threading;
 @{
     ViewBag.Title = "ResourceWiseTimeSheet";
-
 }
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
 <script type="text/javascript">
 
     var oTable;
@@ -59,6 +60,12 @@
             return true;
         });
 
+        $('#location').select2({
+            sorter: LocationId => LocationId.sort((a, b) => a.text.localeCompare(b.text)),
+            allowClear: true,
+            placeholder: "Select Location",
+        });
+
     });
 
     function checkdate() {
@@ -68,24 +75,24 @@
             $('#fdate').removeClass('hidden');
             $('#tdate').removeClass('hidden');
             $("#tablediv").html(' ');
-            $("#exporttoCSV").hide();     
+            $("#exporttoCSV").hide();
             return false;
         } else if ((fromdate != "") && (todate == "")) {
             $('#fdate').addClass('hidden');
             $('#tdate').removeClass('hidden');
             $("#tablediv").html(' ');
-            $("#exporttoCSV").hide();    
+            $("#exporttoCSV").hide();
             return false;
         } else if ((fromdate == "") && (todate != "")) {
             $('#fdate').removeClass('hidden');
             $('#tdate').addclass('hidden');
             $("#tablediv").html(' ');
-            $("#exporttoCSV").hide();    
+            $("#exporttoCSV").hide();
             return false;
         }
         if (datevalidate() == false) {
             $("#tablediv").html(' ');
-            $("#exporttoCSV").hide();    
+            $("#exporttoCSV").hide();
             return false;
         }
         else {
@@ -106,7 +113,7 @@
 
     }
 
-   
+
 </script>
 <div class="row">
     <div class="boxshade">
@@ -117,15 +124,15 @@
             <div class="col-lg-12 pad10" style="background-color: #F5F5F5;">
                 <div class="col-lg-12 gap-bottom10">
                     @* @using (Html.BeginForm("CategoryWiseReport", "Report", FormMethod.Post, new { id = "category" }))
-                    {
-                     *@
+                        {
+                    *@
                     <div class="col-lg-2">
                         <div class="col-lg-12 pad0 gap-bottom5">
                             <b>From Date</b>
                         </div>
                         <div class="col-lg-12 pad0">
                             <input type="text" id="fromdate" class="form-control datePicker required" placeholder="From"
-                                name="fromDate" />
+                                   name="fromDate" />
                             @*  @Html.TextBoxFor(m => m.fromdate, new { @class = "form-control datePicker required", placeholder = "From" })*@
                             <div id="fdate" class="hidden">
                                 From Date Required
@@ -139,7 +146,7 @@
                         <div class="col-lg-12 pad0">
                             @* @Html.TextBoxFor(m => m.todate, new { @class = "form-control datePicker required", placeholder = "To" })*@
                             <input type="text" id="todate" class="form-control datePicker required" placeholder="To"
-                                name="toDate" />
+                                   name="toDate" />
                             <div id="tdate" class="hidden">
                                 To Date Required
                             </div>
@@ -147,26 +154,27 @@
                     </div>
                     <div class="col-lg-2">
                         <div class="col-lg-12 pad0 gap-bottom5">
-                            <b>Location</b></div>
-                            @{
-                                List<SelectListItem> list = ViewBag.Locations;
-                               }
+                            <b>Location</b>
+                        </div>
+                        @{
+                            List<SelectListItem> list = ViewBag.Locations;
+                        }
 
                         <div class="col-lg-12 pad0">
-                            @Html.DropDownList("locations", list, "Select Location", new { @class = "form-control", id = "location" })
+                            @Html.DropDownList("locations", list, " ", new { @class = "form-control", id = "location" })
                         </div>
                     </div>
                     <div class="col-lg-12 gap-top5">
-                     <input type="button" class="btn btn-success  pull-right gap-right10"
-                            id="exporttoCSV" value="Export" />
-                           
+                        <input type="button" class="btn btn-success  pull-right gap-right10"
+                               id="exporttoCSV" value="Export" />
+
                         <input type="submit" onclick="return checkdate();" class="btn btn-info pull-right gap-right10"
-                            id="getreport" value="Submit" />
+                               id="getreport" value="Submit" />
                     </div>
                     @*   }*@
                 </div>
             </div>
-            <div class="col-lg-12 gap-bottom10" style="padding-left:0px; padding-right:0px;"id="tablediv">
+            <div class="col-lg-12 gap-bottom10" style="padding-left:0px; padding-right:0px;" id="tablediv">
                 @*<table id="Categorytable" class="custom table table-striped table-bordered">
                         @if (Model.data.Rows.Count > 0)
                         {
@@ -176,7 +184,7 @@
                                     {
                                         <th class="text-center">@Model.data.Columns[i]
                                         </th>
-                
+
                                     }
                                 </tr>
                             </thead>
@@ -185,7 +193,7 @@
                                 {
 
                                     if (row[0].ToString().Trim() != "Total")
-                                    {                 
+                                    {
                                     <tr>
                                         @for (int i = 0; i <= row.Table.Columns.Count - 1; i++)
                                         {
@@ -193,7 +201,7 @@
                                             if (Model.data.Columns[i].ColumnName.Trim() == "Resource")
                                             {
                                             <td class="text-left">@row[i].ToString()
-                                            </td>       
+                                            </td>
                                             }
                                             else if (Model.data.Columns[i].ColumnName.Trim() == "Role")
                                             {
@@ -203,7 +211,7 @@
                                             else
                                             {
                                             <td class="text-right">@row[i].ToString()
-                                            </td>  
+                                            </td>
                                             }
                                         }
                                     </tr>
@@ -221,9 +229,9 @@
                             {
                                         <td class="text-right">
                                             @row[j].ToString()
-                                        </td>                                 
-                           
-                            }                        
+                                        </td>
+
+                            }
                                     }
                                 </tr>
                             </tfoot>

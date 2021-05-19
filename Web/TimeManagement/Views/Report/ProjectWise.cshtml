@@ -1,5 +1,7 @@
 ﻿@model TimeManagement.ViewModel.ProjectModel
 @using System.Data;
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
 <script type="text/javascript">
 
     function showexport() {
@@ -59,6 +61,13 @@
             return true;
 
         });
+
+        $('#location').select2({
+            sorter: list => list.sort((a, b) => a.text.localeCompare(b.text)),
+            allowClear: true,
+            placeholder: "Select Location",
+        });
+
     });
 
     function fundate() {
@@ -68,13 +77,13 @@
             $('#fdate').removeClass('hidden');
             $('#tdate').removeClass('hidden');
             $("#tablediv").html(' ');
-            $("#exporttoCSV").hide(); 
+            $("#exporttoCSV").hide();
             return false;
         } else if ((fromdate != "") && (todate == "")) {
             $('#fdate').addClass('hidden');
             $('#tdate').removeClass('hidden');
             $("#tablediv").html(' ');
-            $("#exporttoCSV").hide(); 
+            $("#exporttoCSV").hide();
             return false;
         } else if ((fromdate == "") && (todate != "")) {
             $('#fdate').removeClass('hidden');
@@ -85,12 +94,12 @@
         }
         if (datevalidate() == false) {
             $("#tablediv").html(' ');
-            $("#exporttoCSV").hide();   
+            $("#exporttoCSV").hide();
             return false;
         }
         else {
             $("#tablediv").html(' ');
-            $("#exporttoCSV").hide();   
+            $("#exporttoCSV").hide();
             $.ajax({
                 type: 'POST',
                 url: '@Url.Content("~/Report/AjaxProjectWise")',
@@ -107,65 +116,72 @@
 
 
 
-  
+
 
 </script>
 <style>
-    #ProjectReport_wrapper > .row {margin-top:10px !important}
+    #ProjectReport_wrapper > .row {
+        margin-top: 10px !important
+    }
 </style>
 
-    <div class="boxshade">
-        <div class="boxhead">
-            Project Wise Report
-        </div>
-        <div class="boxbody">
-            <div class="col-lg-12 pad10" style="background-color: #F5F5F5;">
-                <div class="col-lg-12">
-                    <div class="col-lg-2">
-                        <div class="col-lg-12 pad0 gap-bottom5">
-                            <b>From Date</b></div>
-                        <div class="col-lg-12 pad0">
-                            @*<input type="text" class="form-control datePicker required" id="fromdate" placeholder="From"
-                                name="fromDate" />*@
-                                @Html.TextBoxFor(m => m.fromdate, new { @class = "form-control datePicker required", placeholder = "From" })
-                            <div id="fdate" class="hidden">
-                                From Date Required</div>
+<div class="boxshade">
+    <div class="boxhead">
+        Project Wise Report
+    </div>
+    <div class="boxbody">
+        <div class="col-lg-12 pad10" style="background-color: #F5F5F5;">
+            <div class="col-lg-12">
+                <div class="col-lg-2">
+                    <div class="col-lg-12 pad0 gap-bottom5">
+                        <b>From Date</b>
+                    </div>
+                    <div class="col-lg-12 pad0">
+                        @*<input type="text" class="form-control datePicker required" id="fromdate" placeholder="From"
+                            name="fromDate" />*@
+                        @Html.TextBoxFor(m => m.fromdate, new { @class = "form-control datePicker required", placeholder = "From" })
+                        <div id="fdate" class="hidden">
+                            From Date Required
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                        <div class="col-lg-12 pad0 gap-bottom5">
-                            <b>To Date</b></div>
-                        <div class="col-lg-12 pad0">
-                            @*<input type="text" class="form-control datePicker required" id="todate" placeholder="To"
-                                name="toDate" />*@
-                                @Html.TextBoxFor(m => m.todate, new { @class = "form-control datePicker required", placeholder = "To" })
-                            <div id="tdate" class="hidden">
-                                To Date Required</div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="col-lg-12 pad0 gap-bottom5">
+                        <b>To Date</b>
+                    </div>
+                    <div class="col-lg-12 pad0">
+                        @*<input type="text" class="form-control datePicker required" id="todate" placeholder="To"
+                            name="toDate" />*@
+                        @Html.TextBoxFor(m => m.todate, new { @class = "form-control datePicker required", placeholder = "To" })
+                        <div id="tdate" class="hidden">
+                            To Date Required
                         </div>
                     </div>
-		     <div class="col-lg-2">
-                        <div class="col-lg-12 pad0 gap-bottom5">
-                            <b>Location</b></div>
-                            @{
-                                List<SelectListItem> list = ViewBag.Locations;
-                               }
+                </div>
+                <div class="col-lg-2">
+                    <div class="col-lg-12 pad0 gap-bottom5">
+                        <b>Location</b>
+                    </div>
+                    @{
+                        List<SelectListItem> list = ViewBag.Locations;
+                    }
 
-                        <div class="col-lg-12 pad0">
-                            @Html.DropDownList("locations", list, "Select Location", new { @class = "form-control", id = "location" })
-                        </div>
+                    <div class="col-lg-12 pad0">
+                        @Html.DropDownList("locations", list, " ", new { @class = "form-control", id = "location" })
                     </div>
+                </div>
 
-                    <div class="col-lg-12 gap-top5">
+                <div class="col-lg-12 gap-top5">
                     <input type="button" class="btn btn-success pull-right gap-right10"
-                            id="exporttoCSV" value="Export" />
-                        <input type="submit" onclick="return fundate();" value="Submit" class="btn btn-info  pull-right gap-right10" />
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <span style="font-size: 12px">@ViewBag.Message</span>
+                           id="exporttoCSV" value="Export" />
+                    <input type="submit" onclick="return fundate();" value="Submit" class="btn btn-info  pull-right gap-right10" />
                 </div>
             </div>
-            <div class="col-lg-12 gap-bottom10" id="tablediv" style="padding-left:0px; padding-right:0px;">
+            <div class="col-lg-12">
+                <span style="font-size: 12px">@ViewBag.Message</span>
             </div>
+        </div>
+        <div class="col-lg-12 gap-bottom10" id="tablediv" style="padding-left:0px; padding-right:0px;">
         </div>
     </div>
+</div>
