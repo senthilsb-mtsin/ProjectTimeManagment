@@ -31,6 +31,7 @@
             if ($(this).hasClass('row_selected')) {
 
                 $(this).removeClass('row_selected');
+              
                 $('#btnEditCustomer').attr("disabled", "disabled");
                 $('#btnDeleteCustomer').attr("disabled", "disabled");
 
@@ -39,7 +40,7 @@
 
                 $('#taskTable tbody tr.row_selected').removeClass('row_selected');
                 $(this).addClass('row_selected');
-
+               
                 $('#btnEditCustomer').removeAttr("disabled");
                 $('#btnDeleteCustomer').removeAttr("disabled");
 

@@ -166,8 +166,15 @@
                         List<SelectListItem> list = ViewBag.Locations;
                     }
 
+<<<<<<< HEAD
                     <div class="col-lg-12 pad0">
                         @Html.DropDownList("locations", list," ",  new { @class = "form-control", id = "location" })
+=======
+                    <div class="col-lg-12 gap-top5">
+                    <input type="button" class="btn btn-success pull-right gap-right10"
+                            id="exporttoCSV" value="Export" />
+                        <input type="submit" onclick="return fundate();" value="Submit" class="btn btn-info  pull-right gap-right10" />
+>>>>>>> main
                     </div>
                 </div>
 

@@ -1,6 +1,8 @@
-﻿ <script src="@Url.Content("~/Scripts/custom.js")" type="text/javascript"></script>
+﻿ 
+<script src="@Url.Content("~/Scripts/custom.js")" type="text/javascript"></script>
 <script src="../../Scripts/ValidationMessage.js" type="text/javascript"></script>
 <script type="text/javascript">
+    
 
     var selectedid;
 
@@ -72,28 +74,31 @@
                             , { "mData": "DOJ", "sTitle": "DOJ", "sClass": "text-center" }
                             , { "mData": "Email", "sTitle": "Email" }
                             , { "mData": "Mobile", "sTitle": "Mobile", "sClass": "text-center" }
+                 , { "mData": "userid", "sTitle": "userid", "sClass": "text-center" }
                     ]
 
          });
 
          $("#taskTable tbody").on('click', 'tr', function () {
-
+          
 
              if ($(this).hasClass('row_selected')) {
-
+             
                  $(this).removeClass('row_selected');
                  $('#btnEditEmployee').attr("disabled", "disabled");
                  $('#btnAssignRole').attr("disabled", "disabled");
                  $('#btnResetPassword').attr("disabled", "disabled");
+
+                 
              }
              else {
 
                  $('#taskTable tbody tr.row_selected').removeClass('row_selected');
                  $(this).addClass('row_selected');
-
                  $('#btnEditEmployee').removeAttr("disabled");
                  $('#btnAssignRole').removeAttr("disabled");
                  $('#btnResetPassword').removeAttr("disabled");
+                
              }
 
              var sData = oTable.fnGetData(this);
@@ -231,6 +236,9 @@
                             </th>
                             <th class="text-center">
                                 Mobile
+                            </th>
+                             <th class="text-center">
+                                User_name
                             </th>
                         </tr>
                     </thead>

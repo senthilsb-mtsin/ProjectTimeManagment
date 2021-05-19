@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using TimeManagement.Models;
+﻿using TimeManagement.Models;
 
 namespace TimeManagement.Domain.Services
 {
@@ -10,13 +6,13 @@ namespace TimeManagement.Domain.Services
     {
         #region Variables
 
-        public PortalDBContext db { get; set; }
+        public PortalDBEntities db { get; set; }
 
         #endregion
 
         public BaseService()
         {
-            this.db = new PortalDBContext();
+            this.db = new PortalDBEntities();
         }
     }
 }

@@ -18,6 +18,7 @@ namespace TimeManagement.Models
         public WorkCode()
         {
             this.Tasks = new HashSet<Task>();
+            this.MTS_WORK_GROUP_MAPPING = new HashSet<MTS_WORK_GROUP_MAPPING>();
         }
     
         public int Id { get; set; }
@@ -27,5 +28,7 @@ namespace TimeManagement.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Task> Tasks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MTS_WORK_GROUP_MAPPING> MTS_WORK_GROUP_MAPPING { get; set; }
     }
 }

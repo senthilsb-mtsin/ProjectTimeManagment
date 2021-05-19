@@ -31,6 +31,15 @@
         <AssociationConnector Association="MTSTrexModel.FK_ProjectTask" ManuallyRouted="false" />
         <AssociationConnector Association="MTSTrexModel.FK_ProjectWeeklyReport" ManuallyRouted="false" />
         <AssociationConnector Association="MTSTrexModel.FK_WorkCodeTask" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MTSTrexModel.MTS_EMAILMASTER" Width="1.5" PointX="10.375" PointY="8.75" />
+        <EntityTypeShape EntityType="MTSTrexModel.MTS_EMAILSCHEDULE" Width="1.5" PointX="10.375" PointY="11.75" />
+        <EntityTypeShape EntityType="MTSTrexModel.MTS_EMAILTEMPLATE" Width="1.5" PointX="12.375" PointY="8.75" />
+        <EntityTypeShape EntityType="MTSTrexModel.MTS_GROUPS" Width="1.5" PointX="6" PointY="22.375" />
+        <EntityTypeShape EntityType="MTSTrexModel.MTS_SMTPDETAILS" Width="1.5" PointX="12.375" PointY="11.75" />
+        <EntityTypeShape EntityType="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Width="1.5" PointX="8.25" PointY="19.25" />
+        <EntityTypeShape EntityType="MTSTrexModel.MTS_SERVICECONFIG" Width="1.5" PointX="13.375" PointY="0.75" />
+        <AssociationConnector Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" />
+        <AssociationConnector Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_WorkCodes" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

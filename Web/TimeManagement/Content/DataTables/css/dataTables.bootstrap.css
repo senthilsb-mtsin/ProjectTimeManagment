@@ -18,12 +18,29 @@ table.dataTable.nowrap th,
 table.dataTable.nowrap td {
   white-space: nowrap;
 }
+    
+table.dataTable thead tr {
+        background-color:#D5E6F4;
+    }
 
-div.dataTables_wrapper div.dataTables_length label {
-  font-weight: normal;
-  text-align: left;
-  white-space: nowrap;
-}
+/*Xtable.dataTable tbody tr.selected td {
+        color: white !important;
+        background-color: #D5E6F4 !important;
+    }*/
+
+    table.dataTable tbody tr:nth-child(even) {
+        background-color: #FFFFFF;
+    }
+    table.dataTable tbody tr:nth-child(odd) {
+        background-color: ##f5f9fb;
+    }
+    
+
+    div.dataTables_wrapper div.dataTables_length label {
+        font-weight: normal;
+        text-align: left;
+        white-space: nowrap;
+    }
 div.dataTables_wrapper div.dataTables_length select {
   width: 75px;
   display: inline-block;

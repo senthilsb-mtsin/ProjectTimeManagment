@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using TimeManagement.Models;
-using TimeManagment.Domain.Services;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 using TimeManagement.Domain.Services;
+using TimeManagement.Models;
+using TimeManagment.Domain.Services;
 
 namespace TimeManagement.Controllers
 {
@@ -14,7 +10,7 @@ namespace TimeManagement.Controllers
     {
         #region Variables
 
-        public PortalDBContext db;
+        public PortalDBEntities db;
         public TaskService taskService { get; set; }
         public MembershipService MembershipService { get; set; }
         public FormsAuthenticationService AuthenticationService { get; set; }
@@ -54,7 +50,7 @@ namespace TimeManagement.Controllers
                 AuthenticationService = new FormsAuthenticationService();
 
             if (db == null)
-                db = new PortalDBContext();
+                db = new PortalDBEntities();
 
             base.Initialize(requestContext);
         }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Security;
 using TimeManagement.Models;
 
@@ -89,7 +88,7 @@ namespace TimeManagment.Domain.CustomProviders
 
             List<string> roles = new List<string>();
 
-            using (PortalDBContext db = new PortalDBContext())
+            using (PortalDBEntities db = new PortalDBEntities())
             {
                 Login login = db.Logins.FirstOrDefault(x => x.UserId.ToUpper().Equals(userName.ToUpper()));
 
@@ -123,7 +122,7 @@ namespace TimeManagment.Domain.CustomProviders
             if (String.IsNullOrEmpty(userName))
                 throw new ArgumentException("Value cannot be null or empty.", "userName");
 
-            using (PortalDBContext db = new PortalDBContext())
+            using (PortalDBEntities db = new PortalDBEntities())
             {
                 Login login = db.Logins.FirstOrDefault(x => x.UserId.ToUpper().Equals(userName.ToUpper()));
 
