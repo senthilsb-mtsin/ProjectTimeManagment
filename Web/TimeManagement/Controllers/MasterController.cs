@@ -342,7 +342,7 @@ namespace TimeManagement.Controllers
         public ActionResult GetEmployee(jQueryDataTableParamModel param)
         {
 
-            IQueryable<Employee> tasks = this.db.Employees;
+            IQueryable<Employee> tasks = this.db .Employees;
 
             if (tasks != null)
             {
@@ -351,7 +351,10 @@ namespace TimeManagement.Controllers
                 foreach (Employee task in tasks)
                 {
                     EmployeeModel taskModel = new EmployeeModel();
-                    taskModel.DT_RowId = task.Id;
+                    int id = task.Id;
+                    Login logins = this.db.Logins.Where(x => x.Employee_Id == id).FirstOrDefault();
+                    taskModel.userid = logins.UserId;
+                    taskModel.DT_RowId = task.Id; 
                     taskModel.Employeeid = task.Id;
                     taskModel.EmployeeCode = task.EmployeeCode;
                     taskModel.FirstName = task.FirstName;
@@ -492,7 +495,10 @@ namespace TimeManagement.Controllers
 
 
         [HttpPost]
-        public ActionResult DeleteEmployee(Int64 id)
+        public ActionResult 
+            
+            
+            DeleteEmployee(Int64 id)
         {
             Employee existingEmp = this.db.Employees.Find(id);
             this.db.Employees.Remove(existingEmp);

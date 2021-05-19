@@ -30,6 +30,7 @@
             if ($(this).hasClass('row_selected')) {
 
                 $(this).removeClass('row_selected');
+                $(this).removeClass('selecte_row');
                 $('#btnEditConfiguration').attr("disabled", "disabled");
                 $('#btnDeleteConfiguration').attr("disabled", "disabled");
                 
@@ -41,7 +42,7 @@
 
                 $('#btnEditConfiguration').removeAttr("disabled");
                 $('#btnDeleteConfiguration').removeAttr("disabled");
-
+                $(this).addClass('selecte_row');
             }
             
             var sData = oTable.fnGetData(this);

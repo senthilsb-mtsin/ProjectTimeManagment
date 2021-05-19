@@ -254,6 +254,7 @@
 	font-size:12px;
 	right:0;
 }
+.divtable
 
 .errDiv_options {
 	min-width: 110px;
@@ -456,4 +457,7 @@ input{
 	border-bottom-right-radius: 4px;
 		-moz-border-radius-topright: 4px;
 			-moz-border-radius-bottomright: 4px;
+}
+.row_selected {
+	background-color: #dcdcdc !important;
 }

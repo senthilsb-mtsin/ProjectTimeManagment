@@ -88,10 +88,12 @@
             $("#exporttoCSV").hide();   
             return false;
         }
+        
         else {
             $("#tablediv").html(' ');
             $("#exporttoCSV").hide();   
             $.ajax({
+      
                 type: 'POST',
                 url: '@Url.Content("~/Report/AjaxProjectWise")',
                 data: { fromDate: $("#fromdate").val(), toDate: $("#todate").val() , location : $("#location").val()},
@@ -156,9 +158,9 @@
                     </div>
 
                     <div class="col-lg-12 gap-top5">
-                    <input type="button" class="btn btn-success pull-right gap-right10"
+                    <input type="button" class="btn btn-small btn-success pull-right gap-left5"
                             id="exporttoCSV" value="Export" />
-                        <input type="submit" onclick="return fundate();" value="Submit" class="btn btn-info  pull-right gap-right10" />
+                        <input type="submit" onclick="return fundate();" value="Submit" class="btn btn-small btn-primary pull-right" />
                     </div>
                 </div>
                 <div class="col-lg-12">
