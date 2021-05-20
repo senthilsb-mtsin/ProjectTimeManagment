@@ -62,6 +62,7 @@
           <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
           <Property Name="DOR" Type="varchar" MaxLength="50" />
           <Property Name="EmailReminder" Type="bit" />
+          <Property Name="Active" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Locations">
           <Key>
@@ -120,7 +121,7 @@
           <Property Name="Group_Name" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'MTSTrexProd.dbo.MTS_PROJECTTYPE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'MTSTrex.dbo.MTS_PROJECTTYPE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MTS_PROJECTTYPE">
           <Key>
             <PropertyRef Name="Project_TypeID" />
@@ -130,7 +131,7 @@ warning 6002: The table/view 'MTSTrexProd.dbo.MTS_PROJECTTYPE' does not have a p
           <Property Name="Project_Type" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'MTSTrexProd.dbo.MTS_SERVICECONFIG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'MTSTrex.dbo.MTS_SERVICECONFIG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MTS_SERVICECONFIG">
           <Key>
             <PropertyRef Name="SERVICEID" />
@@ -600,6 +601,7 @@ warning 6002: The table/view 'MTSTrexProd.dbo.MTS_SERVICECONFIG' does not have a
           <NavigationProperty Name="WeeklyReports" Relationship="Self.FK_EmployeeWeeklyReport" FromRole="Employees" ToRole="WeeklyReports" />
           <NavigationProperty Name="Location" Relationship="Self.FK_LocationEmployee" FromRole="Employees" ToRole="Locations" />
           <NavigationProperty Name="Logins" Relationship="Self.FK_LoginEmployee" FromRole="Employees" ToRole="Logins" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -1111,6 +1113,7 @@ warning 6002: The table/view 'MTSTrexProd.dbo.MTS_SERVICECONFIG' does not have a
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="MTSTrexModel.Employee">
               <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="Prefix" ColumnName="Prefix" />

@@ -13,11 +13,12 @@ namespace TimeManagment.Domain.Services
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="createPersistentCookie"></param>
+        /// <param name=" active"></param>
         public void SignIn(string userName, bool createPersistentCookie)
         {
-            if (String.IsNullOrEmpty(userName)) throw new ArgumentException("Value cannot be null or empty.", "userName");
+            if (String.IsNullOrEmpty(userName)  )throw new ArgumentException("Value cannot be null or empty.", "userName");
 
-            FormsAuthentication.SetAuthCookie(userName, createPersistentCookie);
+            FormsAuthentication.SetAuthCookie(userName,createPersistentCookie);
         }
 
         /// <summary>

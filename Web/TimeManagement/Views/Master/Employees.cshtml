@@ -56,25 +56,26 @@
              "bPaginate": true,
              "bFilter": true,
              "bInfo": true,
-             "bAutoWidth": false,
+             "bAutoWidth": true,
              "bProcessing": true,
              "bServerSide": false,
              "sAjaxSource": '@Url.Content("~/Master/GetEmployee")',
              "aoColumns": [
-                             { "mData": "EmployeeCode", "sTitle": "Employee Code", "sClass": "text-center" }
+                             { "mData": "LoginUserID", "sTitle": "Username" , "sClass":"text-wrap"}
+                             //,{ "mData": "EmployeeCode", "sTitle": "Employee Code", "sClass": "text-center" }
                             , { "mData": "FirstName", "sTitle": "First Name" }
                             , { "mData": "MiddleName", "sTitle": "Middle Name" }
                             , { "mData": "LastName", "sTitle": "Last Name" }
-                            , { "mData": "Suffix", "sTitle": "Suffix" }
                             , { "mData": "BillRate", "sTitle": "Bill Rate($)", "sClass": "text-right" }
                             , { "mData": "CompanyName", "sTitle": "Company Name" }
                             , { "mData": "LocationId", "sTitle": "Location Name" }
                             , { "mData": "Cost", "sTitle": "Cost($)", "sClass": "text-right" }
-                            , { "mData": "DOB", "sTitle": "DOB", "sClass": "text-center" }
+                            //, { "mData": "DOB", "sTitle": "DOB", "sClass": "text-center" }
                             , { "mData": "DOJ", "sTitle": "DOJ", "sClass": "text-center" }
-                            , { "mData": "Email", "sTitle": "Email" }
-                            , { "mData": "Mobile", "sTitle": "Mobile", "sClass": "text-center" }
-                 , { "mData": "userid", "sTitle": "userid", "sClass": "text-center" }
+                 , { "mData": "Email", "sTitle": "Email", "sClass": "text-wrap"}
+                           , { "mData": "Mobile", "sTitle": "Mobile", "sClass": "text-center" }
+                          , { "mData": "Active", "sTitle": "Active" }
+
                     ]
 
          });
@@ -195,12 +196,13 @@
             </div>
             <div class="col-lg-12">
                 <br />
-                <table class="custom table table-striped table-bordered" id="taskTable">
+                <table class="custom table table-striped table-bordered" style="width:100%" id="taskTable">
                     <thead>
                         <tr>
                             <th class="text-center">
-                                Employee Code
+                               Username
                             </th>
+                        
                             <th class="text-center">
                                 First Name
                             </th>
@@ -210,24 +212,20 @@
                             <th class="text-center">
                                 Last Name
                             </th>
-                            <th class="text-center">
-                                Suffix
-                            </th>
+
                             <th class="text-center">
                                 Bill Rate
                             </th>
                             <th class="text-center">
                                 Company Name
-                            </th>
+                            </th>                          
                             <th class="text-center">
                                 Location Name
                             </th>
                             <th class="text-center">
                                 Cost
                             </th>
-                            <th class="text-center">
-                                DOB
-                            </th>
+                          
                             <th class="text-center">
                                 DOJ
                             </th>
@@ -238,7 +236,7 @@
                                 Mobile
                             </th>
                              <th class="text-center">
-                                User_name
+                                Active
                             </th>
                         </tr>
                     </thead>
