@@ -40,6 +40,7 @@
         <EntityTypeShape EntityType="MTSTrexModel.MTS_SERVICECONFIG" Width="1.5" PointX="13.375" PointY="0.75" />
         <AssociationConnector Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" />
         <AssociationConnector Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_WorkCodes" />
+        <EntityTypeShape EntityType="MTSTrexModel.WorkCodeActivity" Width="1.5" PointX="13.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

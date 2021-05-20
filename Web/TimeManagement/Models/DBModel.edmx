@@ -245,14 +245,22 @@ warning 6002: The table/view 'MTSTrexProd.dbo.MTS_SERVICECONFIG' does not have a
           <Property Name="From" Type="datetime" Nullable="false" />
           <Property Name="To" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="WorkCodeActivity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="70" />
+          <Property Name="Number" Type="nvarchar" MaxLength="70" />
+          <Property Name="Billable" Type="bit" />
+          <Property Name="WorkCodeId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="WorkCodes">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="70" Nullable="false" />
-          <Property Name="Number" Type="nvarchar" MaxLength="10" />
-          <Property Name="Billable" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_EmployeeEmployeeProject">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
@@ -441,6 +449,7 @@ warning 6002: The table/view 'MTSTrexProd.dbo.MTS_SERVICECONFIG' does not have a
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeeklyReports" EntityType="Self.WeeklyReports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkCodeActivity" EntityType="Self.WorkCodeActivity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkCodes" EntityType="Self.WorkCodes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MTS_PROJECTTYPE" EntityType="Self.MTS_PROJECTTYPE" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -697,8 +706,6 @@ warning 6002: The table/view 'MTSTrexProd.dbo.MTS_SERVICECONFIG' does not have a
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Billable" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_WorkCodeTask" FromRole="WorkCodes" ToRole="Tasks" />
           <NavigationProperty Name="MTS_WORK_GROUP_MAPPING" Relationship="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_WorkCodes" FromRole="WorkCode" ToRole="MTS_WORK_GROUP_MAPPING" />
         </EntityType>
@@ -932,6 +939,7 @@ warning 6002: The table/view 'MTSTrexProd.dbo.MTS_SERVICECONFIG' does not have a
             <End Role="WorkCode" EntitySet="WorkCodes" />
             <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
           </AssociationSet>
+          <EntitySet Name="WorkCodeActivities" EntityType="MTSTrexModel.WorkCodeActivity" />
         </EntityContainer>
         <EntityType Name="MTS_EMAILMASTER">
           <Key>
@@ -1044,6 +1052,16 @@ warning 6002: The table/view 'MTSTrexProd.dbo.MTS_SERVICECONFIG' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="WorkCodeActivity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="Billable" Type="Boolean" />
+          <Property Name="WorkCodeId" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1211,9 +1229,7 @@ warning 6002: The table/view 'MTSTrexProd.dbo.MTS_SERVICECONFIG' does not have a
               <MappingFragment StoreEntitySet="WorkCodes">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="Billable" ColumnName="Billable" />
-              </MappingFragment>
+                </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MTS_PROJECTTYPE">
@@ -1307,6 +1323,17 @@ warning 6002: The table/view 'MTSTrexProd.dbo.MTS_SERVICECONFIG' does not have a
                 <ScalarProperty Name="SERVICEDISPLAYNAME" ColumnName="SERVICEDISPLAYNAME" />
                 <ScalarProperty Name="SERVICENAME" ColumnName="SERVICENAME" />
                 <ScalarProperty Name="SERVICEID" ColumnName="SERVICEID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkCodeActivities">
+            <EntityTypeMapping TypeName="MTSTrexModel.WorkCodeActivity">
+              <MappingFragment StoreEntitySet="WorkCodeActivity">
+                <ScalarProperty Name="WorkCodeId" ColumnName="WorkCodeId" />
+                <ScalarProperty Name="Billable" ColumnName="Billable" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
