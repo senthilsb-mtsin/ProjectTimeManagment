@@ -1,5 +1,5 @@
 ﻿@model List<TimeManagement.Models.Task>
-<script type="text/javascript" src="~/Scripts/TableTools.js"></script>
+@*<script type="text/javascript" src="~/Scripts/TableTools.js"></script>*@
 <script type="text/javascript">
     var oTable;
     function showexport() {
@@ -28,7 +28,7 @@
             var to_date = $('#todate').val();
             var project = $('#project').val();
             var location = $('#location').val();
-          
+
             window.location.href = '../Report/ExportToCSVForEmployeeActivity';
         });
         $("#fromdate").change(function () {
@@ -55,6 +55,18 @@
             }
             return true;
 
+        });
+
+        $('#project').select2({
+           // sorter: project_id => project_id.sort((a, b) => a.text.localeCompare(b.text)),
+            allowClear: true,
+            placeholder: "Select Project",
+        });
+
+        $('#location').select2({
+           // sorter: list => list.sort((a, b) => a.text.localeCompare(b.text)),
+            allowClear: true,
+            placeholder: "Select Location",
         });
 
     });
@@ -115,7 +127,7 @@
 
         })
 
-    
+
 
 
 
@@ -136,24 +148,24 @@
             "sAjaxSource": '@Url.Content("~/Report/GetEmployeeActivity")',
             "fnServerParams": function (aoData) {
                 aoData.push({ name: 'fromdate', value: $('#fromdate').val() });
-                aoData.push({ name: 'toDate', value: $('#todate').val() });               
+                aoData.push({ name: 'toDate', value: $('#todate').val() });
                 aoData.push({ name: 'project', value: project_1 });
-                aoData.push({ name: 'location', value: location_l });  
+                aoData.push({ name: 'location', value: location_l });
             },
             "aoColumns": [{ "mData": "Date", "sTitle": "Date", "sClass": "text-center" }
-                                        ,{ "mData": "EmployeeName", "sTitle": "User Name" }                                        
+                                        ,{ "mData": "EmployeeName", "sTitle": "User Name" }
                                         , { "mData": "ProjectName", "sTitle": "Project" }
                                        , { "mData": "Hours", "sTitle": "Hours", "sClass": "text-center" }
-                                        
 
 
-                                            ]
-           
+
+            ]
+
         });
 
     }
-                
-    
+
+
 
 </script>
 
@@ -171,53 +183,60 @@
                     {
                         <div class="col-lg-2">
                             <div class="col-lg-12 pad0 gap-bottom5">
-                                <b>From Date</b></div>
+                                <b>From Date</b>
+                            </div>
                             <div class="col-lg-12 pad0">
                                 <input type="text" id="fromdate" class="form-control datePicker required" placeholder="From"
-                                    name="fromDate" />
+                                       name="fromDate" />
                                 <div id="fdate" class="hidden">
-                                    From Date Required</div>
+                                    From Date Required
+                                </div>
                             </div>
                         </div>
-                 
+
                         <div class="col-lg-2">
                             <div class="col-lg-12 pad0 gap-bottom5">
-                                <b>To Date</b></div>
+                                <b>To Date</b>
+                            </div>
                             <div class="col-lg-12 pad0">
                                 <input type="text" id="todate" class="form-control datePicker required" placeholder="To"
-                                    name="toDate" />
+                                       name="toDate" />
                                 <div id="tdate" class="hidden">
-                                    To Date Required</div>
+                                    To Date Required
+                                </div>
                             </div>
                         </div>
                         if (User.IsInRole("Administrator"))
-                        {                       
-                        <div class="col-lg-2">
-                            <div class="col-lg-12 pad0 gap-bottom5">
-                                <b>Project</b></div>
-                            <div class="col-lg-12 pad0">
-                                @Html.DropDownList("Projects", null,"Select Project", new { @class = "form-control", id = "project", })
+                        {
+                            <div class="col-lg-2">
+                                <div class="col-lg-12 pad0 gap-bottom5">
+                                    <b>Project</b>
+                                </div>
+                                <div class="col-lg-12 pad0">
+                                    @Html.DropDownList("Projects", null, " ", new { @class = "form-control", id = "project", })
+                                </div>
                             </div>
-                        </div>  
-                        
-                        <div class="col-lg-2">
-                            <div class="col-lg-12 pad0 gap-bottom5">
-                                <b>Location</b></div>
-                            <div class="col-lg-12 pad0">
-                                @Html.DropDownList("locations", null, "Select Location", new { @class = "form-control", id = "location" })
+
+                            <div class="col-lg-2">
+                                <div class="col-lg-12 pad0 gap-bottom5">
+                                    <b>Location</b>
+                                </div>
+                                <div class="col-lg-12 pad0">
+                                    @Html.DropDownList("locations", null, " ", new { @class = "form-control", id = "location" })
+                                </div>
                             </div>
-                        </div>                      
-                       
+
                         }
                         <div class="col-lg-12 gap-top5">
-                              <input type="button" class="btn btn-success  pull-right gap-right10"
-                            id="exporttoCSV" value="Export" />
+                            <input type="button" class="btn btn-success  pull-right gap-right10"
+                                   id="exporttoCSV" value="Export" />
 
                             <button type="button" onclick="return fundate();" class="btn btn-info pull-right gap-right10"
-                                id="getreport">
-                                Submit</button>
+                                    id="getreport">
+                                Submit
+                            </button>
                         </div>
-                       
+
                     }
                 </div>
                 <div class="col-lg-12">
@@ -227,7 +246,7 @@
             <div class="col-lg-12 gap-bottom10">
                 <table id="timeByDate" class="table table-striped table-bordered">
                 </table>
-                
+
             </div>
         </div>
     </div>
