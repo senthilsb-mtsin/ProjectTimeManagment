@@ -62,23 +62,18 @@
 
         $("#employee").select2({
             sorter: employee_id => employee_id.sort((a, b) => a.text.localeCompare(b.text)),
-            allowClear: true,
             placeholder: "Select Employee",
         });
 
         $('#project').select2({
-            //data: projects,
-            allowClear: true,
             placeholder: "Select Project",
         });
 
         $('#workcode').select2({
-            allowClear: true,
             placeholder: "Select WorkCode",
         });
 
         $("#location").select2({
-            allowClear: true,
             placeholder: "Select Location",
         });
 
@@ -229,7 +224,7 @@
                                     <b>Location</b>
                                 </div>
                                 <div class="col-lg-12 pad0">
-                                    @Html.DropDownList("locations", null, " ", new { @class = "form-control", id = "location" })
+                                    @Html.DropDownList("locations", null, " ", new { @class = "form-control", id = "location", multiple = "multiple" })
                                 </div>
                             </div>
                             <div class="col-lg-2">
@@ -237,7 +232,7 @@
                                     <b>Project</b>
                                 </div>
                                 <div class="col-lg-12 pad0">
-                                    @Html.DropDownList("Projects", null, " ", new { @class = "form-control", id = "project" })
+                                    @Html.DropDownList("Projects", null, " ", new { @class = "form-control", id = "project" , multiple = "multiple" })
                                 </div>
                             </div>
                             <div class="col-lg-2">
@@ -245,7 +240,7 @@
                                     <b>Work Code</b>
                                 </div>
                                 <div class="col-lg-12 pad0">
-                                    @Html.DropDownList("WorkCodes", null, " ", new { @class = "form-control", id = "workcode" })
+                                    @Html.DropDownList("WorkCodes", null, " ", new { @class = "form-control", id = "workcode" , multiple = "multiple" })
                                 </div>
                             </div>
                             <div class="col-lg-2">

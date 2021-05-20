@@ -61,8 +61,7 @@
         });
 
         $('#location').select2({
-            sorter: LocationId => LocationId.sort((a, b) => a.text.localeCompare(b.text)),
-            allowClear: true,
+            sorter: LocationId => LocationId.sort((a, b) => a.text.localeCompare(b.text)),           
             placeholder: "Select Location",
         });
 

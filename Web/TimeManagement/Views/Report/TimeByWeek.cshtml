@@ -32,7 +32,6 @@
 
         $('#project').select2(
             {
-                allowClear: true,
                 placeholder: "Select Project",
             });
 
@@ -65,7 +64,7 @@
                                 <b>Project</b>
                             </div>
                             <div class="col-lg-12 pad0">
-                                @Html.DropDownList("Projects", null, " ", new { @class = "form-control", id = "project" })
+                                @Html.DropDownList("Projects", null, " ", new { @class = "form-control", id = "project" , multiple = "multiple" })
                             </div>
                         </div>
 
