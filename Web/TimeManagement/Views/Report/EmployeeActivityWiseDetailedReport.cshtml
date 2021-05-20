@@ -62,8 +62,7 @@
 
         $('#project').select2(
             {
-                sorter: project_id => project_id.sort((a, b) => a.text.localeCompare(b.text)),
-                allowClear: true,
+                sorter: project_id => project_id.sort((a, b) => a.text.localeCompare(b.text)),                
                 placeholder: "Select Project",
             });
 

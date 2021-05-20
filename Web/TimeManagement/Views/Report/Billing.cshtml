@@ -55,8 +55,7 @@
 
         });
 
-        $("#location").select2({
-            allowClear: true,
+        $("#location").select2({            
             placeholder: "Select Location",
         });
 
@@ -124,7 +123,7 @@
                                 <b>Location</b>
                             </div>
                             <div class="col-lg-12 pad0">
-                                @Html.DropDownList("locations", null, "Select Location", new { @class = "form-control", id = "location" })
+                                @Html.DropDownList("locations", null, "Select Location", new { @class = "form-control", id = "location", multiple="multiple" })
                             </div>
                         </div>
                         <div class="col-lg-12 gap-top5">

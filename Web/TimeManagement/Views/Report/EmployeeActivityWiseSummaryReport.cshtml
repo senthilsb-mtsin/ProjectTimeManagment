@@ -1,7 +1,7 @@
 ﻿@model TimeManagement.ViewModel.ActivityWiseModel
 @using System.Data;
 @using System.Threading;
-@{ 
+  @{ 
     ViewBag.Title = "EmployeeActivityWiseSummaryReport";
 }
 <script type="text/javascript">
@@ -60,15 +60,11 @@
         });
 
         $('#project').select2({
-            //: project_id => project_id.sort((a, b) => a.text.localeCompare(b.text)),
-            allowClear: true,
             placeholder: "Select Project",
         });
 
 
-        $('#location').select2({
-           // sorter: list => list.sort((a, b) => a.text.localeCompare(b.text)),
-            allowClear: true,
+        $('#location').select2({         
             placeholder: "Select Location",
         });
 
