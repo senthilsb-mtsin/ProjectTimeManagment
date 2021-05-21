@@ -719,6 +719,7 @@
     <Content Include="Views\Home\TimeEntry.cshtml" />
     <Content Include="Views\ForgetPassword\AuthenticateUserId.cshtml" />
     <Content Include="Views\Email\ForgetPasswordNotification.cshtml" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
