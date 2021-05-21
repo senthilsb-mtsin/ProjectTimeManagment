@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -342,7 +341,7 @@ namespace TimeManagement.Controllers
         public ActionResult GetEmployee(jQueryDataTableParamModel param)
         {
 
-            IQueryable<Employee> tasks = this.db .Employees;
+            IQueryable<Employee> tasks = this.db.Employees;
 
             if (tasks != null)
             {
@@ -354,7 +353,7 @@ namespace TimeManagement.Controllers
                     int id = task.Id;
                     Login logins = this.db.Logins.Where(x => x.Employee_Id == id).FirstOrDefault();
                     taskModel.userid = logins.UserId;
-                    taskModel.DT_RowId = task.Id; 
+                    taskModel.DT_RowId = task.Id;
                     taskModel.Employeeid = task.Id;
                     taskModel.EmployeeCode = task.EmployeeCode;
                     taskModel.FirstName = task.FirstName;
@@ -495,9 +494,9 @@ namespace TimeManagement.Controllers
 
 
         [HttpPost]
-        public ActionResult 
-            
-            
+        public ActionResult
+
+
             DeleteEmployee(Int64 id)
         {
             Employee existingEmp = this.db.Employees.Find(id);
@@ -703,15 +702,15 @@ namespace TimeManagement.Controllers
         public ActionResult GetWorkCode(jQueryDataTableParamModel param)
         {
 
-            IQueryable<WorkCode> tasks = this.db.WorkCodes;
+            IQueryable<WorkCodeActivity> tasks = this.db.WorkCodeActivities;
 
             if (tasks != null)
             {
-                List<WorkCodeModel> result = new List<WorkCodeModel>();
+                List<WorkCodeActivityModel> result = new List<WorkCodeActivityModel>();
 
-                foreach (WorkCode task in tasks)
+                foreach (WorkCodeActivity task in tasks)
                 {
-                    WorkCodeModel taskModel = new WorkCodeModel();
+                    WorkCodeActivityModel taskModel = new WorkCodeActivityModel();
                     taskModel.DT_RowId = task.Id.ToString();
                     taskModel.id = task.Id;
                     taskModel.Name = task.Name;
@@ -743,13 +742,13 @@ namespace TimeManagement.Controllers
         public ActionResult AddWorkCode()
         {
 
-            IQueryable<WorkCode> tasks = this.db.WorkCodes;
-            WorkCodeModel LastModel = new WorkCodeModel();
+            IQueryable<WorkCodeActivity> tasks = this.db.WorkCodeActivities;
+            WorkCodeActivityModel LastModel = new WorkCodeActivityModel();
 
             if (tasks != null)
             {
 
-                foreach (WorkCode task in tasks)
+                foreach (WorkCodeActivity task in tasks)
                 {
                     LastModel.Number = task.Number;
                 }
@@ -757,15 +756,15 @@ namespace TimeManagement.Controllers
             }
 
 
-            WorkCode AddWork = new WorkCode();
+            WorkCodeActivity AddWork = new WorkCodeActivity();
             AddWork.Number = (Convert.ToInt32(LastModel.Number) + 1).ToString();
             return PartialView("_PVAddWorkCodes", AddWork);
         }
 
         [HttpPost]
-        public ActionResult AddWorkCode(WorkCode model)
+        public ActionResult AddWorkCode(WorkCodeActivity model)
         {
-            this.db.WorkCodes.Add(model);
+            this.db.WorkCodeActivities.Add(model);
             this.db.SaveChanges();
             return RedirectToAction("GetWorkCodes");
         }
@@ -777,10 +776,10 @@ namespace TimeManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditWorkCode(WorkCode model)
+        public ActionResult EditWorkCode(WorkCodeActivity model)
         {
 
-            WorkCode existingwork = this.db.WorkCodes.Where(x => x.Id.Equals(model.Id)).First();
+            WorkCodeActivity existingwork = this.db.WorkCodeActivities.Where(x => x.Id.Equals(model.Id)).First();
 
             existingwork.Id = model.Id;
             existingwork.Name = model.Name;
@@ -788,7 +787,7 @@ namespace TimeManagement.Controllers
             existingwork.Billable = model.Billable;
 
 
-            this.db.WorkCodes.Attach(existingwork);
+            this.db.WorkCodeActivities.Attach(existingwork);
             db.Entry(existingwork).State = EntityState.Modified;
             this.db.SaveChanges();
             return RedirectToAction("GetWorkCodes");
@@ -798,9 +797,9 @@ namespace TimeManagement.Controllers
         [HttpPost]
         public ActionResult DeleteWorkCode(Int64 id)
         {
-            WorkCode existingwork = this.db.WorkCodes.Find(id);
+            WorkCodeActivity existingwork = this.db.WorkCodeActivities.Find(id);
 
-            this.db.WorkCodes.Remove(existingwork);
+            this.db.WorkCodeActivities.Remove(existingwork);
             this.db.SaveChanges();
             return RedirectToAction("GetWorkCodes");
 
