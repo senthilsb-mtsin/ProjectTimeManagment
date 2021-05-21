@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -350,11 +351,14 @@ namespace TimeManagement.Controllers
                 foreach (Employee task in tasks)
                 {
                     EmployeeModel taskModel = new EmployeeModel();
+                    int empid = task.Id;
+                    taskModel.DT_RowId = task.Id;
                     int id = task.Id;
-                    Login logins = this.db.Logins.Where(x => x.Employee_Id == id).FirstOrDefault();
-                    taskModel.userid = logins.UserId;
+                   // Login logins = this.db.Logins.Where(x => x.Employee_Id == id).FirstOrDefault();
                     taskModel.DT_RowId = task.Id;
                     taskModel.Employeeid = task.Id;
+                    Login login = this.db.Logins.Where(x => x.Employee_Id == empid).FirstOrDefault();
+                    taskModel.LoginUserID = login.UserId;
                     taskModel.EmployeeCode = task.EmployeeCode;
                     taskModel.FirstName = task.FirstName;
                     taskModel.MiddleName = task.MiddleName;
@@ -368,7 +372,7 @@ namespace TimeManagement.Controllers
                     taskModel.DOJ = task.DOJ;
                     taskModel.Email = task.Email;
                     taskModel.Mobile = task.Mobile;
-
+                    taskModel.Active = task.Active.ToString();
                     result.Add(taskModel);
                 }
 
@@ -485,7 +489,7 @@ namespace TimeManagement.Controllers
             existingEmp.LocationId = model.LocationId;
             existingEmp.DOR = model.DOR;
             existingEmp.EmailReminder = model.EmailReminder;
-
+            existingEmp.Active = model.Active;
             this.db.Employees.Attach(existingEmp);
             db.Entry(existingEmp).State = EntityState.Modified;
             this.db.SaveChanges();

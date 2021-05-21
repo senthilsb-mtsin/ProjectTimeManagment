@@ -87,6 +87,15 @@
                                 <div class="gap-top5">@Html.ValidationMessageFor(m => m.CompanyName)</div>
                             </div>
                         </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-4 gap-top5 text-right">
+                                <b>Active</b>
+                            </div>
+                            <div class="col-lg-7">
+                                @Html.CheckBoxFor(m => m.Active)
+                                <div>&nbsp</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="col-lg-12 gap-bottom5">

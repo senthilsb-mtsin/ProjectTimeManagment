@@ -37,6 +37,7 @@ namespace TimeManagement.Controllers
         {
             string userName = Request.Form["UserId"];
             string password = Request.Form["Password"];
+            
 
             Login login = this.db.Logins.Where(x => x.UserId.ToUpper().Equals(userName.ToUpper())).FirstOrDefault();
 
