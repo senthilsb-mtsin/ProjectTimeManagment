@@ -1,0 +1,9 @@
+<service>
+  <id>IntellaLendObjectStore</id>
+  <name>IntellaLendObjectStore</name>
+  <description>IntellaLendObjectStore object storage server</description>
+  <executable>ILObjectStore.exe</executable>
+  <env name="MINIO_ACCESS_KEY" value="IntellaLend"/>
+  <env name="MINIO_SECRET_KEY" value="IntellaLend@1234"/>
+  <arguments>server D:\gopro</arguments>
+</service>

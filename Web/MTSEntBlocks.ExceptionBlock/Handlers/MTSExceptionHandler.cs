@@ -45,7 +45,7 @@ namespace MTSEntBlocks.ExceptionBlock.Handlers
         //    Boolean.TryParse(ConfigurationManager.AppSettings["IntellaLeeaseImportLog"].ToLower(), out logTracing);
 
         //    if (logTracing)
-        //        BaseExceptionHandler.Write(msg, "ServiceLoader_Logger");
+        //        MTSExceptionHandler.Write(msg, "ServiceLoader_Logger");
         //}
         //public static void Write(string msg, string handler)
         //{
