@@ -31,7 +31,6 @@ namespace TimeManagement.Models
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string Suffix { get; set; }
-        public string LoginUserID { get; set; }
         public string CompanyName { get; set; }
         public Nullable<decimal> Cost { get; set; }
         public Nullable<decimal> BillRate { get; set; }
