@@ -119,10 +119,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\IntellaLendBlocks\MTSEntBlocks.DataBlock\MTSEntBlocks.DataBlock.csproj">
-      <Project>{b8fd6d7d-3700-4daf-a7a1-9ff1d86c1ace}</Project>
-      <Name>MTSEntBlocks.DataBlock</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Web\MTSEntBlocks.ExceptionBlock\MTSEntBlocks.ExceptionBlock.csproj">
       <Project>{bf640616-4953-47c5-8bec-613a645cfdd1}</Project>
       <Name>MTSEntBlocks.ExceptionBlock</Name>
@@ -130,6 +126,10 @@
     <ProjectReference Include="..\..\..\Web\MTSEntBlocks.LoggerBlock\MTSEntBlocks.LoggerBlock.csproj">
       <Project>{167D2B19-F361-4093-8E1F-61D5778F5C5D}</Project>
       <Name>MTSEntBlocks.LoggerBlock</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DataBlock\DataBlock.csproj">
+      <Project>{cd785cab-f697-49e4-827c-22bfdf195f5c}</Project>
+      <Name>DataBlock</Name>
     </ProjectReference>
     <ProjectReference Include="..\MTS.ServiceBase\MTS.ServiceBase.csproj">
       <Project>{3656A14B-8B9B-4C44-B3A4-7964A0A27777}</Project>
@@ -165,7 +165,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties VsiSettingsState="Initialized" VsiUseTimeUtc="UseGlobal" VsiDeltaBaseDate="7/30/2020 4:47:28 PM" VsiUseGlobalBaseDate="True" VsiConfigurationBuildAction="UseGlobal.UseGlobal.UseGlobal.UseGlobal.UseGlobal.UseGlobal" VsiAutoInformationalVersion="UseGlobalSettings.UseGlobalSettings.UseGlobalSettings.UseGlobalSettings" VsiAutoFileVersion="UseGlobalSettings.UseGlobalSettings.UseGlobalSettings.UseGlobalSettings" VsiAutoVersion="UseGlobalSettings.UseGlobalSettings.UseGlobalSettings.UseGlobalSettings" VsiEnabled="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UseGlobalSettings="True" BuildVersion_BuildVersioningStyle="YearStamp.MonthStamp.DayStamp.TimeStamp" BuildVersion_StartDate="2000/1/1" BuildVersion_UseUniversalClock="True" />
+      <UserProperties BuildVersion_UseUniversalClock="True" BuildVersion_StartDate="2000/1/1" BuildVersion_BuildVersioningStyle="YearStamp.MonthStamp.DayStamp.TimeStamp" BuildVersion_UseGlobalSettings="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" VsiEnabled="True" VsiAutoVersion="UseGlobalSettings.UseGlobalSettings.UseGlobalSettings.UseGlobalSettings" VsiAutoFileVersion="UseGlobalSettings.UseGlobalSettings.UseGlobalSettings.UseGlobalSettings" VsiAutoInformationalVersion="UseGlobalSettings.UseGlobalSettings.UseGlobalSettings.UseGlobalSettings" VsiConfigurationBuildAction="UseGlobal.UseGlobal.UseGlobal.UseGlobal.UseGlobal.UseGlobal" VsiUseGlobalBaseDate="True" VsiDeltaBaseDate="7/30/2020 4:47:28 PM" VsiUseTimeUtc="UseGlobal" VsiSettingsState="Initialized" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" /> -->
