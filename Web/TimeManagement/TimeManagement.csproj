@@ -721,6 +721,10 @@
     <Content Include="Views\ForgetPassword\AuthenticateUserId.cshtml" />
     <Content Include="Views\Email\ForgetPasswordNotification.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\Master\WorkcodeActivity.cshtml" />
+    <Content Include="Views\Master\_PVADDWorkcodeActivity.cshtml" />
+    <Content Include="Views\Master\_PVEditWorkCodeActivity.cshtml" />
+    <Content Include="Views\Master\_PVAssignWorkCodeActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

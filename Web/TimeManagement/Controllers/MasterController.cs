@@ -498,10 +498,7 @@ namespace TimeManagement.Controllers
 
 
         [HttpPost]
-        public ActionResult
-
-
-            DeleteEmployee(Int64 id)
+        public ActionResult DeleteEmployee(Int64 id)
         {
             Employee existingEmp = this.db.Employees.Find(id);
             this.db.Employees.Remove(existingEmp);
@@ -594,6 +591,7 @@ namespace TimeManagement.Controllers
 
         #endregion
 
+       
         #region Location
 
         [HttpGet]
@@ -693,17 +691,16 @@ namespace TimeManagement.Controllers
         #endregion
 
 
-        #region WorkCode
+
+        #region WorkCodeActivity
 
         [HttpGet]
-        public ActionResult GetWorkCodes()
+        public ActionResult GetWorkCodeActivity()
         {
-            return View("WorkCodes");
+            return View("WorkCodeActivity");
         }
 
-
-
-        public ActionResult GetWorkCode(jQueryDataTableParamModel param)
+        public ActionResult GetWorkCodeActivitys(jQueryDataTableParamModel param)
         {
 
             IQueryable<WorkCodeActivity> tasks = this.db.WorkCodeActivities;
@@ -741,9 +738,9 @@ namespace TimeManagement.Controllers
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <returns></returns>
+        
 
-
-        public ActionResult AddWorkCode()
+        public ActionResult AddWorkCodeActivity()
         {
 
             IQueryable<WorkCodeActivity> tasks = this.db.WorkCodeActivities;
@@ -762,25 +759,25 @@ namespace TimeManagement.Controllers
 
             WorkCodeActivity AddWork = new WorkCodeActivity();
             AddWork.Number = (Convert.ToInt32(LastModel.Number) + 1).ToString();
-            return PartialView("_PVAddWorkCodes", AddWork);
+            return PartialView("_PVADDWorkcodeActivity", AddWork);
         }
 
         [HttpPost]
-        public ActionResult AddWorkCode(WorkCodeActivity model)
+        public ActionResult AddWorkCodeActivity(WorkCodeActivity model)
         {
             this.db.WorkCodeActivities.Add(model);
             this.db.SaveChanges();
-            return RedirectToAction("GetWorkCodes");
+            return RedirectToAction("GetWorkCodeActivity");
         }
 
-        public ActionResult EditWorkCode(int id)
+        public ActionResult EditWorkCodeActivity(int id)
         {
-            WorkCode existingTask = this.db.WorkCodes.Find(id);
-            return PartialView("_PVEditWorkCodes", existingTask);
+            WorkCodeActivity existingTask = this.db.WorkCodeActivities.Find(id);
+            return PartialView("_PVEditWorkCodeActivity", existingTask);
         }
 
         [HttpPost]
-        public ActionResult EditWorkCode(WorkCodeActivity model)
+        public ActionResult EditWorkCodeActivity(WorkCodeActivity model)
         {
 
             WorkCodeActivity existingwork = this.db.WorkCodeActivities.Where(x => x.Id.Equals(model.Id)).First();
@@ -794,22 +791,139 @@ namespace TimeManagement.Controllers
             this.db.WorkCodeActivities.Attach(existingwork);
             db.Entry(existingwork).State = EntityState.Modified;
             this.db.SaveChanges();
-            return RedirectToAction("GetWorkCodes");
+            return RedirectToAction("GetWorkCodeActivity");
+        }
+        #endregion
+
+
+        #region WorkCode
+
+        [HttpGet]
+        public ActionResult GetWorkCodes()
+        {
+            return View("WorkCodes");
         }
 
+        public ActionResult GetWorkCodesDetails(jQueryDataTableParamModel param)
+        {
+
+            IQueryable<WorkCode> tasks = this.db.WorkCodes;
+            if (tasks != null)
+            {
+                List<WorkCodeModel> result = new List<WorkCodeModel>();
+
+                foreach (WorkCode task in tasks)
+                {
+                    WorkCodeModel taskModel = new WorkCodeModel();
+                    taskModel.Id = task.Id;
+                    taskModel.Name = task.Name;
+                    result.Add(taskModel);
+                }
+
+                var resultData = new
+                {
+                    aaData = result
+                };
+                return Json(resultData, JsonRequestBehavior.AllowGet);
+
+            }
+            else
+                return new JsonResult();
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+
+        public ActionResult AddWorkCodes()
+        {
+
+            WorkCode AddWork = new WorkCode();
+           //AddWork.Id = (Convert.ToInt32(LastModel.Id) + 1);
+            return PartialView("_PVAddWorkCodes", AddWork);
+        }
 
         [HttpPost]
-        public ActionResult DeleteWorkCode(Int64 id)
+        public ActionResult AddWorkCodes(WorkCode model)
         {
-            WorkCodeActivity existingwork = this.db.WorkCodeActivities.Find(id);
-
-            this.db.WorkCodeActivities.Remove(existingwork);
+            this.db.WorkCodes.Add(model);
             this.db.SaveChanges();
             return RedirectToAction("GetWorkCodes");
-
         }
 
+
+
+        public ActionResult EditWorkCodes(int ? id)
+        {
+            WorkCode existingTask = this.db.WorkCodes.Find(id);
+            return PartialView("_PVEditWorkCodes", existingTask);
+        }
+
+        [HttpPost]
+        public ActionResult EditWorkCodes(WorkCode model)
+        {
+                WorkCode existingwork = this.db.WorkCodes.Where(x => x.Id == model.Id).FirstOrDefault();
+                existingwork.Name = model.Name;
+                db.Entry(existingwork).State = EntityState.Modified;
+                this.db.SaveChanges();
+                return RedirectToAction("GetWorkCodes");
+        }
+
+
+
+        public ActionResult AssignWorkCodeActivity(int id)
+        {
+            WorkCode proj = new WorkCode();
+            proj.Id =  id;
+            List<WorkCodeActivity> workCodeActivities = this.db.WorkCodeActivities.Where(x => x.WorkCodeId == 0 || x.WorkCodeId == id).ToList();
+            ViewBag.AssignedProjectList =workCodeActivities.Where(x => x.WorkCodeId!=0).Select(x=>new SelectListItem(){ Value=x.Id.ToString(),Text=x.Name}).ToList();
+            ViewBag.ProjectList = workCodeActivities.Where(x => x.WorkCodeId == 0).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
+            return PartialView("_PVAssignWorkCodeActivity", proj);
+        }
+
+        [HttpPost]
+        public ActionResult AssignWorkCodeActivity(int  Id, String AssignedProjects)
+        {
+
+            try
+            {
+                List<WorkCodeActivity> workCodeActivities = this.db.WorkCodeActivities.Where(x => x.WorkCodeId == Id).ToList();
+                foreach( WorkCodeActivity workcode in workCodeActivities)
+                {
+                    workcode.WorkCodeId = 0;
+                    this.db.Entry(workcode).State = EntityState.Modified;
+                    this.db.SaveChanges();
+                }
+                foreach (string activityId in AssignedProjects.Split(','))
+                {
+                    int activity = Convert.ToInt32(activityId);
+                    WorkCodeActivity workCodeActivity = this.db.WorkCodeActivities.Where(x => x.Id == activity).FirstOrDefault();
+                    if (workCodeActivity != null)
+                    {
+                        workCodeActivity.WorkCodeId = Id;
+                        this.db.Entry(workCodeActivity).State = EntityState.Modified;
+                        this.db.SaveChanges();
+                    }
+                  
+                }
+
+                return Json(new { success = true });
+            }
+            catch(Exception e)
+            {
+
+                return Json(new { success = false });
+            }
+        }
+
+
         #endregion
+
 
         #region Configuration
 
@@ -818,8 +932,6 @@ namespace TimeManagement.Controllers
         {
             return View("Configurations");
         }
-
-
 
         public ActionResult GetConfiguration(jQueryDataTableParamModel param)
         {
