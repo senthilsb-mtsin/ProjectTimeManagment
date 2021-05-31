@@ -26,6 +26,6 @@ namespace TimeManagement.Models
     
         public virtual Employee Employee { get; set; }
         public virtual Project Project { get; set; }
-        public virtual WorkCode WorkCode { get; set; }
+        public virtual WorkCodesActivity WorkCodesActivity { get; set; }
     }
 }

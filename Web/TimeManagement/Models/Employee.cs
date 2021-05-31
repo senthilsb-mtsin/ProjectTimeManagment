@@ -19,9 +19,9 @@ namespace TimeManagement.Models
         {
             this.EmployeeProjects = new HashSet<EmployeeProject>();
             this.EmployeeRoles = new HashSet<EmployeeRole>();
-            this.Tasks = new HashSet<Task>();
             this.WeeklyReports = new HashSet<WeeklyReport>();
             this.Logins = new HashSet<Login>();
+            this.Tasks = new HashSet<Task>();
         }
     
         public int Id { get; set; }
@@ -41,18 +41,18 @@ namespace TimeManagement.Models
         public string Mobile { get; set; }
         public string DOR { get; set; }
         public Nullable<bool> EmailReminder { get; set; }
-        public bool Active { get; set; }
+        public Nullable<bool> Active { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeProject> EmployeeProjects { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeRole> EmployeeRoles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Task> Tasks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WeeklyReport> WeeklyReports { get; set; }
         public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Login> Logins { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

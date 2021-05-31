@@ -19,6 +19,6 @@ namespace TimeManagement.Models
         public int GROUP_ID { get; set; }
     
         public virtual MTS_GROUPS MTS_GROUPS { get; set; }
-        public virtual WorkCode WorkCode { get; set; }
+        public virtual WorkCodesActivity WorkCodesActivity { get; set; }
     }
 }

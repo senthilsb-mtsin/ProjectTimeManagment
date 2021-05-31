@@ -15,32 +15,32 @@
         <EntityTypeShape EntityType="MTSTrexModel.Note" Width="1.5" PointX="10.5" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="MTSTrexModel.Project" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MTSTrexModel.Role" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MTSTrexModel.Task" Width="1.5" PointX="8.25" PointY="9.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MTSTrexModel.WeeklyReport" Width="1.5" PointX="8.25" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MTSTrexModel.WorkCode" Width="1.5" PointX="6" PointY="19.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MTSTrexModel.MTS_PROJECTTYPE" Width="1.5" PointX="10.75" PointY="2" IsExpanded="true" />
         <AssociationConnector Association="MTSTrexModel.FK_EmployeeEmployeeProject" ManuallyRouted="false" />
         <AssociationConnector Association="MTSTrexModel.FK_ProjectEmployeeProject" ManuallyRouted="false" />
         <AssociationConnector Association="MTSTrexModel.FK_EmployeeEmployeeRole" ManuallyRouted="false" />
         <AssociationConnector Association="MTSTrexModel.FK_RoleEmployeeRole" ManuallyRouted="false" />
-        <AssociationConnector Association="MTSTrexModel.FK_EmployeeTask" ManuallyRouted="false" />
         <AssociationConnector Association="MTSTrexModel.FK_EmployeeWeeklyReport" ManuallyRouted="false" />
         <AssociationConnector Association="MTSTrexModel.FK_LocationEmployee" ManuallyRouted="false" />
         <AssociationConnector Association="MTSTrexModel.FK_LoginEmployee" ManuallyRouted="false" />
         <AssociationConnector Association="MTSTrexModel.FK_WeeklyReportNote" ManuallyRouted="false" />
-        <AssociationConnector Association="MTSTrexModel.FK_ProjectTask" ManuallyRouted="false" />
         <AssociationConnector Association="MTSTrexModel.FK_ProjectWeeklyReport" ManuallyRouted="false" />
-        <AssociationConnector Association="MTSTrexModel.FK_WorkCodeTask" ManuallyRouted="false" />
         <EntityTypeShape EntityType="MTSTrexModel.MTS_EMAILMASTER" Width="1.5" PointX="10.375" PointY="8.75" />
         <EntityTypeShape EntityType="MTSTrexModel.MTS_EMAILSCHEDULE" Width="1.5" PointX="10.375" PointY="11.75" />
         <EntityTypeShape EntityType="MTSTrexModel.MTS_EMAILTEMPLATE" Width="1.5" PointX="12.375" PointY="8.75" />
         <EntityTypeShape EntityType="MTSTrexModel.MTS_GROUPS" Width="1.5" PointX="6" PointY="22.375" />
         <EntityTypeShape EntityType="MTSTrexModel.MTS_SMTPDETAILS" Width="1.5" PointX="12.375" PointY="11.75" />
-        <EntityTypeShape EntityType="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Width="1.5" PointX="8.25" PointY="19.25" />
         <EntityTypeShape EntityType="MTSTrexModel.MTS_SERVICECONFIG" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Width="1.5" PointX="8.25" PointY="21.375" />
+        <EntityTypeShape EntityType="MTSTrexModel.Task" Width="1.5" PointX="8.25" PointY="0.75" />
+        <EntityTypeShape EntityType="MTSTrexModel.WorkCodesActivity" Width="1.5" PointX="6" PointY="19.75" />
+        <AssociationConnector Association="MTSTrexModel.FK_EmployeeTask" />
         <AssociationConnector Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" />
-        <AssociationConnector Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_WorkCodes" />
-        <EntityTypeShape EntityType="MTSTrexModel.WorkCodeActivity" Width="1.5" PointX="13.375" PointY="4.75" />
+        <AssociationConnector Association="MTSTrexModel.FK__MTS_WORK___WORK___0B91BA14" />
+        <AssociationConnector Association="MTSTrexModel.FK_ProjectTask" />
+        <AssociationConnector Association="MTSTrexModel.FK__Tasks__WorkCodeI__0A9D95DB" />
+        <EntityTypeShape EntityType="MTSTrexModel.WorkCode" Width="1.5" PointX="7.375" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
