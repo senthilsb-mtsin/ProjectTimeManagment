@@ -57,7 +57,10 @@
                 $('div#MainPopUp').html(data);
                 $('div#MainPopUp').modal('show');
             },
-         cache: false
+             cache: false,
+             error: function (e) {
+                 console.log(e);
+             }
      });
  }
 
@@ -72,7 +75,10 @@
                 $('div#MainPopUp').html(data);
                 $('div#MainPopUp').modal('show');
             },
-            cache: false
+            cache: false,
+            error: function (e) {
+             console.log(e);
+            }
         });
 
     }
@@ -85,7 +91,10 @@
                 $('div#MainPopUp').html(data);
                 $('div#MainPopUp').modal('show');
             },
-            cache: false
+            cache: false,
+            error: function (e) {
+             console.log(e);
+            }
         });
     }
 // function DeleteWorkCode() {
@@ -135,9 +144,6 @@
                             <th class="text-center">
                                 WorkCode  Name
                             </th>
-                            
-
-
                         </tr>
                     </thead>
                     <tbody>
