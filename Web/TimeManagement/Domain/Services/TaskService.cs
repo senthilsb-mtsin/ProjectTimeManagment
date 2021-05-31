@@ -20,7 +20,7 @@ namespace TimeManagement.Domain.Services
         /// <param name="toDate"></param>
         /// <param name="userName"></param>
         /// <returns></returns>
-        public List<Task> GetTasks(string fromDate, string toDate, string userName, string location, string project, string workcode, string employee)
+        public List<Task> GetTasks(string fromDate, string toDate, string userName, string location, string project, string workcodeActivity, string employee)
         {
             List<Task> tasksData = new List<Task>();
             List<Task> tasks = null;
@@ -36,7 +36,7 @@ namespace TimeManagement.Domain.Services
             if (!string.IsNullOrEmpty(toDate))
                 to = Convert.ToDateTime(toDate);
 
-            tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to).OrderBy(x => x.ExecutionDate).ToList();
+            tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to).OrderBy(x => x.ExecutionDate).ToList();
 
             if (!string.IsNullOrEmpty(userName))
             {
@@ -74,12 +74,12 @@ namespace TimeManagement.Domain.Services
 
             if (tasks != null)
             {
-                if (!string.IsNullOrEmpty(workcode))
+                if (!string.IsNullOrEmpty(workcodeActivity))
                 {
                     interResult = new List<Task>();
-                    foreach (string val in workcode.Split(','))
+                    foreach (string val in workcodeActivity.Split(','))
                     {
-                        interResult.AddRange(tasks.Where(x => x.WorkCode.Name == val).ToList());
+                        interResult.AddRange(tasks.Where(x => x.WorkCodesActivity.Name == val).ToList());
                     }
                     tasks = interResult;
                 }
@@ -360,12 +360,12 @@ namespace TimeManagement.Domain.Services
 
             tasks.ForEach(x =>
             {
-                WorkSummary workSummary = billingModel.Summary.Where(y => y.WorkCode.Equals(x.WorkCode.Name) && y.Employee.Equals(x.Employee.LastName + ", " + x.Employee.FirstName)).FirstOrDefault();
+                WorkSummary workSummary = billingModel.Summary.Where(y => y.WorkCode.Equals(x.WorkCodesActivity.Name) && y.Employee.Equals(x.Employee.LastName + ", " + x.Employee.FirstName)).FirstOrDefault();
 
                 if (workSummary == null)
                 {
                     workSummary = new WorkSummary();
-                    workSummary.WorkCode = x.WorkCode.Name;
+                    workSummary.WorkCode = x.WorkCodesActivity.Name;
                     workSummary.Employee = x.Employee.LastName + ", " + x.Employee.FirstName;
                     workSummary.BillRate = (x.Employee.BillRate.HasValue ? x.Employee.BillRate.Value : 0);
                     if (!string.IsNullOrEmpty(Company))
@@ -450,12 +450,12 @@ namespace TimeManagement.Domain.Services
 
             tasks.ForEach(x =>
             {
-                WorkSummary workSummary = billingModel.Summary.Where(y => y.WorkCode.Equals(x.WorkCode.Name) && y.Employee.Equals(x.Employee.LastName + ", " + x.Employee.FirstName)).FirstOrDefault();
+                WorkSummary workSummary = billingModel.Summary.Where(y => y.WorkCode.Equals(x.WorkCodesActivity.Name) && y.Employee.Equals(x.Employee.LastName + ", " + x.Employee.FirstName)).FirstOrDefault();
 
                 if (workSummary == null)
                 {
                     workSummary = new WorkSummary();
-                    workSummary.WorkCode = x.WorkCode.Name;
+                    workSummary.WorkCode = x.WorkCodesActivity.Name;
                     workSummary.Employee = x.Employee.LastName + ", " + x.Employee.FirstName;
                     workSummary.BillRate = (x.Employee.BillRate.HasValue ? x.Employee.BillRate.Value : 0);
                     workSummary.Company = x.Employee.CompanyName;

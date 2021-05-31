@@ -12,37 +12,23 @@ namespace TimeManagement.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Project
+    public partial class WorkCodesActivity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Project()
+        public WorkCodesActivity()
         {
-            this.EmployeeProjects = new HashSet<EmployeeProject>();
-            this.WeeklyReports = new HashSet<WeeklyReport>();
+            this.MTS_WORK_GROUP_MAPPING = new HashSet<MTS_WORK_GROUP_MAPPING>();
             this.Tasks = new HashSet<Task>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public string Number { get; set; }
-        public Nullable<System.DateTime> EstStartDate { get; set; }
-        public Nullable<System.DateTime> EstEndDate { get; set; }
-        public Nullable<bool> IsCommon { get; set; }
-        public Nullable<decimal> TotalAmount { get; set; }
-        public string Risk { get; set; }
-        public string Discount { get; set; }
-        public string MarginValue { get; set; }
-        public Nullable<decimal> DiscountAmount { get; set; }
-        public string Completed { get; set; }
-        public string Customer { get; set; }
-        public bool Te { get; set; }
-        public bool Tm { get; set; }
-        public Nullable<int> TypeOfProject { get; set; }
+        public bool Billable { get; set; }
+        public Nullable<int> WorkCodeId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmployeeProject> EmployeeProjects { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WeeklyReport> WeeklyReports { get; set; }
+        public virtual ICollection<MTS_WORK_GROUP_MAPPING> MTS_WORK_GROUP_MAPPING { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Task> Tasks { get; set; }
     }

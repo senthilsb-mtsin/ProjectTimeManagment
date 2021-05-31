@@ -228,7 +228,7 @@
     <Compile Include="Models\WorkCode.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\WorkCodeActivity.cs">
+    <Compile Include="Models\WorkCodesActivity.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -241,6 +241,7 @@
     <Compile Include="ViewModel\LocationModel.cs" />
     <Compile Include="ViewModel\NotesModel.cs" />
     <Compile Include="ViewModel\ProjectModel.cs" />
+    <Compile Include="ViewModel\Select2ListModel.cs" />
     <Compile Include="ViewModel\StatusModel.cs" />
     <Compile Include="ViewModel\TaskGroupModel.cs" />
     <Compile Include="ViewModel\TaskModel.cs" />

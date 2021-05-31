@@ -259,7 +259,7 @@ namespace TimeManagement.Controllers
                     taskModel.taskId = task.Id;
                     taskModel.executionDate = task.ExecutionDate.ToString("MM/dd/yyyy");
                     taskModel.project = task.Project.Name;
-                    taskModel.workCode = task.WorkCode.Name;
+                    taskModel.workCode = task.WorkCodesActivity.Name;
                     taskModel.hours = task.Hours.GetValueOrDefault();
                     taskModel.description = task.Description;
 
@@ -297,7 +297,7 @@ namespace TimeManagement.Controllers
                     taskModel.taskId = task.Id;
                     taskModel.executionDate = task.ExecutionDate.ToShortDateString();
                     taskModel.project = task.Project.Name;
-                    taskModel.workCode = task.WorkCode.Name;
+                    taskModel.workCode = task.WorkCodesActivity.Name;
                     taskModel.hours = task.Hours.GetValueOrDefault();
                     taskModel.description = task.Description;
 
