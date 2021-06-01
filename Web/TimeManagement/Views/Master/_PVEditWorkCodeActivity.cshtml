@@ -1,22 +1,18 @@
-﻿
-@model TimeManagement.Models.WorkCode
+﻿@model TimeManagement.Models.WorkCodesActivity
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
 
-
         $("#worknum").attr("disabled", "disabled");
 
         $(".datePicker").datepicker();
 
     });
-
- 
 </script>
 
-@using (Html.BeginForm("/EditWorkCodes", "Master", FormMethod.Post, new { id = "WorkCodeUpdateForm" }))
+@using (Html.BeginForm("/EditWorkCodeActivity", "Master", FormMethod.Post, new { id = "WorkCodeUpdateForm" }))
 {
     <div class="modal-dialog">
         <div class="modal-content">
@@ -25,7 +21,7 @@
                     <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                 </button>
                 <h4 class="modal-title">
-                    Edit Work Code
+                    Edit Work Code Activity
                 </h4>
             </div>
             @Html.HiddenFor(m => m.Id)
@@ -35,7 +31,7 @@
 
                         <div class="col-lg-12 gap-bottom5">
                             <div class="col-lg-5 gap-top5 text-right">
-                                <b>Work Code  Name</b>
+                                <b>Work Code Activity Name</b>
                             </div>
                             <div class="col-lg-7">
                                 @Html.TextBoxFor(m => m.Name, new { @class = "required  form-control", maxlength = "70" })
@@ -43,12 +39,28 @@
                                 <div>@Html.ValidationMessageFor(m => m.Name)</div>
                             </div>
                         </div>
-                        
-                        
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Work Code Number</b>
+                            </div>
+                            <div class="col-lg-7">
+                                @Html.TextBoxFor(m => m.Number, new { @class = "required  form-control ", onkeypress = "return isNumber(event)", id = "worknum" })
+                                @Html.HiddenFor(m => m.Number)
+                                <div>&nbsp</div>
+                                <div>@Html.ValidationMessageFor(m => m.Number)</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gap-bottom5">
+                            <div class="col-lg-5 gap-top5 text-right">
+                                <b>Billable</b>
+                            </div>
+                            <div class="col-lg-7 gap-top5">
+                                @Html.CheckBoxFor(m => m.Billable)
+                                <div>&nbsp</div>
+
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div id="ErrorMessage" Style="color:red"  hidden>
-                  Unable to Save.
                 </div>
             </div>
 
@@ -62,5 +74,5 @@
             </div>
         </div>
     </div>
-
+  
 }
