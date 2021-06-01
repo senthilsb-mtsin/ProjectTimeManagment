@@ -1,6 +1,4 @@
-﻿using MailKit;
-using MailKit.Net.Imap;
-using MailKit.Search;
+﻿using ImapX;
 using MTS.EmailManager.EmailDataAccess;
 using MTS.ServiceBase;
 using MTSEntBlocks.DataBlock;
@@ -76,37 +74,10 @@ namespace MTS.ProjectCreator
             catch (Exception ex)
             {
                 MTSExceptionHandler.HandleException(ref ex);
-                return -1;
+                return -99;
             }
 
         }
-        private bool IsAuthenticated(ImapClient client, string userName, string password)
-        {
-            try
-            {
-                client.Authenticate(userName, password);
-            }
-            catch(Exception ex)
-            {
-                MTSExceptionHandler.HandleException(ref ex);
-                return false;
-            }
-            return true;
-        }
-        private bool IsConnected(ImapClient client, string host, int port, bool enableSSL)
-        {
-            try
-            {
-                client.Connect(host, port, enableSSL);
-            }
-            catch (Exception ex)
-            {
-                MTSExceptionHandler.HandleException(ref ex);
-                return false;
-            }
-            return true;
-        }
-
         private bool ReadProjectEmails()
         {
             try
@@ -124,28 +95,22 @@ namespace MTS.ProjectCreator
                 bool enableSSL = Convert.ToBoolean(dataRowArray[0]["EnableSsl"]);
                 string userName = dataRowArray[0]["UserName"].ToString();
                 string password = dataRowArray[0]["Password"].ToString();
-                string createProjectSubject = "NEW PROJECT FOR TREX";
-                string closeProjectSubject = "CLOSE PROJECT IN TREX";
+                string createProjectSubject = "\"NEW PROJECT FOR TREX\"";
+                string closeProjectSubject = "\"CLOSE PROJECT IN TREX\"";
 
-                using (var client = new ImapClient())
+                ImapClient client = new ImapClient(host, enableSSL);
+
+                if (client.Connect())
                 {
-
-                    if(IsConnected(client, host, port, enableSSL))
+                    if (client.Login(userName, password))
                     {
-                        if(IsAuthenticated(client, userName, password))
+                        var createProjectsMessages = client.Folders.Inbox.Search(createProjectSubject, ImapX.Enums.MessageFetchMode.Basic);
+                        var closeProjectMessages = client.Folders.Inbox.Search(closeProjectSubject, ImapX.Enums.MessageFetchMode.Basic);
+                        foreach (var message in createProjectsMessages)
                         {
-                            var label = client.Inbox;
-                            label.Open(FolderAccess.ReadWrite);
-
-                            var createProjectQuery = SearchQuery.SubjectContains(createProjectSubject).And(SearchQuery.NotSeen);
-                            var closeProjectQuery = SearchQuery.SubjectContains(closeProjectSubject).And(SearchQuery.NotSeen);
-
-                            foreach (var uid in label.Search(createProjectQuery))
+                            if (!message.Seen)
                             {
-                                var message = label.GetMessage(uid);
-
-                                Dictionary<string, string> mailContent = StringfyContent(message.TextBody);
-
+                                Dictionary<string, string> mailContent = StringfyContent(message.Body.Text);
                                 dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, 0, 1, null });
                                 int result = UpdateCreateProject(mailContent);
 
@@ -153,7 +118,7 @@ namespace MTS.ProjectCreator
                                 {
                                     case 0:
                                         dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, DateTime.Now, DateTime.Now, 1, 1, null });
-                                        label.AddFlags(uid, MessageFlags.Seen, true);
+                                        message.Seen = true;
                                         break;
                                     case -1:
                                         dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, -1, 1, "Problem in CUSTOMER column" });
@@ -169,35 +134,40 @@ namespace MTS.ProjectCreator
                                         break;
                                 }
                             }
-                            foreach (var uid in label.Search(closeProjectQuery))
+                        }
+                        foreach (var message in closeProjectMessages)
+                        {
+                            if (!message.Seen)
                             {
-                                var message = label.GetMessage(uid);
                                 dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, 1, 2, null });
 
-                                Dictionary<string, string> mailContent = StringfyContent(message.TextBody);
+                                Dictionary<string, string> mailContent = StringfyContent(message.Body.Text);
 
                                 if (UpdateCloseProject(mailContent) > 0)
                                 {
+                                    message.Seen = true;
                                     dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, 0, 2, null });
-                                    label.AddFlags(uid, MessageFlags.Seen, true);
                                 }
-
                             }
-                            client.Disconnect(true);
-                            return true;
                         }
-                        
                     }
-                    
+                    else
+                    {
+                        throw new Exception("Authentication failed");
+                    }
                 }
-                return false;
+                else
+                {
+                    throw new Exception("Connection failed");
+                }
+                client.Disconnect();
+                return true;
             }
             catch (Exception ex)
             {
                 MTSExceptionHandler.HandleException(ref ex);
                 return false;
             }
-
         }
 
         private void SendErrorMail(int smtpId, string fromAddress, string toAddress, string error)
@@ -210,7 +180,7 @@ namespace MTS.ProjectCreator
                 MailMessage message = new MailMessage();
                 message.To.Add(toAddress.ToString());
                 message.Subject = emailSubject;
-                message.From = new MailAddress(fromAddress);
+                message.From = new System.Net.Mail.MailAddress(fromAddress); //to avoid name collision
                 message.Body = $"Hello {fromAddress}, \n Your Request for project creation has been failed \n Error details - {error} \n Thank you!";
                 message.IsBodyHtml = true;
                 DataRow[] dataRowArray = stmpDetails.Tables[0].Select("SmtpId='" + smtpId + "'");
