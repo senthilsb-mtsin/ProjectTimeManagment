@@ -17,11 +17,13 @@ namespace MTS.ProjectCreator
     public class ProjectCreator : IMTSServiceBase
     {
         private EmailDAL dataaccess = new EmailDAL();
+        private string emailSubject;
+
         public bool DoTask()
         {
             try
             {
-                return this.ReadProjectEmails(1);
+                return this.ReadProjectEmails();
             }
             catch (Exception ex)
             {
@@ -32,111 +34,170 @@ namespace MTS.ProjectCreator
 
         public void OnStart(string Params)
         {
+            this.emailSubject = Params;
         }
 
         private int UpdateCloseProject(Dictionary<string, string> mailContent)
         {
-            return DataAccess.ExecuteNonQuery("MTS_CLOSEPROJECT", new object[1]
+            try
             {
+                return DataAccess.ExecuteNonQuery("MTS_CLOSEPROJECT", new object[1]
+                {
                 (object) mailContent["Description"],
-            });
+                });
+            }
+            catch (Exception ex)
+            {
+                MTSExceptionHandler.HandleException(ref ex);
+                return -1;
+            }
         }
         private int UpdateCreateProject(Dictionary<string, string> mailContent)
         {
-            DataTable employees = new DataTable();
-            employees.Columns.Add("Id");
-            employees.Columns.Add("Name");
-            int id = 1;
-            foreach (string name in mailContent["TECH"].Split('-'))
+            try
             {
-                employees.Rows.Add(id++, Regex.Replace(name, @"\s+", ""));
-            }
+                DataTable employees = new DataTable();
+                employees.Columns.Add("Id");
+                employees.Columns.Add("Name");
+                int id = 1;
+                foreach (string name in mailContent["TECH"].Split('-'))
+                {
+                    employees.Rows.Add(id++, Regex.Replace(name, @"\s+", ""));
+                }
 
-            return DataAccess.ExecuteNonQuery("MTS_PROJECTCREATOR", new object[4]
-            {
+                return DataAccess.ExecuteNonQuery("MTS_PROJECTCREATOR", new object[4]
+                {
                 (object) mailContent["Customer Name"],
                 (object) mailContent["Description"],
                 (object) mailContent["Quote Amount"],
                 (object) employees,
-            });
+                });
+            }
+            catch (Exception ex)
+            {
+                MTSExceptionHandler.HandleException(ref ex);
+                return -1;
+            }
+
+        }
+        private bool IsAuthenticated(ImapClient client, string userName, string password)
+        {
+            try
+            {
+                client.Authenticate(userName, password);
+            }
+            catch(Exception ex)
+            {
+                MTSExceptionHandler.HandleException(ref ex);
+                return false;
+            }
+            return true;
+        }
+        private bool IsConnected(ImapClient client, string host, int port, bool enableSSL)
+        {
+            try
+            {
+                client.Connect(host, port, enableSSL);
+            }
+            catch (Exception ex)
+            {
+                MTSExceptionHandler.HandleException(ref ex);
+                return false;
+            }
+            return true;
         }
 
-        private bool ReadProjectEmails(int imapId)
+        private bool ReadProjectEmails()
         {
-            DataSet imapDetails = this.dataaccess.GetImapDetails();
-            if (imapDetails == null || imapDetails.Tables.Count == 0)
+            try
             {
+                DataSet imapDetails = this.dataaccess.GetImapDetails();
+                if (imapDetails == null || imapDetails.Tables.Count == 0)
+                {
+                    throw new Exception("Imap table is empty");
+                }
+
+                DataRow[] dataRowArray = imapDetails.Tables[0].Select("IMAPID=1");
+
+                string host = dataRowArray[0]["IMAPClientHost"].ToString();
+                int port = Convert.ToInt32(dataRowArray[0]["IMAPClientPort"]);
+                bool enableSSL = Convert.ToBoolean(dataRowArray[0]["EnableSsl"]);
+                string userName = dataRowArray[0]["UserName"].ToString();
+                string password = dataRowArray[0]["Password"].ToString();
+                string createProjectSubject = "NEW PROJECT FOR TREX";
+                string closeProjectSubject = "CLOSE PROJECT IN TREX";
+
+                using (var client = new ImapClient())
+                {
+
+                    if(IsConnected(client, host, port, enableSSL))
+                    {
+                        if(IsAuthenticated(client, userName, password))
+                        {
+                            var label = client.Inbox;
+                            label.Open(FolderAccess.ReadWrite);
+
+                            var createProjectQuery = SearchQuery.SubjectContains(createProjectSubject).And(SearchQuery.NotSeen);
+                            var closeProjectQuery = SearchQuery.SubjectContains(closeProjectSubject).And(SearchQuery.NotSeen);
+
+                            foreach (var uid in label.Search(createProjectQuery))
+                            {
+                                var message = label.GetMessage(uid);
+
+                                Dictionary<string, string> mailContent = StringfyContent(message.TextBody);
+
+                                dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, 0, 1, null });
+                                int result = UpdateCreateProject(mailContent);
+
+                                switch (result)
+                                {
+                                    case 0:
+                                        dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, DateTime.Now, DateTime.Now, 1, 1, null });
+                                        label.AddFlags(uid, MessageFlags.Seen, true);
+                                        break;
+                                    case -1:
+                                        dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, -1, 1, "Problem in CUSTOMER column" });
+                                        SendErrorMail(1, userName, message.From.ToString(), "Problem in CUSTOMER column");
+                                        break;
+                                    case -2:
+                                        dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, -1, 1, "Problem in TECH column" });
+                                        SendErrorMail(1, userName, message.From.ToString(), "Problem in TECH column");
+                                        break;
+                                    default:
+                                        dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, -1, 1, "SOMETHING WENT WRONG" });
+                                        SendErrorMail(1, userName, message.From.ToString(), "SOMETHING WENT WRONG");
+                                        break;
+                                }
+                            }
+                            foreach (var uid in label.Search(closeProjectQuery))
+                            {
+                                var message = label.GetMessage(uid);
+                                dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, 1, 2, null });
+
+                                Dictionary<string, string> mailContent = StringfyContent(message.TextBody);
+
+                                if (UpdateCloseProject(mailContent) > 0)
+                                {
+                                    dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, 0, 2, null });
+                                    label.AddFlags(uid, MessageFlags.Seen, true);
+                                }
+
+                            }
+                            client.Disconnect(true);
+                            return true;
+                        }
+                        
+                    }
+                    
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MTSExceptionHandler.HandleException(ref ex);
                 return false;
             }
 
-            DataRow[] dataRowArray = imapDetails.Tables[0].Select("IMAPID='" + imapId + "'");
-
-            string host = dataRowArray[0]["IMAPClientHost"].ToString();
-            int port = Convert.ToInt32(dataRowArray[0]["IMAPClientPort"]);
-            bool enableSSL = Convert.ToBoolean(dataRowArray[0]["EnableSsl"]);
-            string userName = dataRowArray[0]["UserName"].ToString();
-            string password = dataRowArray[0]["Password"].ToString();
-            string createProjectSubject = "NEW PROJECT FOR TREX";
-            string closeProjectSubject = "CLOSE PROJECT IN TREX";
-
-            using (var client = new ImapClient())
-            {
-                client.Connect(host, port, enableSSL);
-
-                client.Authenticate(userName, password);
-
-                var label = client.Inbox;
-                label.Open(FolderAccess.ReadWrite);
-
-                var createProjectQuery = SearchQuery.SubjectContains(createProjectSubject).And(SearchQuery.NotSeen);
-                var closeProjectQuery = SearchQuery.SubjectContains(closeProjectSubject).And(SearchQuery.NotSeen);
-
-                foreach (var uid in label.Search(createProjectQuery))
-                {
-                    var message = label.GetMessage(uid);
-
-                    Dictionary<string, string> mailContent = StringfyContent(message.TextBody);
-
-                    dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, 0, 1, null });
-                    int result = UpdateCreateProject(mailContent);
-
-                    switch (result)
-                    {
-                        case 0:
-                            dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, DateTime.Now, DateTime.Now, 1, 1, null });
-                            label.AddFlags(uid, MessageFlags.Seen, true);
-                            break;
-                        case -1:
-                            dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, -1, 1, "Problem in CUSTOMER column" });
-                            SendErrorMail(1, userName, message.From.ToString(), "Problem in CUSTOMER column");
-                            break;
-                        case -2:
-                            dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, -1, 1, "Problem in TECH column" });
-                            SendErrorMail(1, userName, message.From.ToString(), "Problem in TECH column");
-                            break;
-                        default:
-                            dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, -1, 1, "SOMETHING WENT WRONG" });
-                            SendErrorMail(1, userName, message.From.ToString(), "SOMETHING WENT WRONG");
-                            break;
-                    }
-                }
-                foreach (var uid in label.Search(closeProjectQuery))
-                {
-                    var message = label.GetMessage(uid);
-                    dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, 1, 2, null });
-
-                    Dictionary<string, string> mailContent = StringfyContent(message.TextBody);
-
-                    if (UpdateCloseProject(mailContent) > 0)
-                    {
-                        dataaccess.LogProjectDatails(new object[] { message.From.ToString(), message.To.ToString(), message.Subject.ToString(), message.Date, null, DateTime.Now, 0, 2, null });
-                        label.AddFlags(uid, MessageFlags.Seen, true);
-                    }
-
-                }
-                client.Disconnect(true);
-            }
-            return true;
         }
 
         private void SendErrorMail(int smtpId, string fromAddress, string toAddress, string error)
@@ -148,7 +209,7 @@ namespace MTS.ProjectCreator
                     return;
                 MailMessage message = new MailMessage();
                 message.To.Add(toAddress.ToString());
-                message.Subject = "Project Creation failed";
+                message.Subject = emailSubject;
                 message.From = new MailAddress(fromAddress);
                 message.Body = $"Hello {fromAddress}, \n Your Request for project creation has been failed \n Error details - {error} \n Thank you!";
                 message.IsBodyHtml = true;
@@ -171,15 +232,23 @@ namespace MTS.ProjectCreator
         private Dictionary<string, string> StringfyContent(string body)
         {
             Dictionary<string, string> pairs = new Dictionary<string, string>();
-            string[] lines = body.Split('\n');
-            foreach (string line in lines)
+            try
             {
-                if (!line.Trim().Equals(""))
+                string[] lines = body.Split('\n');
+                foreach (string line in lines)
                 {
-                    pairs.Add(line.Substring(line.IndexOf(".") + 1,
-                        line.IndexOf("=") - line.IndexOf(".") - 2).Trim(),
-                        line.Substring(line.IndexOf("=") + 1, line.Length - line.IndexOf("=") - 1).Trim());
+                    if (!line.Trim().Equals(""))
+                    {
+                        pairs.Add(line.Substring(line.IndexOf(".") + 1,
+                            line.IndexOf("=") - line.IndexOf(".") - 2).Trim(),
+                            line.Substring(line.IndexOf("=") + 1, line.Length - line.IndexOf("=") - 1).Trim());
+                    }
                 }
+                
+            }
+            catch (Exception ex)
+            {
+                MTSExceptionHandler.HandleException(ref ex);
             }
             return pairs;
         }
