@@ -34,6 +34,14 @@ namespace MTS.EmailManager.EmailDataAccess
             });
         }
 
+        public int LogProjectDatails(object[] data)
+        {
+            return DataAccess.ExecuteNonQuery("MTS_EMAILLOGGERSP", data);
+        }
+        public DataSet GetImapDetails()
+        {
+            return DataAccess.ExecuteDataset("MTS_GETIMAPDETAILS", (object[])null);
+        }
         public DataSet GetSTMPDetails()
         {
             return DataAccess.ExecuteDataset("MTS_GetSTMPDetails", (object[])null);
