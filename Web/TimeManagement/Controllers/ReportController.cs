@@ -45,19 +45,38 @@ namespace TimeManagement.Controllers
             return items;
         }
 
-        private List<SelectListItem> GetWorkCodes()
+       
+        private Dictionary<int, string> GetWorkCodes()
         {
+            List<int> Id = this.db.WorkCodes.OrderBy(x => x.Id).Select(x => x.Id).ToList();
             List<string> WorkCodes = this.db.WorkCodes.OrderBy(x => x.Name).Select(x => x.Name).ToList();
 
-            List<SelectListItem> items = new List<SelectListItem>();
-            // items.Add(new SelectListItem { Text = "", Value = "" });
 
-            WorkCodes.ForEach(x =>
+            Dictionary<int, string> items = new Dictionary<int, string>(Id.Count);
+            for (int i = 0; i < Id.Count; i++)
             {
-                items.Add(new SelectListItem { Text = x, Value = x });
-            });
+                items.Add(Id[i], WorkCodes[i]);
+            }
 
             return items;
+        }
+        private List<SelectListItem> GetWorkCodeActivities()
+        {
+
+
+
+            return new List<SelectListItem>();
+        }
+        public JsonResult GetWorkCodeActivities(int? id)
+        {
+            List<Select2ListModel> items = new List<Select2ListModel>();
+            if (id != null)
+            {
+                List<string> WorkCodeActivities = this.db.WorkCodesActivities.Where(x => x.WorkCodeId == id).OrderBy(x => x.Name).Select(x => x.Name).ToList();
+                items = this.db.WorkCodesActivities.Where(x => x.WorkCodeId == id).OrderBy(x => x.Name).Select(x => new Select2ListModel() { id = x.Name, text = x.Name }).ToList();
+
+            }
+            return Json(items, JsonRequestBehavior.AllowGet);
         }
 
         private List<SelectListItem> GetEmployees()
@@ -89,6 +108,7 @@ namespace TimeManagement.Controllers
             ViewBag.locations = this.GetLocations();
             ViewBag.Projects = this.GetProjects();
             ViewBag.WorkCodes = this.GetWorkCodes();
+            ViewBag.WorkCodeActivity = this.GetWorkCodeActivities();
             ViewBag.Employees = this.GetEmployees();
             return View();
         }
@@ -249,7 +269,7 @@ namespace TimeManagement.Controllers
             }
         }
         [HttpGet]
-        public ActionResult GetTimeByDate(string fromDate, string toDate, string userName, string location, string project, string workcode, string employee)
+        public ActionResult GetTimeByDate(string fromDate, string toDate, string userName, string location, string project, string workcodeActivity, string employee)
         {
             if (string.IsNullOrEmpty(location))
                 location = null;
@@ -262,18 +282,18 @@ namespace TimeManagement.Controllers
                 // fromDate = DateTime.Now.ToShortDateString();
 
                 if (User.IsInRole(Constants.ROLE_ADMIN))
-                    tasks = this.taskService.GetTasks(fromDate, toDate, null, location, project, workcode, employee);
+                    tasks = this.taskService.GetTasks(fromDate, toDate, null, location, project, workcodeActivity, employee);
                 else
-                    tasks = this.taskService.GetTasks(fromDate, toDate, User.Identity.Name, location, project, workcode, employee);
+                    tasks = this.taskService.GetTasks(fromDate, toDate, User.Identity.Name, location, project, workcodeActivity, employee);
 
                 ViewBag.Message = "Result of " + DateTime.Now.ToShortDateString();
             }
             else
             {
                 if (User.IsInRole(Constants.ROLE_ADMIN))
-                    tasks = this.taskService.GetTasks(fromDate, toDate, null, location, project, workcode, employee);
+                    tasks = this.taskService.GetTasks(fromDate, toDate, null, location, project, workcodeActivity, employee);
                 else
-                    tasks = this.taskService.GetTasks(fromDate, toDate, User.Identity.Name, location, project, workcode, employee);
+                    tasks = this.taskService.GetTasks(fromDate, toDate, User.Identity.Name, location, project, workcodeActivity, employee);
 
                 if (!string.IsNullOrEmpty(toDate))
                     ViewBag.Message = "Result from " + fromDate + " to " + toDate;
@@ -288,7 +308,7 @@ namespace TimeManagement.Controllers
                              LocationName = task.Employee.Location.Name,
                              EmployeeName = task.Employee.LastName + ',' + task.Employee.FirstName,
                              ProjectName = task.Project.Name,
-                             WorkCodeName = task.WorkCode.Name,
+                             WorkCodeName = task.WorkCodesActivity.Name,
                              Hours = Convert.ToDecimal(task.Hours).ToString("0.00"),
                              Description = task.Description,
                              Date = Convert.ToDateTime(task.ExecutionDate).ToString("MM/dd/yyyy")
@@ -347,7 +367,7 @@ namespace TimeManagement.Controllers
                 tasks.ForEach(x =>
                 {
 
-                    output = string.Format("{0},\"{1}\",{2},{3},{4},{5},\"{6}\"", x.Employee.Location.Name, x.Employee.LastName + " " + x.Employee.FirstName, x.ExecutionDate.ToString("MM/dd/yyyy"), x.Project.Name, x.WorkCode.Name, x.Hours, x.Description);
+                    output = string.Format("{0},\"{1}\",{2},{3},{4},{5},\"{6}\"", x.Employee.Location.Name, x.Employee.LastName + " " + x.Employee.FirstName, x.ExecutionDate.ToString("MM/dd/yyyy"), x.Project.Name, x.WorkCodesActivity.Name, x.Hours, x.Description);
                     streamWriter.WriteLine(output);
                 });
             }
