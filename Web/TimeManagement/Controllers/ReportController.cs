@@ -45,20 +45,7 @@ namespace TimeManagement.Controllers
             return items;
         }
 
-        private List<SelectListItem> GetWorkCodes_1()
-        {
-            List<string> WorkCodes = this.db.WorkCodes.OrderBy(x => x.Name).Select(x => x.Name).ToList();
-
-            List<SelectListItem> items = new List<SelectListItem>();
-            // items.Add(new SelectListItem { Text = "", Value = "" });
-
-            WorkCodes.ForEach(x =>
-            {
-                items.Add(new SelectListItem { Text = x, Value = x });
-            });
-
-            return items;
-        }
+       
         private Dictionary<int, string> GetWorkCodes()
         {
             List<int> Id = this.db.WorkCodes.OrderBy(x => x.Id).Select(x => x.Id).ToList();

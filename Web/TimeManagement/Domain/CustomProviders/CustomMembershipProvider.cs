@@ -54,7 +54,7 @@ namespace TimeManagment.Domain.CustomProviders
 
                 if (!login.Password.Equals(decryptedPassword))
                     return false;
-                if ((bool)!emp.Active)
+                if (!emp.Active)
                     return false;
 
                 return true;
