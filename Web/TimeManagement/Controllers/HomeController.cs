@@ -141,10 +141,29 @@ namespace TimeManagement.Controllers
             Temp.Insert(0, new SelectListItem() { Text = "", Value = "" });
 
             ViewBag.WorkCodes = Temp;
+            Temp = new List<SelectListItem>();
+            Temp.Insert(0, new SelectListItem() { Text = "", Value = "" });
+
+            ViewBag.WorkCodesActivity = Temp;
+
 
             return View();
         }
+        public JsonResult GetWorkCodeActivities(int? id)
 
+        {
+            List<Select2ListModel> Temp = new List<Select2ListModel>();
+            if (id != null)
+            {
+                IEnumerable<WorkCodesActivity> workCodesActivity = this.db.WorkCodesActivities.Where(x => x.WorkCodeId == id).OrderBy(x => x.Name);
+                Temp.Add(new Select2ListModel() { id = "", text = "" });
+                foreach (var item in workCodesActivity)
+                {
+                    Temp.Add(new Select2ListModel() { id = item.Id.ToString(), text = item.Name });
+                }
+            }
+            return Json(Temp, JsonRequestBehavior.AllowGet);
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -153,6 +172,7 @@ namespace TimeManagement.Controllers
         [HttpPost, Authorize]
         public ActionResult AddTask(Task task)
         {
+
             var message = "success";
 
             try
@@ -162,14 +182,19 @@ namespace TimeManagement.Controllers
                 task.CreatedOn = DateTime.Now;
                 task.EmployeeId = login.Employee.Id;
                 task.Charge = login.Employee.BillRate.Value * task.Hours;
-
-                this.db.Tasks.Add(task);
-                this.db.SaveChanges();
-
-                return Json(new { message, task.Id });
+                task.WorkCodeId = task.WorkCodeActivityId;
+                if (!string.IsNullOrEmpty(task.Hours.ToString()))
+                {
+                    this.db.Tasks.Add(task);
+                    this.db.SaveChanges();
+                    task.workCodeActivity = this.db.WorkCodesActivities.FirstOrDefault(x => x.Id == task.WorkCodeActivityId).Name;
+                    return Json(new { message, task.Id, task.workCodeActivity });
+                }
+                return Json(new { });
             }
             catch (Exception ex)
             {
+
                 message = ex.Message;
                 return Json(new { message });
             }
@@ -259,7 +284,9 @@ namespace TimeManagement.Controllers
                     taskModel.taskId = task.Id;
                     taskModel.executionDate = task.ExecutionDate.ToString("MM/dd/yyyy");
                     taskModel.project = task.Project.Name;
-                    taskModel.workCode = task.WorkCodesActivity.Name;
+                    taskModel.workCodeId= task.WorkCodesActivity.Name;
+                   taskModel.workCodeActivity = task.WorkCodesActivity.Name;
+                    taskModel.workCodeActivityId = task.WorkCodeActivityId;
                     taskModel.hours = task.Hours.GetValueOrDefault();
                     taskModel.description = task.Description;
 

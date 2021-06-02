@@ -15,6 +15,9 @@ namespace TimeManagement.ViewModel
         public string workCode { get; set; }
         public decimal hours { get; set; }
         public string description { get; set; }
+        public string workCodeActivity { get; set; }
+        public int workCodeActivityId { get; set; }
         //public string removeTask { get; set; }
+
     }
 }
