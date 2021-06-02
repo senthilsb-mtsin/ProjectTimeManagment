@@ -229,7 +229,7 @@ namespace TimeManagement.Domain.Services
                 DateTime fromdt = Convert.ToDateTime(fromDate);
                 DateTime todt = Convert.ToDateTime(fromDate).AddDays(6);
 
-                tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate >= fromdt && x.ExecutionDate <= todt).OrderBy(x => x.ExecutionDate).ToList();
+                tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate >= fromdt && x.ExecutionDate <= todt).OrderBy(x => x.ExecutionDate).ToList();
 
                 if (tasks != null)
                 {
@@ -314,21 +314,21 @@ namespace TimeManagement.Domain.Services
                 DateTime from = Convert.ToDateTime(fromDate);
                 if (!string.IsNullOrEmpty(Company))
                 {
-                    tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate >= from && x.Employee.CompanyName.Equals(Company)).OrderBy(x => x.ExecutionDate).ToList();
+                    tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate >= from && x.Employee.CompanyName.Equals(Company)).OrderBy(x => x.ExecutionDate).ToList();
                 }
                 else if (userName == null)
                 {
                     if (location == null)
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate == from).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate == from).ToList();
                     else
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate == from && x.Employee.Location.Name.Equals(location)).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate == from && x.Employee.Location.Name.Equals(location)).ToList();
                 }
                 else
                 {
                     if (location == null)
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("Login").Include("WorkCode").Where(x => x.ExecutionDate == from && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName)).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("Login").Include("WorkCodesActivity").Where(x => x.ExecutionDate == from && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName)).ToList();
                     else
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("Login").Include("WorkCode").Where(x => x.ExecutionDate == from && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName) && x.Employee.Location.Name.Equals(location)).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("Login").Include("WorkCodesActivity").Where(x => x.ExecutionDate == from && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName) && x.Employee.Location.Name.Equals(location)).ToList();
                 }
             }
             else
@@ -338,23 +338,23 @@ namespace TimeManagement.Domain.Services
 
                 if (!string.IsNullOrEmpty(Company))
                 {
-                    tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.CompanyName.Equals(Company)).OrderBy(x => x.ExecutionDate).ToList();
+                    tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.CompanyName.Equals(Company)).OrderBy(x => x.ExecutionDate).ToList();
                 }
 
                 else if (userName == null)
                 {
                     if (location == null)
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to).OrderBy(x => x.ExecutionDate).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to).OrderBy(x => x.ExecutionDate).ToList();
                     else
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.Location.Name.Equals(location)).OrderBy(x => x.ExecutionDate).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.Location.Name.Equals(location)).OrderBy(x => x.ExecutionDate).ToList();
 
                 }
                 else
                 {
                     if (location == null)
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName)).OrderBy(x => x.ExecutionDate).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName)).OrderBy(x => x.ExecutionDate).ToList();
                     else
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName) && x.Employee.Location.Name.Equals(location)).OrderBy(x => x.ExecutionDate).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName) && x.Employee.Location.Name.Equals(location)).OrderBy(x => x.ExecutionDate).ToList();
                 }
             }
 
@@ -415,16 +415,16 @@ namespace TimeManagement.Domain.Services
                 if (userName == null)
                 {
                     if (location == null)
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate == from).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate == from).ToList();
                     else
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate == from && x.Employee.Location.Name.Equals(location)).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate == from && x.Employee.Location.Name.Equals(location)).ToList();
                 }
                 else
                 {
                     if (location == null)
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("Login").Include("WorkCode").Where(x => x.ExecutionDate == from && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName)).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("Login").Include("WorkCodesActivity").Where(x => x.ExecutionDate == from && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName)).ToList();
                     else
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("Login").Include("WorkCode").Where(x => x.ExecutionDate == from && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName) && x.Employee.Location.Name.Equals(location)).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("Login").Include("WorkCodesActivity").Where(x => x.ExecutionDate == from && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName) && x.Employee.Location.Name.Equals(location)).ToList();
                 }
             }
             else
@@ -435,16 +435,16 @@ namespace TimeManagement.Domain.Services
                 if (userName == null)
                 {
                     if (location == null)
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to).OrderBy(x => x.ExecutionDate).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to).OrderBy(x => x.ExecutionDate).ToList();
                     else
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.Location.Name.Equals(location)).OrderBy(x => x.ExecutionDate).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.Location.Name.Equals(location)).OrderBy(x => x.ExecutionDate).ToList();
                 }
                 else
                 {
                     if (location == null)
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName)).OrderBy(x => x.ExecutionDate).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName)).OrderBy(x => x.ExecutionDate).ToList();
                     else
-                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCode").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName) && x.Employee.Location.Name.Equals(location)).OrderBy(x => x.ExecutionDate).ToList();
+                        tasks = this.db.Tasks.Include("Project").Include("Employee").Include("WorkCodesActivity").Where(x => x.ExecutionDate >= from && x.ExecutionDate <= to && x.Employee.Logins.FirstOrDefault().UserId.Equals(userName) && x.Employee.Location.Name.Equals(location)).OrderBy(x => x.ExecutionDate).ToList();
                 }
             }
 
