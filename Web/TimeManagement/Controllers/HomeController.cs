@@ -560,7 +560,7 @@ namespace TimeManagement.Controllers
 
             var tasksgrp = from t in db.Tasks
                            join p in db.Projects on t.ProjectId equals p.Id
-                           join w in db.WorkCodes on t.WorkCodeActivityId equals w.Id
+                           join w in db.WorkCodesActivities on t.WorkCodeActivityId equals w.Id
                            join e in db.Employees on t.EmployeeId equals e.Id
                            where t.Description == "vdsfgd"
                            select new { projectname = p.Name, workcode = w.Name, empname = e.LastName + " " + e.FirstName };
