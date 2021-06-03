@@ -182,13 +182,11 @@ namespace TimeManagement.Controllers
                 task.CreatedOn = DateTime.Now;
                 task.EmployeeId = login.Employee.Id;
                 task.Charge = login.Employee.BillRate.Value * task.Hours;
-                task.WorkCodeId = task.WorkCodeActivityId;
                 if (!string.IsNullOrEmpty(task.Hours.ToString()))
                 {
                     this.db.Tasks.Add(task);
                     this.db.SaveChanges();
-                    task.workCodeActivity = this.db.WorkCodesActivities.FirstOrDefault(x => x.Id == task.WorkCodeActivityId).Name;
-                    return Json(new { message, task.Id, task.workCodeActivity });
+                    return Json(new { message, task.Id });
                 }
                 return Json(new { });
             }
@@ -217,7 +215,7 @@ namespace TimeManagement.Controllers
                 Task existingTask = this.db.Tasks.Find(task.Id);
                 existingTask.ExecutionDate = task.ExecutionDate;
                 existingTask.ProjectId = task.ProjectId;
-                existingTask.WorkCodeId = task.WorkCodeId;
+                existingTask.WorkCodeActivityId = task.WorkCodeActivityId;
                 existingTask.Hours = task.Hours;
                 existingTask.Description = task.Description;
                 existingTask.Charge = login.Employee.BillRate.Value * existingTask.Hours;
@@ -286,7 +284,6 @@ namespace TimeManagement.Controllers
                     taskModel.project = task.Project.Name;
                     taskModel.workCodeId= task.WorkCodesActivity.Name;
                    taskModel.workCodeActivity = task.WorkCodesActivity.Name;
-                    taskModel.workCodeActivityId = task.WorkCodeActivityId;
                     taskModel.hours = task.Hours.GetValueOrDefault();
                     taskModel.description = task.Description;
 
@@ -563,7 +560,7 @@ namespace TimeManagement.Controllers
 
             var tasksgrp = from t in db.Tasks
                            join p in db.Projects on t.ProjectId equals p.Id
-                           join w in db.WorkCodes on t.WorkCodeId equals w.Id
+                           join w in db.WorkCodes on t.WorkCodeActivityId equals w.Id
                            join e in db.Employees on t.EmployeeId equals e.Id
                            where t.Description == "vdsfgd"
                            select new { projectname = p.Name, workcode = w.Name, empname = e.LastName + " " + e.FirstName };
@@ -612,7 +609,7 @@ namespace TimeManagement.Controllers
 
             var tasksgrp = from t in db.Tasks
                            join p in db.Projects on t.ProjectId equals p.Id
-                           join w in db.WorkCodes on t.WorkCodeId equals w.Id
+                           join w in db.WorkCodes on t.WorkCodeActivityId equals w.Id
                            join e in db.Employees on t.EmployeeId equals e.Id
                            where t.ExecutionDate >= Fromdate && t.ExecutionDate <= Todate
 
