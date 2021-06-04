@@ -23,7 +23,8 @@ namespace TimeManagement.Models
         public Nullable<decimal> Hours { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public Nullable<decimal> Charge { get; set; }
-    
+        public string workCodeActivity { get; set; }
+        public int WorkCodeActivityId { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual Project Project { get; set; }
         public virtual WorkCodesActivity WorkCodesActivity { get; set; }
