@@ -233,30 +233,26 @@
 
         if (date == "") {
             $('#Date').show();
-             return false;
         }
 
         if (project == "") {
             $('#project').show();
-              return false;
         }
 
         if (workcode == "") {
             $('#workcode').show();
-              return false;
         }
 
         if (workcodeActivity == "") {
             $('#workcodeActivity').show();
-            return false;
+        }
+        
+        if (description == "") {
+            $('#desc').show();
         }
         if (hours == "" || hours == null) {
             $('#Hours').show();
             return false;
-        }
-        if (description == "") {
-            $('#desc').show();
-              return false;
         }
         return true;
     }

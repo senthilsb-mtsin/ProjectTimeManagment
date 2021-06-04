@@ -182,9 +182,10 @@ namespace TimeManagement.Controllers
                 task.CreatedOn = DateTime.Now;
                 task.EmployeeId = login.Employee.Id;
                 task.Charge = login.Employee.BillRate.Value * task.Hours;
-                    this.db.Tasks.Add(task);
-                    this.db.SaveChanges();
-                    return Json(new { message, task.Id });
+                this.db.Tasks.Add(task);
+                this.db.SaveChanges();
+               
+                return Json(new { message, task.Id });
             }
             
             catch (Exception ex)
