@@ -36,7 +36,7 @@
                     <div class="col-lg-12 pad0 gap-bottom5">
                         <b>Work Code</b>
                     </div>
-                    <div class="col-lg-12 pad0">
+                    <div class="col-lg-12 pad0 required">
                         @Html.DropDownList("workCodes", (IEnumerable<SelectListItem>)ViewBag.WorkCodes, new Dictionary<string, object>
                 {
                     {"data-bind", "value:workCodeId"},

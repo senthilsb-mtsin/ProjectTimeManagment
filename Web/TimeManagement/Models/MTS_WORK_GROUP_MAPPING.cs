@@ -15,7 +15,7 @@ namespace TimeManagement.Models
     public partial class MTS_WORK_GROUP_MAPPING
     {
         public int ID { get; set; }
-        public int WORK_ID { get; set; }
+        public int WORKCODEACTIVITYID { get; set; }
         public int GROUP_ID { get; set; }
     
         public virtual MTS_GROUPS MTS_GROUPS { get; set; }

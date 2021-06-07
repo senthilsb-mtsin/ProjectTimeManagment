@@ -876,9 +876,9 @@ namespace TimeManagement.Controllers
         {
             WorkCode proj = new WorkCode();
             proj.Id =  id;
-            List<WorkCodesActivity> workCodeActivities = this.db.WorkCodesActivities.Where(x => x.WorkCodeId == 0 || x.WorkCodeId == id).ToList();
-            ViewBag.AssignedProjectList =workCodeActivities.Where(x => x.WorkCodeId!=0).Select(x=>new SelectListItem(){ Value=x.Id.ToString(),Text=x.Name}).ToList();
-            ViewBag.ProjectList = workCodeActivities.Where(x => x.WorkCodeId == 0).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
+            List<WorkCodesActivity> workCodeActivities = this.db.WorkCodesActivities.Where(x => x.WorkCodesId == 0 || x.WorkCodesId == id).ToList();
+            ViewBag.AssignedProjectList =workCodeActivities.Where(x => x.WorkCodesId!=0).Select(x=>new SelectListItem(){ Value=x.Id.ToString(),Text=x.Name}).ToList();
+            ViewBag.ProjectList = workCodeActivities.Where(x => x.WorkCodesId == 0).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
             return PartialView("_PVAssignWorkCodeActivity", proj);
         }
 
@@ -888,10 +888,10 @@ namespace TimeManagement.Controllers
 
             try
             {
-                List<WorkCodesActivity> workCodeActivities = this.db.WorkCodesActivities.Where(x => x.WorkCodeId == Id).ToList();
+                List<WorkCodesActivity> workCodeActivities = this.db.WorkCodesActivities.Where(x => x.WorkCodesId == Id).ToList();
                 foreach( WorkCodesActivity workcode in workCodeActivities)
                 {
-                    workcode.WorkCodeId = 0;
+                    workcode.WorkCodesId = 0;
                     this.db.Entry(workcode).State = EntityState.Modified;
                     this.db.SaveChanges();
                 }
@@ -903,7 +903,7 @@ namespace TimeManagement.Controllers
                         WorkCodesActivity workCodeActivity = this.db.WorkCodesActivities.Where(x => x.Id == activity).FirstOrDefault();
                         if (workCodeActivity != null)
                         {
-                            workCodeActivity.WorkCodeId = Id;
+                            workCodeActivity.WorkCodesId = Id;
                             this.db.Entry(workCodeActivity).State = EntityState.Modified;
                             this.db.SaveChanges();
                         }

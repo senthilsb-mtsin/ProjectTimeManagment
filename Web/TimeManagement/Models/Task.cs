@@ -15,7 +15,7 @@ namespace TimeManagement.Models
     public partial class Task
     {
         public int Id { get; set; }
-        public int WorkCodeId { get; set; }
+        public int WorkCodeActivityId { get; set; }
         public int ProjectId { get; set; }
         public int EmployeeId { get; set; }
         public string Description { get; set; }

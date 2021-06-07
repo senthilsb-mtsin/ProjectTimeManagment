@@ -72,8 +72,8 @@ namespace TimeManagement.Controllers
             List<Select2ListModel> items = new List<Select2ListModel>();
             if (id != null)
             {
-                List<string> WorkCodeActivities = this.db.WorkCodesActivities.Where(x => x.WorkCodeId == id).OrderBy(x => x.Name).Select(x => x.Name).ToList();
-                items = this.db.WorkCodesActivities.Where(x => x.WorkCodeId == id).OrderBy(x => x.Name).Select(x => new Select2ListModel() { id = x.Name, text = x.Name }).ToList();
+                List<string> WorkCodeActivities = this.db.WorkCodesActivities.Where(x => x.WorkCodesId == id).OrderBy(x => x.Name).Select(x => x.Name).ToList();
+                items = this.db.WorkCodesActivities.Where(x => x.WorkCodesId == id).OrderBy(x => x.Name).Select(x => new Select2ListModel() { id = x.Name, text = x.Name }).ToList();
 
             }
             return Json(items, JsonRequestBehavior.AllowGet);
