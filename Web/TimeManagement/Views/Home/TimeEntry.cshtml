@@ -1,89 +1,115 @@
-﻿
-<div class="row">
+﻿<div class="row">
     <div class="boxshade">
         <div class="boxhead">
             Time Entry Form
         </div>
         <div class="boxbody">
             <div class="col-lg-12 pad10 gap-bottom10" style="background-color: #F5F5F5;">
-                <div class="col-lg-1">
-                    <div class="col-lg-12 pad0 gap-bottom5">
-                        <b>Date</b>
-                    </div>
-                    <div class="col-lg-12 pad0">
-                        <input class="date form-control required" id="date" style="width: 100px !important" data-bind="value:executionDate" />
-                        <div id="Date" class="requi">
-                            Date is Required
+                <div class="row pad-bottom20">
+                    <div class="col-lg-3">
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>Project</b>
+                        </div>
+                        <div class="col-lg-12 pad0">
+                            <div class="required ui-corner-all">
+                                @Html.DropDownList("projects", (IEnumerable<SelectListItem>)ViewBag.Projects, new Dictionary<string, object>
+                        {
+                            {"data-bind", "value:projectId"},
+                             {"class", "form-control required"}
+                        })
+                            </div>
+                            <div id="project" class="requi">
+                                Project is Required
+                            </div>
                         </div>
                     </div>
+
+                    <div class="col-lg-3">
+                        <div class="col-lg-12 pad0 gap-bottom5 ">
+                            <b>Work Code</b>
+
+                        </div>
+                        <div class="col-lg-12 pad0">
+                            <div class="required ui-corner-all">
+                                @Html.DropDownList("workCodes", (IEnumerable<SelectListItem>)ViewBag.WorkCodes, new Dictionary<string, object>
+                        {
+                            {"data-bind", "value:workCodeId"},
+                             {"class", "form-control required"}
+                        })
+                                </div>
+                                <div id="workcode" class="requi">
+                                    Workcode is Required
+                                </div>
+                            </div>
+                        </div>
+                    <div class="col-lg-3">
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>Work Code Activity</b>
+                        </div>
+                        <div class="col-lg-12 pad0">
+                            <div class="required ui-corner-all">
+                                @Html.DropDownList("workCodeActivities", (IEnumerable<SelectListItem>)ViewBag.WorkCodesActivity, new Dictionary<string, object>
+                        {
+                            {"data-bind", "value:workCodeActivityId"},
+                             {"class", "form-control required"}
+                        })
+                             </div>
+                            <div id="workcodeActivity" class="requi">
+                                    WorkcodeActivity is Required
+                                </div>
+                            </div>
+                        </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="col-lg-12 pad0 gap-bottom5">
-                        <b>Project</b>
-                    </div>
-                    <div class="col-lg-12 pad0">
-                        @Html.DropDownList("projects", (IEnumerable<SelectListItem>)ViewBag.Projects, new Dictionary<string, object>
-                {
-                    {"data-bind", "value:projectId"},
-                     {"class", "form-control required"}
-                })
-                        <div id="project" class="requi">
-                            Project is Required
+                <div class="row">
+                    <div class="col-lg-1">
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>Date</b>
+                        </div>
+                        <div class="col-lg-12 pad0">
+                            <input class="date form-control required" id="date" style="width: 100px !important" data-bind="value:executionDate" />
+                            <div id="Date" class="requi">
+                                Date is Required
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="col-lg-12 pad0 gap-bottom5">
-                        <b>Work Code</b>
-                    </div>
-                    <div class="col-lg-12 pad0 required">
-                        @Html.DropDownList("workCodes", (IEnumerable<SelectListItem>)ViewBag.WorkCodes, new Dictionary<string, object>
-                {
-                    {"data-bind", "value:workCodeId"},
-                     {"class", "form-control required"}
-                })
-                        <div id="workcode" class="requi">
-                            Workcode is Required
+                    <div class="col-lg-2">
+                        <div class="col-lg-12 pad-left10 gap-bottom5">
+                            <b>Hours</b>
+                        </div>
+                        <div class="col-lg-12 pad-left10">
+                            <input data-bind="value:hours" class="form-control required" id="hours" style="width: 100px !important"/>
+                            <div id="Hours" class="requi">
+                                Hours is Required
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-1">
-                    <div class="col-lg-12 pad0 gap-bottom5">
-                        <b>Hours</b>
-                    </div>
-                    <div class="col-lg-12 pad0">
-                        <input data-bind="value:hours" class="form-control required" id="hours" />
-                        <div id="Hours" class="requi">
-                            Hours is Required
+                    <div class="col-lg-3">
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            <b>Description </b>
+                        </div>
+                        <div class="col-lg-12 pad0">
+                            <textarea data-bind="value:description" id="description" class="form-control required" style="width: 100%;"
+                                      cols="" rows="2"></textarea>
+                            <div id="desc" class="requi">
+                                Description is Required
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="col-lg-12 pad0 gap-bottom5">
-                        <b>Description </b>
-                    </div>
-                    <div class="col-lg-12 pad0">
-                        <textarea data-bind="value:description" id="description" class="form-control required" style="width: 100%;"
-                                  cols="" rows="2"></textarea>
-                        <div id="desc" class="requi">
-                            Description is Required
+                    <div class="col-lg-1">
+                        <div class="col-lg-12 pad0 gap-bottom5">
+                            &nbsp;
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="col-lg-12 pad0 gap-bottom5">
-                        &nbsp;
-                    </div>
-                    <div class="col-lg-12 pad0">
-                        <button id="btnAdd" data-bind="click:addTask" type="button" class="btn btn-info pull-right gap-right10">
-                            Add
-                        </button>
-                        <button id="btnEdit" data-bind="click:editTask" type="button" class="btn btn-info pull-right gap-right10">
-                            Save
-                        </button>
-                        <button id="btnCancel" type="button" class="btn btn-info pull-right gap-right10">
-                            Cancel
-                        </button>
+                        <div class="col-lg-12 pad0">
+                            <button id="btnAdd" data-bind="click:addTask" type="button" class="btn btn-info pull-left gap-left2 gap-right10 gap-top10">
+                                Add
+                            </button>
+                            <button id="btnEdit" data-bind="click:editTask" type="button" class="btn btn-info pull-right gap-right10">
+                                Save
+                            </button>
+                            <button id="btnCancel" type="button" class="btn btn-info pull-right gap-right10 ">
+                                Cancel
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -95,18 +121,22 @@
                                 <th width="10%">
                                     Date
                                 </th>
-                                <th width="20%">
+                                <th width="15%">
                                     Project
                                 </th>
-                                <th width="20%">
-                                    Work Code
+                                <th width="15%">
+                                    Work Code 
+                                </th>
+                                <th width="15%">
+                                    Work Code Activity
                                 </th>
                                 <th width="5%">
                                     Hours
                                 </th>
-                                <th width="35%">
+                                <th width="30%">
                                     Description
                                 </th>
+
                                 <th width="10%">
                                     &nbsp;
                                 </th>
@@ -115,14 +145,17 @@
                         <tbody data-bind="template: { name:'activityTableTmpl', foreach:tasks }">
                         </tbody>
                         <tfoot>
+
                             <tr style="background-color: #2481B7; color: #FFF">
-                                <td colspan="3" style="text-align: right">
+
+                                <td colspan="4" style="text-align: right">
                                     <b>Total</b>
                                 </td>
                                 <td>
                                     <div id="total" style="font-weight: bold; text-align: center">
                                     </div>
                                 </td>
+
                                 <td colspan="2">
                                 </td>
                             </tr>
@@ -138,6 +171,7 @@
         <td data-bind="text:executionDate" style="text-align:center"></td>
         <td data-bind="text:project" style="text-align:left !important"></td>
         <td data-bind="text:workCode" style="text-align:left !important"></td>
+        <td data-bind="text:workCodeActivities" style="text-align:left !important"></td>
         <td data-bind="text:hours" style="text-align:center"></td>
         <td data-bind="text:description" style="text-align:left !important"></td>
         <td>
@@ -153,6 +187,7 @@
         $('#Date').hide();
         $('#project').hide();
         $('#workcode').hide();
+        $('#workcodeActivity').hide();
         $('#Hours').hide();
         $('#desc').hide();
 
@@ -164,43 +199,65 @@
             sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
         });
 
+        $("#workCodeActivities").select2({
+            sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
+        });
+
+        $(document).on('change', '#workCodes', function () {
+            $('#workCodeActivities').empty();
+            $('#workcodeActivity').hide();
+            $('#workcode').hide();
+            $.ajax(
+                {
+                    url: "/Home/GetWorkCodeActivities",
+                    dataType: 'json',
+                    data: { id: $('#workCodes').val() },
+                    success: function (data) {
+                        $('#workCodeActivities').select2({
+                            placeholder: "Select WorkCodeActivity",
+                            data: data,
+                        })
+                        $('#workCodeActivities').trigger("change");  
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                        console.log(errorMessage);
+                    }
+                });
+        });
     });
     function validate() {
-
         var date = $('#date').val();
         var project = $('#projects').val();
         var workcode = $('#workCodes').val();
+        var workcodeActivity = $('#workCodeActivities').val();
         var hours = $('#hours').val();
         var description = $('#description').val();
 
         if (date == "") {
             $('#Date').show();
-            // return false;
         }
 
         if (project == "") {
             $('#project').show();
-            //  return false;
         }
 
         if (workcode == "") {
             $('#workcode').show();
-            //  return false;
         }
-        if (hours == "") {
-            $('#Hours').show();
-            // return false;
+
+        if (workcodeActivity == "") {
+            $('#workcodeActivity').show();
         }
+        
         if (description == "") {
             $('#desc').show();
-            //  return false;
         }
-
-
+        if (hours == "" || hours == null) {
+            $('#Hours').show();
+            return false;
+        }
+        return true;
     }
-
-
-
     $("#date").on('click', function () {
         var date = $('#date').val();
         if (date == "") {
@@ -216,6 +273,7 @@
     });
 
     $("#projects").on('click', function () {
+
         var projects = $('#projects').val();
         if (projects == "") {
             $('#project').show();
@@ -224,14 +282,30 @@
             $('#project').hide();
             return false;
         }
+
+        return false;
+
+    });
+
+    $("#projects").on('change', function () {
+
+        var projects = $('#projects').val();
+        if (projects == "") {
+            $('#project').show();
+            return false;
+        } else if (projects != "") {
+            $('#project').hide();
+            return false;
+        }
+       
         return false;
 
     });
 
     $("#workCodes").on('click', function () {
         var workcode = $('#workCodes').val();
-        if (workcode == "") {
-            $('#workcode').show();
+        if (workcode != "") {
+            $('#workcode').hide();
             return false;
         } else if (workcode != "") {
             $('#workcode').hide();
@@ -240,12 +314,37 @@
         return false;
 
     });
+    
+    $("#workCodeActivities").on('change', function () {
+        if (workcodeActivity == "") {
+            $('#workcodeActivity').show();
+            return false;
+        }
+        else {
+            $('#workcodeActivity').hide();
+            return false;
+        }
+        return false;
+    });
+
+    $("#workCodeActivities").on('click', function () {
+        var workcodeActivity = $('#workCodeActivities').val();
+        if (workcodeActivity == "") {
+            $('#workcodeActivity').show();
+            return false;
+        } else if (workcodeActivity != "") {
+            $('#workcodeActivity').hide();
+            return false;
+        }
+        return false;
+
+    });
     $("#hours").change(function () {
         var hours = $('#hours').val();
-        if (hours == "") {
+        if (hours == "" ) {
             $('#Hours').show();
             return false;
-        } else if (hours != "") {
+        } else if (hours != "" ) {
             $('#Hours').hide();
             return false;
         }
@@ -264,33 +363,23 @@
         return false;
 
     });
-
-
-
-
-
-
-
-
-
-
-
 </script>
 <script type="text/javascript">
     var viewModal;
-
-
     function task(modal) {
-
+       
          return {
             id: ko.observable(modal.taskId()),
             executionDate: ko.observable(modal.executionDate()),
             projectId: ko.observable(modal.projectId()),
-            project: ko.observable(modal.project()),
-            workCodeId: ko.observable(modal.workCodeId()),
-            workCode: ko.observable(modal.workCode()),
-            hours: ko.observable(parseFloat(modal.hours()).toFixed(2)),
-            description: ko.observable(modal.description()),
+             project: ko.observable(modal.project()),
+             workCodeId: ko.observable(modal.workCodeId()),
+             workCode: ko.observable(modal.workCode()),
+             workCodeActivities: ko.observable(modal.workCodeActivity()),
+             workCodeActivityId: ko.observable(modal.workCodeActivityId()),
+             hours: ko.observable(parseFloat(modal.hours()).toFixed(2)),
+             description: ko.observable(modal.description()),
+             
 
             removeTask: function () {
                 var self = this;
@@ -337,7 +426,7 @@
 
                 $("#workCodes option").find('option').removeAttr("selected");
                 $("#workCodes option:contains("+self.workCode() +")").attr("selected",true);
-                viewModal.workCodeId($("#workCodes").val());
+                viewModal.workCode($("#workCodes").val());
 
                 viewModal.hours(self.hours());
                 viewModal.description(self.description());
@@ -354,6 +443,9 @@
         this.executionDate = ko.observable()
         this.projectId = ko.observable()
         this.workCodeId = ko.observable();
+        this.workCode = ko.observable();
+        this.workCodeActivityId = ko.observable();
+        this.workCodeActivity = ko.observable();
         this.hours = ko.observable();
         this.description = ko.observable();
         this.tasks = ko.observableArray([]);
@@ -362,34 +454,36 @@
             return $("#workCodes option[value='" +self.workCodeId() + "']").text();
         });
 
+       this.workCodeActivity = ko.computed(function () {
+           return $("#workCodeActivities option[value='" + self.workCodeActivityId() + "']").text();
+        });
+
         this.project = ko.computed(function() {
             return $("#projects option[value='" +self.projectId() + "']").text();
         });
 
-        this.addTask = function() {
-
-            validate();
-            var newTask = new task(self);
-            $("#spinner").show();
-            $.ajax({
-                url: "@Url.Content("~/Home/AddTask")",
-                type: "POST",
-                data: ko.toJSON(newTask),
-                contentType: "application/json",
-                success: function(result) {
-                    $("#spinner").hide();
-                    if(result.message == 'success')
-                    {
-                        newTask.id(result.Id);
-                        self.tasks.push(newTask);
-
-                        //calculateTotal
-                        calculateTotal();
-                        clearDataonadd();
-
+        this.addTask = function () {
+            
+           var showhide = validate();
+            if (showhide) {
+                var newTask = new task(self);
+                $("#spinner").show();
+                $.ajax({
+                    url: "@Url.Content("~/Home/AddTask")",
+                    type: "POST",
+                    data: ko.toJSON(newTask),
+                    contentType: "application/json",
+                    success: function (result) {
+                        $("#spinner").hide();
+                        if (result.message == 'success') {
+                            newTask.id(result.Id);
+                            self.tasks.push(newTask);
+                            calculateTotal();
+                            clearDataonadd();
+                        }
                     }
-                }
-            });
+                });
+            }
         };
 
         this.editTask = function() {
@@ -459,7 +553,6 @@
                     $.each(result, function(i, item) {
                         viewModal.tasks.push(new task(ko.mapping.fromJS(item)));
                     });
-
                     //calculateTotal
                     calculateTotal();
                 }
@@ -491,22 +584,32 @@ function clearData()
     $("#workCodes option").find('option').removeAttr("selected");
     $("#workCodes option:first").attr("selected",true);
 
+    viewModal.workCodeActivityId("");
+    $("#workCodeActivities option").find('option').removeAttr("selected");
+    $("#workCodeActivities option:first").attr("selected", true);
+
     viewModal.hours("");
     viewModal.description("");
 }
 
 function clearDataonadd()
 {
-
-
     viewModal.taskId("");
-
-
+    viewModal.projectId("");
+    $("#projects option").find('option').removeAttr("selected");
+    $("#projects option:first").attr("selected", true);
+    $('#projects').val(null).trigger('change.select2');
 
     viewModal.workCodeId("");
     $("#workCodes option").find('option').removeAttr("selected");
-    $("#workCodes option:first").attr("selected",true);
+    $("#workCodes option:first").attr("selected", true);
+    $('#workCodes').val(null).trigger('change.select2');
 
+
+    viewModal.workCodeActivityId("");
+    $("#workCodeActivities option").find('option').removeAttr("selected");
+    $("#workCodeActivities option:first").attr("selected", true);
+    $('#workCodeActivities').empty();
     viewModal.hours("");
     viewModal.description("");
 }

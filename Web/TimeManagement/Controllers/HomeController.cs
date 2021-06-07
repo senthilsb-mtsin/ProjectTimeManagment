@@ -37,7 +37,7 @@ namespace TimeManagement.Controllers
         {
             string userName = Request.Form["UserId"];
             string password = Request.Form["Password"];
-            
+
 
             Login login = this.db.Logins.Where(x => x.UserId.ToUpper().Equals(userName.ToUpper())).FirstOrDefault();
 
@@ -141,10 +141,29 @@ namespace TimeManagement.Controllers
             Temp.Insert(0, new SelectListItem() { Text = "", Value = "" });
 
             ViewBag.WorkCodes = Temp;
+            Temp = new List<SelectListItem>();
+            Temp.Insert(0, new SelectListItem() { Text = "", Value = "" });
+
+            ViewBag.WorkCodesActivity = Temp;
+
 
             return View();
         }
+        public JsonResult GetWorkCodeActivities(int? id)
 
+        {
+            List<Select2ListModel> Temp = new List<Select2ListModel>();
+            if (id != null)
+            {
+                IEnumerable<WorkCodesActivity> workCodesActivity = this.db.WorkCodesActivities.Where(x => x.WorkCodeId == id).OrderBy(x => x.Name);
+                Temp.Add(new Select2ListModel() { id = "", text = "" });
+                foreach (var item in workCodesActivity)
+                {
+                    Temp.Add(new Select2ListModel() { id = item.Id.ToString(), text = item.Name });
+                }
+            }
+            return Json(Temp, JsonRequestBehavior.AllowGet);
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -153,6 +172,7 @@ namespace TimeManagement.Controllers
         [HttpPost, Authorize]
         public ActionResult AddTask(Task task)
         {
+
             var message = "success";
 
             try
@@ -162,14 +182,15 @@ namespace TimeManagement.Controllers
                 task.CreatedOn = DateTime.Now;
                 task.EmployeeId = login.Employee.Id;
                 task.Charge = login.Employee.BillRate.Value * task.Hours;
-
                 this.db.Tasks.Add(task);
                 this.db.SaveChanges();
-
+               
                 return Json(new { message, task.Id });
             }
+            
             catch (Exception ex)
             {
+
                 message = ex.Message;
                 return Json(new { message });
             }
@@ -259,7 +280,8 @@ namespace TimeManagement.Controllers
                     taskModel.taskId = task.Id;
                     taskModel.executionDate = task.ExecutionDate.ToString("MM/dd/yyyy");
                     taskModel.project = task.Project.Name;
-                    taskModel.workCode = task.WorkCodesActivity.Name;
+                    taskModel.workCode = this.db.WorkCodes.FirstOrDefault(x => x.Id == task.WorkCodesActivity.WorkCodeId).Name;
+                    taskModel.workCodeActivity = task.WorkCodesActivity.Name;
                     taskModel.hours = task.Hours.GetValueOrDefault();
                     taskModel.description = task.Description;
 
@@ -534,17 +556,6 @@ namespace TimeManagement.Controllers
             var employee = this.db.Logins.Where(x => x.UserId.Equals(this.CurrentUserId)).FirstOrDefault().Employee;
             List<Project> projects = employee.EmployeeProjects.Select(x => x.Project).OrderBy(x => x.Name).ToList();
 
-            var tasksgrp = from t in db.Tasks
-                           join p in db.Projects on t.ProjectId equals p.Id
-                           join w in db.WorkCodesActivities on t.WorkCodeActivityId equals w.Id
-                           join e in db.Employees on t.EmployeeId equals e.Id
-                           where t.Description == "vdsfgd"
-                           select new { projectname = p.Name, workcode = w.Name, empname = e.LastName + " " + e.FirstName };
-
-            foreach (var result in tasksgrp)
-            {
-
-            }
 
             //Get general projects
             List<Project> commonProjects = this.db.Projects.Where(x => x.IsCommon.Value == true).ToList();
