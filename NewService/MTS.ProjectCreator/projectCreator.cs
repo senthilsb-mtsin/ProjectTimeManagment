@@ -12,6 +12,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace MTS.ProjectCreator
 {
@@ -35,7 +36,13 @@ namespace MTS.ProjectCreator
 
         public void OnStart(string Params)
         {
-            this.emailSubject = Params;
+            // this.emailSubject = Params;
+            var list = XDocument.Parse(Params).Descendants((XName)"add").Select(z => new
+            {
+                Key = z.Attribute((XName)"key").Value,
+                Value = z.Value
+            }).ToList();
+            this.emailSubject = list.Find(f => f.Key == "Subject").Value;
         }
 
         private int UpdateCloseProject(Dictionary<string, string> mailContent)
