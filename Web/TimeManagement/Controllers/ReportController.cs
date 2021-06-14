@@ -310,6 +310,7 @@ namespace TimeManagement.Controllers
                              ProjectName = task.Project.Name,
                              WorkCodeName = task.WorkCodesActivity.Name,
                              Hours = Convert.ToDecimal(task.Hours).ToString("0.00"),
+                             WorkCode = this.db.WorkCodes.FirstOrDefault(x=>x.Id==task.WorkCodesActivity.WorkCodeId).Name,
                              Description = task.Description,
                              Date = Convert.ToDateTime(task.ExecutionDate).ToString("MM/dd/yyyy")
 

@@ -64,30 +64,25 @@
             sorter: employee_id => employee_id.sort((a, b) => a.text.localeCompare(b.text)),
             placeholder: "Select Employee",
         });
-
         $('#project').select2({
             placeholder: "Select Project",
-        });
-
+       });
         $('#workcode').select2({
             placeholder: "Select WorkCode",
-        });
+        });  
         $('#workcodeActivity').select2({
             placeholder: "Select workcodeActivity",
         });
-
-
         $("#location").select2({
             placeholder: "Select Location",
         });
-
     });
 
     $(document.body).on("change", "#workcode", function () {
         var empid = this.value;
         // $('#WorkCodeActivities').val(null).trigger('change');
        
-        if (empid != null) {
+        if (empid != null) { 
             $('#workcodeActivity').select2({
 
                 ajax: {
@@ -199,8 +194,10 @@
             "aoColumns": [{ "mData": "LocationName", "sTitle": "Location" }
                                         , { "mData": "EmployeeName", "sTitle": "User Name" }
                                         , { "mData": "Date", "sTitle": "Date", "sClass": "text-center" }
-                                        , { "mData": "ProjectName", "sTitle": "Project" }
-                                        , { "mData": "WorkCodeName", "sTitle": "WorkCode Activity" }
+                                         , { "mData": "ProjectName", "sTitle": "Project" }
+                                            , { "mData": "WorkCode", "sTitle": "WorkCode" }
+                                          , { "mData": "WorkCodeName", "sTitle": "WorkCode Activity" }
+                                
                                         , { "mData": "Hours", "sTitle": "Hours", "sClass": "text-center"}
                                         , { "mData": "Description", "sTitle": "Description" }
 
