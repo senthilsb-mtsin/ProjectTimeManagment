@@ -55,9 +55,8 @@
 
         });
 
-        $("#location").select2({            
-            placeholder: "Select Location",
-        });
+       
+        $('#location').selectpicker({ noneSelectedText: "Select Location" });
 
     });
 
@@ -101,7 +100,7 @@
                             <div class="col-lg-12 pad0">
                                 <input type="text" class="form-control datePicker required" id="fromdate" placeholder="From"
                                        name="fromDate" />
-                                <div id="fdate" class="hidden">
+                                <div id="fdate" class="hidden requi">
                                     From Date Required
                                 </div>
                             </div>
@@ -113,7 +112,7 @@
                             </div>
                             <div class="col-lg-12 pad0">
                                 <input type="text" class="form-control datePicker required" id="todate" placeholder="To" name="toDate" />
-                                <div id="tdate" class="hidden">
+                                <div id="tdate" class="hidden requi">
                                     To Date Required
                                 </div>
                             </div>

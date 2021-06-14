@@ -33,14 +33,14 @@
         <EntityTypeShape EntityType="MTSTrexModel.MTS_SMTPDETAILS" Width="1.5" PointX="12.375" PointY="11.75" />
         <EntityTypeShape EntityType="MTSTrexModel.MTS_SERVICECONFIG" Width="1.5" PointX="13.375" PointY="0.75" />
         <EntityTypeShape EntityType="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Width="1.5" PointX="8.25" PointY="21.375" />
-        <EntityTypeShape EntityType="MTSTrexModel.Task" Width="1.5" PointX="8.25" PointY="0.75" />
         <EntityTypeShape EntityType="MTSTrexModel.WorkCodesActivity" Width="1.5" PointX="6" PointY="19.75" />
-        <AssociationConnector Association="MTSTrexModel.FK_EmployeeTask" />
         <AssociationConnector Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" />
         <AssociationConnector Association="MTSTrexModel.FK__MTS_WORK___WORK___0B91BA14" />
-        <AssociationConnector Association="MTSTrexModel.FK_ProjectTask" />
-        <AssociationConnector Association="MTSTrexModel.FK__Tasks__WorkCodeI__0A9D95DB" />
         <EntityTypeShape EntityType="MTSTrexModel.WorkCode" Width="1.5" PointX="7.375" PointY="9.75" />
+        <EntityTypeShape EntityType="MTSTrexModel.Task" Width="1.5" PointX="8.25" PointY="14.75" />
+        <AssociationConnector Association="MTSTrexModel.FK_EmployeeTask" />
+        <AssociationConnector Association="MTSTrexModel.FK_ProjectTask" />
+        <AssociationConnector Association="MTSTrexModel.FK__Tasks__WorkCodeA__123EB7A3" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
