@@ -197,28 +197,7 @@ namespace MTSEntBlocks.DataBlock
                 return null;
             }
         }
-        /// <summary>
-        ///   Executes the non query.
-        /// </summary>
-        /// <param name="SPName">Name of the SP</param>
-        /// <param name="parameterValues">parameter values in order of creation</param>
-        /// <returns></returns>
-        /// 
-        public static int ExecuteNonQueryWithReturnValue(string SPName, params object[] parameterValues)
-        {
-            try
-            {
-                DataTraceLogger.Log("Method Start ExecuteNonQuery", SPName, parameterValues);
-                DbCommand cmd = DataAccess.ExecuteNonQueryCMD(SPName, parameterValues);
-                DataTraceLogger.Log("Method Finish ExecuteNonQuery");
-                return Convert.ToInt16(cmd.Parameters["@RETURN_VALUE"].Value.ToString());
-            }
-            catch (Exception ex)
-            {
-                MTSExceptionHandler.HandleException(ref ex);
-                return -999;
-            }
-        }
+
         /// <summary>
         ///   Executes the non query.
         /// </summary>

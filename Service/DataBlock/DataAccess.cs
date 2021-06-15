@@ -250,28 +250,6 @@ namespace MTSEntBlocks.DataBlock
         }
 
         /// <summary>
-        ///   Executes the non query.
-        /// </summary>
-        /// <param name="SPName">Name of the SP</param>
-        /// <param name="parameterValues">parameter values in order of creation</param>
-        /// <returns></returns>
-        public static int ExecuteNonQueryWithReturnValue(string SPName, params object[] parameterValues)
-        {
-            try
-            {
-                new TraceLogger().Log("Method Start", SPName, parameterValues);
-                DbCommand cmd = DataAccess.ExecuteNonQueryCMD(SPName, parameterValues);
-                new TraceLogger().Log("Method Finish");
-                return Convert.ToInt16(cmd.Parameters["@RETURN_VALUE"].Value.ToString());
-            }
-            catch (Exception ex)
-            {
-                DataAccessExceptionHandler.HandleException(ref ex);
-                return -999;
-            }
-        }
-        
-        /// <summary>
         /// Executes the non query.
         /// </summary>
         /// <param name="SPName">Name of the SP</param>
