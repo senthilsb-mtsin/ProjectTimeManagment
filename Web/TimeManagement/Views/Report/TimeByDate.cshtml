@@ -64,18 +64,11 @@
             sorter: employee_id => employee_id.sort((a, b) => a.text.localeCompare(b.text)),
             placeholder: "Select Employee",
         });
-        $('#project').select2({
-            placeholder: "Select Project",
-       });
-        $('#workcode').select2({
-            placeholder: "Select WorkCode",
-        });  
-        $('#workcodeActivity').select2({
-            placeholder: "Select workcodeActivity",
-        });
-        $("#location").select2({
-            placeholder: "Select Location",
-        });
+        $('#project').selectpicker({ noneSelectedText: "Select Project" });
+        $('#workcode').selectpicker({ noneSelectedText: "Select WorkCode" });
+        $('#workcodeActivity').selectpicker({ noneSelectedText: "Select workcodeActivity" });
+        $('#location').selectpicker({ noneSelectedText: "Select Location" });
+        
     });
 
     $(document.body).on("change", "#workcode", function () {
@@ -229,7 +222,7 @@
                                 <div class="col-lg-12 pad0">
                                     <input type="text" id="fromdate" class="form-control datePicker required" placeholder="From"
                                            name="fromDate" />
-                                    <div id="fdate" class="hidden">
+                                    <div id="fdate" class="hidden requi">
                                         From Date Required
                                     </div>
                                 </div>
@@ -242,7 +235,7 @@
                                 <div class="col-lg-12 pad0">
                                     <input type="text" id="todate" class="form-control datePicker required" placeholder="To"
                                            name="toDate" />
-                                    <div id="tdate" class="hidden">
+                                    <div id="tdate" class="hidden requi">
                                         To Date Required
                                     </div>
                                 </div>
@@ -250,14 +243,14 @@
                         </div>
                         if (User.IsInRole("Administrator"))
                         {
-                <div div class="row">
+                <div div class="row pad-top20">
 
                     <div class="col-lg-2">
                         <div class="col-lg-12 pad0 gap-bottom5">
                             <b>Location</b>
                         </div>
                         <div class="col-lg-12 pad0">
-                            @Html.DropDownList("locations", null, " ", new { @class = "form-control", id = "location", multiple = "multiple" })
+                            @Html.DropDownList("locations", null, " ", new { @class = "form-control  multiple-select", id = "location", multiple = "multiple" })
                         </div>
                     </div>
                     <div class="col-lg-2">

@@ -29,12 +29,8 @@
             return true;
 
         });
-
-        $('#project').select2(
-            {
-                placeholder: "Select Project",
-            });
-
+        $('#project').selectpicker({ noneSelectedText: "Select Project" });
+        
     });
 </script>
 @using System.Data;
@@ -54,7 +50,7 @@
                             </div>
                             <div class="col-lg-12 pad0">
                                 <input type="text" id="fromdate" class="form-control datePicker required" placeholder="From" name="fromDate" />
-                                <div id="fdate" class="hidden">
+                                <div id="fdate" class="hidden requi">
                                     Date Required
                                 </div>
                             </div>
