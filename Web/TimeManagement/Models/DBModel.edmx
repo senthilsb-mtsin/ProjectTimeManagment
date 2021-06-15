@@ -121,7 +121,7 @@
           <Property Name="Group_Name" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TimeSheet.dbo.MTS_PROJECTTYPE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_PROJECTTYPE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MTS_PROJECTTYPE">
           <Key>
             <PropertyRef Name="Project_TypeID" />
@@ -131,7 +131,7 @@ warning 6002: The table/view 'TimeSheet.dbo.MTS_PROJECTTYPE' does not have a pri
           <Property Name="Project_Type" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TimeSheet.dbo.MTS_SERVICECONFIG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MTS_SERVICECONFIG">
           <Key>
             <PropertyRef Name="SERVICEID" />
@@ -174,7 +174,7 @@ warning 6002: The table/view 'TimeSheet.dbo.MTS_SERVICECONFIG' does not have a p
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="WORKCODEACTIVITYID" Type="int" Nullable="false" />
+          <Property Name="WORK_ID" Type="int" Nullable="false" />
           <Property Name="GROUP_ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Notes">
@@ -251,19 +251,19 @@ warning 6002: The table/view 'TimeSheet.dbo.MTS_SERVICECONFIG' does not have a p
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="70" />
         </EntityType>
         <EntityType Name="WorkCodesActivity">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nchar" MaxLength="70" />
-          <Property Name="Number" Type="nchar" MaxLength="10" />
-          <Property Name="Billable" Type="bit" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="10" />
+          <Property Name="Billable" Type="bit" Nullable="false" />
           <Property Name="WorkCodeId" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK__MTS_WORK___WORKC__3C34F16F">
+        <Association Name="FK__MTS_WORK___WORK___0B91BA14">
           <End Role="WorkCodesActivity" Type="Self.WorkCodesActivity" Multiplicity="1" />
           <End Role="MTS_WORK_GROUP_MAPPING" Type="Self.MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
           <ReferentialConstraint>
@@ -271,11 +271,11 @@ warning 6002: The table/view 'TimeSheet.dbo.MTS_SERVICECONFIG' does not have a p
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="MTS_WORK_GROUP_MAPPING">
-              <PropertyRef Name="WORKCODEACTIVITYID" />
+              <PropertyRef Name="WORK_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Tasks__WorkCodeA__3B40CD36">
+        <Association Name="FK__Tasks__WorkCodeA__123EB7A3">
           <End Role="WorkCodesActivity" Type="Self.WorkCodesActivity" Multiplicity="1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
           <ReferentialConstraint>
@@ -473,11 +473,11 @@ warning 6002: The table/view 'TimeSheet.dbo.MTS_SERVICECONFIG' does not have a p
     [MTS_SERVICECONFIG].[STATUS] AS [STATUS]
     FROM [dbo].[MTS_SERVICECONFIG] AS [MTS_SERVICECONFIG]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK__MTS_WORK___WORKC__3C34F16F" Association="Self.FK__MTS_WORK___WORKC__3C34F16F">
+          <AssociationSet Name="FK__MTS_WORK___WORK___0B91BA14" Association="Self.FK__MTS_WORK___WORK___0B91BA14">
             <End Role="WorkCodesActivity" EntitySet="WorkCodesActivity" />
             <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
           </AssociationSet>
-          <AssociationSet Name="FK__Tasks__WorkCodeA__3B40CD36" Association="Self.FK__Tasks__WorkCodeA__3B40CD36">
+          <AssociationSet Name="FK__Tasks__WorkCodeA__123EB7A3" Association="Self.FK__Tasks__WorkCodeA__123EB7A3">
             <End Role="WorkCodesActivity" EntitySet="WorkCodesActivity" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
@@ -856,6 +856,11 @@ warning 6002: The table/view 'TimeSheet.dbo.MTS_SERVICECONFIG' does not have a p
           <EntitySet Name="MTS_GROUPS" EntityType="MTSTrexModel.MTS_GROUPS" />
           <EntitySet Name="MTS_SMTPDETAILS" EntityType="MTSTrexModel.MTS_SMTPDETAILS" />
           <EntitySet Name="MTS_SERVICECONFIG" EntityType="MTSTrexModel.MTS_SERVICECONFIG" />
+          <EntitySet Name="MTS_WORK_GROUP_MAPPING" EntityType="MTSTrexModel.MTS_WORK_GROUP_MAPPING" />
+          <AssociationSet Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
+            <End Role="MTS_GROUPS" EntitySet="MTS_GROUPS" />
+            <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
+          </AssociationSet>
           <EntitySet Name="WorkCodes" EntityType="MTSTrexModel.WorkCode" />
           <EntitySet Name="Tasks" EntityType="MTSTrexModel.Task" />
           <AssociationSet Name="FK_EmployeeTask" Association="MTSTrexModel.FK_EmployeeTask">
@@ -866,17 +871,12 @@ warning 6002: The table/view 'TimeSheet.dbo.MTS_SERVICECONFIG' does not have a p
             <End Role="Project" EntitySet="Projects" />
             <End Role="Task" EntitySet="Tasks" />
           </AssociationSet>
-          <EntitySet Name="MTS_WORK_GROUP_MAPPING" EntityType="MTSTrexModel.MTS_WORK_GROUP_MAPPING" />
           <EntitySet Name="WorkCodesActivities" EntityType="MTSTrexModel.WorkCodesActivity" />
-          <AssociationSet Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
-            <End Role="MTS_GROUPS" EntitySet="MTS_GROUPS" />
-            <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MTS_WORK___WORKC__3C34F16F" Association="MTSTrexModel.FK__MTS_WORK___WORKC__3C34F16F">
+          <AssociationSet Name="FK__MTS_WORK___WORK___0B91BA14" Association="MTSTrexModel.FK__MTS_WORK___WORK___0B91BA14">
             <End Role="WorkCodesActivity" EntitySet="WorkCodesActivities" />
             <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
           </AssociationSet>
-          <AssociationSet Name="FK__Tasks__WorkCodeA__3B40CD36" Association="MTSTrexModel.FK__Tasks__WorkCodeA__3B40CD36">
+          <AssociationSet Name="FK__Tasks__WorkCodeA__123EB7A3" Association="MTSTrexModel.FK__Tasks__WorkCodeA__123EB7A3">
             <End Role="WorkCodesActivity" EntitySet="WorkCodesActivities" />
             <End Role="Task" EntitySet="Tasks" />
           </AssociationSet>
@@ -958,12 +958,34 @@ warning 6002: The table/view 'TimeSheet.dbo.MTS_SERVICECONFIG' does not have a p
           <Property Name="MAXERRORS" Type="Int16" />
           <Property Name="STATUS" Type="Byte" />
         </EntityType>
+        <EntityType Name="MTS_WORK_GROUP_MAPPING">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="WORK_ID" Type="Int32" Nullable="false" />
+          <Property Name="GROUP_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MTS_GROUPS" Relationship="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" FromRole="MTS_WORK_GROUP_MAPPING" ToRole="MTS_GROUPS" />
+          <NavigationProperty Name="WorkCodesActivity" Relationship="MTSTrexModel.FK__MTS_WORK___WORK___0B91BA14" FromRole="MTS_WORK_GROUP_MAPPING" ToRole="WorkCodesActivity" />
+        </EntityType>
+        <Association Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
+          <End Type="MTSTrexModel.MTS_GROUPS" Role="MTS_GROUPS" Multiplicity="1" />
+          <End Type="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Role="MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MTS_GROUPS">
+              <PropertyRef Name="Group_ID" />
+            </Principal>
+            <Dependent Role="MTS_WORK_GROUP_MAPPING">
+              <PropertyRef Name="GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="WorkCode">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Task">
           <Key>
@@ -980,7 +1002,7 @@ warning 6002: The table/view 'TimeSheet.dbo.MTS_SERVICECONFIG' does not have a p
           <Property Name="Charge" Type="Decimal" Precision="10" Scale="2" />
           <NavigationProperty Name="Employee" Relationship="MTSTrexModel.FK_EmployeeTask" FromRole="Task" ToRole="Employee" />
           <NavigationProperty Name="Project" Relationship="MTSTrexModel.FK_ProjectTask" FromRole="Task" ToRole="Project" />
-          <NavigationProperty Name="WorkCodesActivity" Relationship="MTSTrexModel.FK__Tasks__WorkCodeA__3B40CD36" FromRole="Task" ToRole="WorkCodesActivity" />
+          <NavigationProperty Name="WorkCodesActivity" Relationship="MTSTrexModel.FK__Tasks__WorkCodeA__123EB7A3" FromRole="Task" ToRole="WorkCodesActivity" />
         </EntityType>
         <Association Name="FK_EmployeeTask">
           <End Type="MTSTrexModel.Employee" Role="Employee" Multiplicity="1" />
@@ -1006,41 +1028,19 @@ warning 6002: The table/view 'TimeSheet.dbo.MTS_SERVICECONFIG' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="MTS_WORK_GROUP_MAPPING">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="WORKCODEACTIVITYID" Type="Int32" Nullable="false" />
-          <Property Name="GROUP_ID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MTS_GROUPS" Relationship="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" FromRole="MTS_WORK_GROUP_MAPPING" ToRole="MTS_GROUPS" />
-          <NavigationProperty Name="WorkCodesActivity" Relationship="MTSTrexModel.FK__MTS_WORK___WORKC__3C34F16F" FromRole="MTS_WORK_GROUP_MAPPING" ToRole="WorkCodesActivity" />
-        </EntityType>
         <EntityType Name="WorkCodesActivity">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="70" FixedLength="true" Unicode="true" />
-          <Property Name="Number" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Billable" Type="Boolean" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Billable" Type="Boolean" Nullable="false" />
           <Property Name="WorkCodeId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MTS_WORK_GROUP_MAPPING" Relationship="MTSTrexModel.FK__MTS_WORK___WORKC__3C34F16F" FromRole="WorkCodesActivity" ToRole="MTS_WORK_GROUP_MAPPING" />
-          <NavigationProperty Name="Tasks" Relationship="MTSTrexModel.FK__Tasks__WorkCodeA__3B40CD36" FromRole="WorkCodesActivity" ToRole="Task" />
+          <NavigationProperty Name="MTS_WORK_GROUP_MAPPING" Relationship="MTSTrexModel.FK__MTS_WORK___WORK___0B91BA14" FromRole="WorkCodesActivity" ToRole="MTS_WORK_GROUP_MAPPING" />
+          <NavigationProperty Name="Tasks" Relationship="MTSTrexModel.FK__Tasks__WorkCodeA__123EB7A3" FromRole="WorkCodesActivity" ToRole="Task" />
         </EntityType>
-        <Association Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
-          <End Type="MTSTrexModel.MTS_GROUPS" Role="MTS_GROUPS" Multiplicity="1" />
-          <End Type="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Role="MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MTS_GROUPS">
-              <PropertyRef Name="Group_ID" />
-            </Principal>
-            <Dependent Role="MTS_WORK_GROUP_MAPPING">
-              <PropertyRef Name="GROUP_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MTS_WORK___WORKC__3C34F16F">
+        <Association Name="FK__MTS_WORK___WORK___0B91BA14">
           <End Type="MTSTrexModel.WorkCodesActivity" Role="WorkCodesActivity" Multiplicity="1" />
           <End Type="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Role="MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1048,11 +1048,11 @@ warning 6002: The table/view 'TimeSheet.dbo.MTS_SERVICECONFIG' does not have a p
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="MTS_WORK_GROUP_MAPPING">
-              <PropertyRef Name="WORKCODEACTIVITYID" />
+              <PropertyRef Name="WORK_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Tasks__WorkCodeA__3B40CD36">
+        <Association Name="FK__Tasks__WorkCodeA__123EB7A3">
           <End Type="MTSTrexModel.WorkCodesActivity" Role="WorkCodesActivity" Multiplicity="1" />
           <End Type="MTSTrexModel.Task" Role="Task" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1297,6 +1297,15 @@ warning 6002: The table/view 'TimeSheet.dbo.MTS_SERVICECONFIG' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MTS_WORK_GROUP_MAPPING">
+            <EntityTypeMapping TypeName="MTSTrexModel.MTS_WORK_GROUP_MAPPING">
+              <MappingFragment StoreEntitySet="MTS_WORK_GROUP_MAPPING">
+                <ScalarProperty Name="GROUP_ID" ColumnName="GROUP_ID" />
+                <ScalarProperty Name="WORK_ID" ColumnName="WORK_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="WorkCodes">
             <EntityTypeMapping TypeName="MTSTrexModel.WorkCode">
               <MappingFragment StoreEntitySet="WorkCode">
@@ -1317,15 +1326,6 @@ warning 6002: The table/view 'TimeSheet.dbo.MTS_SERVICECONFIG' does not have a p
                 <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
                 <ScalarProperty Name="WorkCodeActivityId" ColumnName="WorkCodeActivityId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MTS_WORK_GROUP_MAPPING">
-            <EntityTypeMapping TypeName="MTSTrexModel.MTS_WORK_GROUP_MAPPING">
-              <MappingFragment StoreEntitySet="MTS_WORK_GROUP_MAPPING">
-                <ScalarProperty Name="GROUP_ID" ColumnName="GROUP_ID" />
-                <ScalarProperty Name="WORKCODEACTIVITYID" ColumnName="WORKCODEACTIVITYID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
