@@ -40,6 +40,7 @@ namespace TimeManagement.Models
         public string Email { get; set; }
         public string Mobile { get; set; }
         public string DOR { get; set; }
+        public string LoginUserID { get; set; }
         public Nullable<bool> EmailReminder { get; set; }
         public bool Active { get; set; }
     
