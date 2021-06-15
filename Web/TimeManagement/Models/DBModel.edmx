@@ -261,7 +261,7 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <Property Name="Name" Type="nvarchar" MaxLength="70" Nullable="false" />
           <Property Name="Number" Type="nvarchar" MaxLength="10" />
           <Property Name="Billable" Type="bit" Nullable="false" />
-          <Property Name="WorkCodeId" Type="int" />
+          <Property Name="WorkCodeId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK__MTS_WORK___WORK___0B91BA14">
           <End Role="WorkCodesActivity" Type="Self.WorkCodesActivity" Multiplicity="1" />
@@ -857,13 +857,8 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <EntitySet Name="MTS_SMTPDETAILS" EntityType="MTSTrexModel.MTS_SMTPDETAILS" />
           <EntitySet Name="MTS_SERVICECONFIG" EntityType="MTSTrexModel.MTS_SERVICECONFIG" />
           <EntitySet Name="MTS_WORK_GROUP_MAPPING" EntityType="MTSTrexModel.MTS_WORK_GROUP_MAPPING" />
-          <EntitySet Name="WorkCodesActivities" EntityType="MTSTrexModel.WorkCodesActivity" />
           <AssociationSet Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
             <End Role="MTS_GROUPS" EntitySet="MTS_GROUPS" />
-            <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MTS_WORK___WORK___0B91BA14" Association="MTSTrexModel.FK__MTS_WORK___WORK___0B91BA14">
-            <End Role="WorkCodesActivity" EntitySet="WorkCodesActivities" />
             <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
           </AssociationSet>
           <EntitySet Name="WorkCodes" EntityType="MTSTrexModel.WorkCode" />
@@ -875,6 +870,11 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <AssociationSet Name="FK_ProjectTask" Association="MTSTrexModel.FK_ProjectTask">
             <End Role="Project" EntitySet="Projects" />
             <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <EntitySet Name="WorkCodesActivities" EntityType="MTSTrexModel.WorkCodesActivity" />
+          <AssociationSet Name="FK__MTS_WORK___WORK___0B91BA14" Association="MTSTrexModel.FK__MTS_WORK___WORK___0B91BA14">
+            <End Role="WorkCodesActivity" EntitySet="WorkCodesActivities" />
+            <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
           </AssociationSet>
           <AssociationSet Name="FK__Tasks__WorkCodeA__123EB7A3" Association="MTSTrexModel.FK__Tasks__WorkCodeA__123EB7A3">
             <End Role="WorkCodesActivity" EntitySet="WorkCodesActivities" />
@@ -968,18 +968,6 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <NavigationProperty Name="MTS_GROUPS" Relationship="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" FromRole="MTS_WORK_GROUP_MAPPING" ToRole="MTS_GROUPS" />
           <NavigationProperty Name="WorkCodesActivity" Relationship="MTSTrexModel.FK__MTS_WORK___WORK___0B91BA14" FromRole="MTS_WORK_GROUP_MAPPING" ToRole="WorkCodesActivity" />
         </EntityType>
-        <EntityType Name="WorkCodesActivity">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Billable" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="MTS_WORK_GROUP_MAPPING" Relationship="MTSTrexModel.FK__MTS_WORK___WORK___0B91BA14" FromRole="WorkCodesActivity" ToRole="MTS_WORK_GROUP_MAPPING" />
-          <Property Name="WorkCodeId" Type="Int32" />
-          <NavigationProperty Name="Tasks" Relationship="MTSTrexModel.FK__Tasks__WorkCodeA__123EB7A3" FromRole="WorkCodesActivity" ToRole="Task" />
-        </EntityType>
         <Association Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
           <End Type="MTSTrexModel.MTS_GROUPS" Role="MTS_GROUPS" Multiplicity="1" />
           <End Type="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Role="MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
@@ -989,18 +977,6 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
             </Principal>
             <Dependent Role="MTS_WORK_GROUP_MAPPING">
               <PropertyRef Name="GROUP_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MTS_WORK___WORK___0B91BA14">
-          <End Type="MTSTrexModel.WorkCodesActivity" Role="WorkCodesActivity" Multiplicity="1" />
-          <End Type="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Role="MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WorkCodesActivity">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MTS_WORK_GROUP_MAPPING">
-              <PropertyRef Name="WORK_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1049,6 +1025,30 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
             </Principal>
             <Dependent Role="Task">
               <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="WorkCodesActivity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Billable" Type="Boolean" Nullable="false" />
+          <Property Name="WorkCodeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MTS_WORK_GROUP_MAPPING" Relationship="MTSTrexModel.FK__MTS_WORK___WORK___0B91BA14" FromRole="WorkCodesActivity" ToRole="MTS_WORK_GROUP_MAPPING" />
+          <NavigationProperty Name="Tasks" Relationship="MTSTrexModel.FK__Tasks__WorkCodeA__123EB7A3" FromRole="WorkCodesActivity" ToRole="Task" />
+        </EntityType>
+        <Association Name="FK__MTS_WORK___WORK___0B91BA14">
+          <End Type="MTSTrexModel.WorkCodesActivity" Role="WorkCodesActivity" Multiplicity="1" />
+          <End Type="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Role="MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkCodesActivity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MTS_WORK_GROUP_MAPPING">
+              <PropertyRef Name="WORK_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1306,17 +1306,6 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="WorkCodesActivities">
-            <EntityTypeMapping TypeName="MTSTrexModel.WorkCodesActivity">
-              <MappingFragment StoreEntitySet="WorkCodesActivity">
-                <ScalarProperty Name="WorkCodeId" ColumnName="WorkCodeId" />
-                <ScalarProperty Name="Billable" ColumnName="Billable" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="WorkCodes">
             <EntityTypeMapping TypeName="MTSTrexModel.WorkCode">
               <MappingFragment StoreEntitySet="WorkCode">
@@ -1336,6 +1325,17 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
                 <ScalarProperty Name="WorkCodeActivityId" ColumnName="WorkCodeActivityId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkCodesActivities">
+            <EntityTypeMapping TypeName="MTSTrexModel.WorkCodesActivity">
+              <MappingFragment StoreEntitySet="WorkCodesActivity">
+                <ScalarProperty Name="WorkCodeId" ColumnName="WorkCodeId" />
+                <ScalarProperty Name="Billable" ColumnName="Billable" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
