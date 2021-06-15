@@ -15,7 +15,7 @@
                                 @Html.DropDownList("projects", (IEnumerable<SelectListItem>)ViewBag.Projects, new Dictionary<string, object>
                         {
                             {"data-bind", "value:projectId"},
-                             {"class", "form-control required"}
+                             {"class", "form-control required "}
                         })
                             </div>
                             <div id="project" class="requi">
@@ -32,7 +32,7 @@
                                 @Html.DropDownList("workCodes", (IEnumerable<SelectListItem>)ViewBag.WorkCodes, new Dictionary<string, object>
                         {
                             {"data-bind", "value:workCodeId"},
-                             {"class", "form-control required"}
+                             {"class", "form-control required"},
                         })
                                 </div>
                                 <div id="workcode" class="requi">
@@ -180,6 +180,7 @@
 </script>
 <script type="text/javascript">
 
+
     $(document).ready(function () {
 
         $('#Date').hide();
@@ -190,17 +191,22 @@
         $('#desc').hide();
 
         $("#projects").select2({
+            placeholder: "Select Project",
             sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
+            
         });
 
         $("#workCodes").select2({
+            placeholder: "Select WorkCode",
             sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
         });
 
         $("#workCodeActivities").select2({
+            placeholder: "Select WorkCodeActivity",
             sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
         });
 
+       
         $(document).on('change', '#workCodes', function () {
             $('#workCodeActivities').empty();
             $('#workcodeActivity').hide();
@@ -286,7 +292,7 @@
     });
 
     $("#projects").on('change', function () {
-
+        
         var projects = $('#projects').val();
         if (projects == "") {
             $('#project').show();

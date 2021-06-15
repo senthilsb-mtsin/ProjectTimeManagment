@@ -139,10 +139,10 @@ namespace TimeManagement.Controllers
 
             Temp = new SelectList(workCodes, "Id", "Name").ToList();
             Temp.Insert(0, new SelectListItem() { Text = "", Value = "" });
+            
 
             ViewBag.WorkCodes = Temp;
             Temp = new List<SelectListItem>();
-            Temp.Insert(0, new SelectListItem() { Text = "", Value = "" });
 
             ViewBag.WorkCodesActivity = Temp;
 

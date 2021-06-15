@@ -45,7 +45,7 @@ namespace TimeManagement.Models
         public virtual DbSet<MTS_SERVICECONFIG> MTS_SERVICECONFIG { get; set; }
         public virtual DbSet<MTS_WORK_GROUP_MAPPING> MTS_WORK_GROUP_MAPPING { get; set; }
         public virtual DbSet<WorkCode> WorkCodes { get; set; }
-        public virtual DbSet<Task> Tasks { get; set; }
+        public virtual DbSet<Task> Tasks { get; set; }      
         public virtual DbSet<WorkCodesActivity> WorkCodesActivities { get; set; }
     }
 }
