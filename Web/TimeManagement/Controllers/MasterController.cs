@@ -429,9 +429,11 @@ namespace TimeManagement.Controllers
         [HttpPost]
         public ActionResult AddEmployee(Employee model, FormCollection fc)
         {
-            Login login = model.Logins.FirstOrDefault();
+
+            Login login = new Login();
             login.Password = Encryption.GetSHA1HashData(Encryption.CreateRandomPassword(6));
             login.Status = 2;
+            login.UserId = model.LoginUserID;
 
             Employee added = this.db.Employees.Add(model);
 
