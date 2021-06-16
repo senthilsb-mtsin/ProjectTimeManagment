@@ -9,9 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace MTS.ProjectCreator
@@ -25,13 +23,13 @@ namespace MTS.ProjectCreator
         {
             try
             {
-                return this.ReadProjectEmails();
+                this.ReadProjectEmails();
             }
             catch (Exception ex)
             {
                 MTSExceptionHandler.HandleException(ref ex);
-                return false;
             }
+            return true;
         }
 
         public void OnStart(string Params)
