@@ -11,12 +11,10 @@ namespace TimeManagement.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Customer
     {
         public int CustomerId { get; set; }
-        [RegularExpression("^[A-Za-z][A-Za-z,. \"]*$", ErrorMessage = "Invalid Name ")]
         public string CustomerName { get; set; }
         public string CustomerType { get; set; }
         public string CustomerAddress1 { get; set; }

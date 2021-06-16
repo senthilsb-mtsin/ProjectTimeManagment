@@ -121,7 +121,7 @@
           <Property Name="Group_Name" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_PROJECTTYPE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'MtsTrexTest.dbo.MTS_PROJECTTYPE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MTS_PROJECTTYPE">
           <Key>
             <PropertyRef Name="Project_TypeID" />
@@ -131,7 +131,7 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_PROJECTTYPE' does not have
           <Property Name="Project_Type" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'MtsTrexTest.dbo.MTS_SERVICECONFIG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MTS_SERVICECONFIG">
           <Key>
             <PropertyRef Name="SERVICEID" />
@@ -174,7 +174,7 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="WORK_ID" Type="int" Nullable="false" />
+          <Property Name="WORKCODEACTIVITYID" Type="int" Nullable="false" />
           <Property Name="GROUP_ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Notes">
@@ -251,7 +251,7 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="70" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="WorkCodesActivity">
           <Key>
@@ -261,9 +261,9 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <Property Name="Name" Type="nvarchar" MaxLength="70" Nullable="false" />
           <Property Name="Number" Type="nvarchar" MaxLength="10" />
           <Property Name="Billable" Type="bit" Nullable="false" />
-          <Property Name="WorkCodeId" Type="int" Nullable="false" />
+          <Property Name="WorkCodeId" Type="int" />
         </EntityType>
-        <Association Name="FK__MTS_WORK___WORK___0B91BA14">
+        <Association Name="FK__MTS_WORK___WORKC__71D1E811">
           <End Role="WorkCodesActivity" Type="Self.WorkCodesActivity" Multiplicity="1" />
           <End Role="MTS_WORK_GROUP_MAPPING" Type="Self.MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
           <ReferentialConstraint>
@@ -271,11 +271,11 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="MTS_WORK_GROUP_MAPPING">
-              <PropertyRef Name="WORK_ID" />
+              <PropertyRef Name="WORKCODEACTIVITYID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Tasks__WorkCodeA__123EB7A3">
+        <Association Name="FK__Tasks__WorkCodeA__70DDC3D8">
           <End Role="WorkCodesActivity" Type="Self.WorkCodesActivity" Multiplicity="1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
           <ReferentialConstraint>
@@ -473,11 +473,11 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
     [MTS_SERVICECONFIG].[STATUS] AS [STATUS]
     FROM [dbo].[MTS_SERVICECONFIG] AS [MTS_SERVICECONFIG]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK__MTS_WORK___WORK___0B91BA14" Association="Self.FK__MTS_WORK___WORK___0B91BA14">
+          <AssociationSet Name="FK__MTS_WORK___WORKC__71D1E811" Association="Self.FK__MTS_WORK___WORKC__71D1E811">
             <End Role="WorkCodesActivity" EntitySet="WorkCodesActivity" />
             <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
           </AssociationSet>
-          <AssociationSet Name="FK__Tasks__WorkCodeA__123EB7A3" Association="Self.FK__Tasks__WorkCodeA__123EB7A3">
+          <AssociationSet Name="FK__Tasks__WorkCodeA__70DDC3D8" Association="Self.FK__Tasks__WorkCodeA__70DDC3D8">
             <End Role="WorkCodesActivity" EntitySet="WorkCodesActivity" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
@@ -561,8 +561,8 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EmployeeId" Type="Int32" Nullable="false" />
           <Property Name="ProjectId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_EmployeeEmployeeProject" FromRole="EmployeeProjects" ToRole="Employees" />
           <NavigationProperty Name="Project" Relationship="Self.FK_ProjectEmployeeProject" FromRole="EmployeeProjects" ToRole="Projects" />
+          <NavigationProperty Name="Employee" Relationship="MTSTrexModel.FK_EmployeeEmployeeProject" FromRole="EmployeeProject" ToRole="Employee" />
         </EntityType>
         <EntityType Name="EmployeeRole">
           <Key>
@@ -571,37 +571,8 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EmployeeId" Type="Int32" Nullable="false" />
           <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_EmployeeEmployeeRole" FromRole="EmployeeRoles" ToRole="Employees" />
           <NavigationProperty Name="Role" Relationship="Self.FK_RoleEmployeeRole" FromRole="EmployeeRoles" ToRole="Roles" />
-        </EntityType>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LocationId" Type="Int32" Nullable="false" />
-          <Property Name="Prefix" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Suffix" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="BillRate" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="EmployeeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DOB" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DOJ" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EmailReminder" Type="Boolean" />
-          <NavigationProperty Name="EmployeeProjects" Relationship="Self.FK_EmployeeEmployeeProject" FromRole="Employees" ToRole="EmployeeProjects" />
-          <NavigationProperty Name="EmployeeRoles" Relationship="Self.FK_EmployeeEmployeeRole" FromRole="Employees" ToRole="EmployeeRoles" />
-          <NavigationProperty Name="WeeklyReports" Relationship="Self.FK_EmployeeWeeklyReport" FromRole="Employees" ToRole="WeeklyReports" />
-          <NavigationProperty Name="Location" Relationship="Self.FK_LocationEmployee" FromRole="Employees" ToRole="Locations" />
-          <NavigationProperty Name="Logins" Relationship="Self.FK_LoginEmployee" FromRole="Employees" ToRole="Logins" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Tasks" Relationship="MTSTrexModel.FK_EmployeeTask" FromRole="Employee" ToRole="Task" />
+          <NavigationProperty Name="Employee" Relationship="MTSTrexModel.FK_EmployeeEmployeeRole" FromRole="EmployeeRole" ToRole="Employee" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -609,18 +580,7 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK_LocationEmployee" FromRole="Locations" ToRole="Employees" />
-        </EntityType>
-        <EntityType Name="Login">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Employee_Id" Type="Int32" />
-          <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_LoginEmployee" FromRole="Logins" ToRole="Employees" />
+          <NavigationProperty Name="Employees" Relationship="MTSTrexModel.FK_LocationEmployee" FromRole="Location" ToRole="Employee" />
         </EntityType>
         <EntityType Name="Note">
           <Key>
@@ -681,9 +641,9 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="From" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="To" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_EmployeeWeeklyReport" FromRole="WeeklyReports" ToRole="Employees" />
           <NavigationProperty Name="Notes" Relationship="Self.FK_WeeklyReportNote" FromRole="WeeklyReports" ToRole="Notes" />
           <NavigationProperty Name="Project" Relationship="Self.FK_ProjectWeeklyReport" FromRole="WeeklyReports" ToRole="Projects" />
+          <NavigationProperty Name="Employee" Relationship="MTSTrexModel.FK_EmployeeWeeklyReport" FromRole="WeeklyReport" ToRole="Employee" />
         </EntityType>
         <EntityType Name="MTS_PROJECTTYPE">
           <Key>
@@ -693,18 +653,6 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <Property Name="Project_TypeID" Type="Int32" Nullable="false" />
           <Property Name="Project_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
-        <Association Name="FK_EmployeeEmployeeProject">
-          <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
-          <End Role="EmployeeProjects" Type="Self.EmployeeProject" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employees">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeProjects">
-              <PropertyRef Name="EmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ProjectEmployeeProject">
           <End Role="Projects" Type="Self.Project" Multiplicity="1" />
           <End Role="EmployeeProjects" Type="Self.EmployeeProject" Multiplicity="*" />
@@ -717,18 +665,6 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EmployeeEmployeeRole">
-          <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
-          <End Role="EmployeeRoles" Type="Self.EmployeeRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employees">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeRoles">
-              <PropertyRef Name="EmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_RoleEmployeeRole">
           <End Role="Roles" Type="Self.Role" Multiplicity="1" />
           <End Role="EmployeeRoles" Type="Self.EmployeeRole" Multiplicity="*" />
@@ -738,42 +674,6 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
             </Principal>
             <Dependent Role="EmployeeRoles">
               <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EmployeeWeeklyReport">
-          <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
-          <End Role="WeeklyReports" Type="Self.WeeklyReport" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employees">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="WeeklyReports">
-              <PropertyRef Name="EmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LocationEmployee">
-          <End Role="Locations" Type="Self.Location" Multiplicity="1" />
-          <End Role="Employees" Type="Self.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Locations">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Employees">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LoginEmployee">
-          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="Logins" Type="Self.Login" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employees">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Logins">
-              <PropertyRef Name="Employee_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -806,41 +706,19 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <EntitySet Name="Customers" EntityType="Self.Customer" />
           <EntitySet Name="EmployeeProjects" EntityType="Self.EmployeeProject" />
           <EntitySet Name="EmployeeRoles" EntityType="Self.EmployeeRole" />
-          <EntitySet Name="Employees" EntityType="Self.Employee" />
           <EntitySet Name="Locations" EntityType="Self.Location" />
-          <EntitySet Name="Logins" EntityType="Self.Login" />
           <EntitySet Name="Notes" EntityType="Self.Note" />
           <EntitySet Name="Projects" EntityType="Self.Project" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="WeeklyReports" EntityType="Self.WeeklyReport" />
           <EntitySet Name="MTS_PROJECTTYPE" EntityType="Self.MTS_PROJECTTYPE" />
-          <AssociationSet Name="FK_EmployeeEmployeeProject" Association="Self.FK_EmployeeEmployeeProject">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="EmployeeProjects" EntitySet="EmployeeProjects" />
-          </AssociationSet>
           <AssociationSet Name="FK_ProjectEmployeeProject" Association="Self.FK_ProjectEmployeeProject">
             <End Role="Projects" EntitySet="Projects" />
             <End Role="EmployeeProjects" EntitySet="EmployeeProjects" />
           </AssociationSet>
-          <AssociationSet Name="FK_EmployeeEmployeeRole" Association="Self.FK_EmployeeEmployeeRole">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="EmployeeRoles" EntitySet="EmployeeRoles" />
-          </AssociationSet>
           <AssociationSet Name="FK_RoleEmployeeRole" Association="Self.FK_RoleEmployeeRole">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="EmployeeRoles" EntitySet="EmployeeRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeWeeklyReport" Association="Self.FK_EmployeeWeeklyReport">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="WeeklyReports" EntitySet="WeeklyReports" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LocationEmployee" Association="Self.FK_LocationEmployee">
-            <End Role="Locations" EntitySet="Locations" />
-            <End Role="Employees" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LoginEmployee" Association="Self.FK_LoginEmployee">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="Logins" EntitySet="Logins" />
           </AssociationSet>
           <AssociationSet Name="FK_WeeklyReportNote" Association="Self.FK_WeeklyReportNote">
             <End Role="WeeklyReports" EntitySet="WeeklyReports" />
@@ -856,31 +734,53 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <EntitySet Name="MTS_GROUPS" EntityType="MTSTrexModel.MTS_GROUPS" />
           <EntitySet Name="MTS_SMTPDETAILS" EntityType="MTSTrexModel.MTS_SMTPDETAILS" />
           <EntitySet Name="MTS_SERVICECONFIG" EntityType="MTSTrexModel.MTS_SERVICECONFIG" />
-          <EntitySet Name="MTS_WORK_GROUP_MAPPING" EntityType="MTSTrexModel.MTS_WORK_GROUP_MAPPING" />
-          <AssociationSet Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
-            <End Role="MTS_GROUPS" EntitySet="MTS_GROUPS" />
-            <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
-          </AssociationSet>
           <EntitySet Name="WorkCodes" EntityType="MTSTrexModel.WorkCode" />
           <EntitySet Name="Tasks" EntityType="MTSTrexModel.Task" />
-          <AssociationSet Name="FK_EmployeeTask" Association="MTSTrexModel.FK_EmployeeTask">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="Task" EntitySet="Tasks" />
-          </AssociationSet>
           <AssociationSet Name="FK_ProjectTask" Association="MTSTrexModel.FK_ProjectTask">
             <End Role="Project" EntitySet="Projects" />
             <End Role="Task" EntitySet="Tasks" />
           </AssociationSet>
           <EntitySet Name="WorkCodesActivities" EntityType="MTSTrexModel.WorkCodesActivity" />
-          <AssociationSet Name="FK__MTS_WORK___WORK___0B91BA14" Association="MTSTrexModel.FK__MTS_WORK___WORK___0B91BA14">
-            <End Role="WorkCodesActivity" EntitySet="WorkCodesActivities" />
-            <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
-          </AssociationSet>
           <AssociationSet Name="FK__Tasks__WorkCodeA__123EB7A3" Association="MTSTrexModel.FK__Tasks__WorkCodeA__123EB7A3">
             <End Role="WorkCodesActivity" EntitySet="WorkCodesActivities" />
             <End Role="Task" EntitySet="Tasks" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="MTS_WORK_GROUP_MAPPING" EntityType="MTSTrexModel.MTS_WORK_GROUP_MAPPING" />
+          <AssociationSet Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" Association="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
+            <End Role="MTS_GROUPS" EntitySet="MTS_GROUPS" />
+            <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MTS_WORK___WORKC__71D1E811" Association="MTSTrexModel.FK__MTS_WORK___WORKC__71D1E811">
+            <End Role="WorkCodesActivity" EntitySet="WorkCodesActivities" />
+            <End Role="MTS_WORK_GROUP_MAPPING" EntitySet="MTS_WORK_GROUP_MAPPING" />
+          </AssociationSet>
+          <EntitySet Name="Employees" EntityType="MTSTrexModel.Employee" />
+          <AssociationSet Name="FK_EmployeeEmployeeProject" Association="MTSTrexModel.FK_EmployeeEmployeeProject">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeProject" EntitySet="EmployeeProjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeEmployeeRole" Association="MTSTrexModel.FK_EmployeeEmployeeRole">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeRole" EntitySet="EmployeeRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeTask" Association="MTSTrexModel.FK_EmployeeTask">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeWeeklyReport" Association="MTSTrexModel.FK_EmployeeWeeklyReport">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="WeeklyReport" EntitySet="WeeklyReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationEmployee" Association="MTSTrexModel.FK_LocationEmployee">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <EntitySet Name="Logins" EntityType="MTSTrexModel.Login" />
+          <AssociationSet Name="FK_LoginEmployee" Association="MTSTrexModel.FK_LoginEmployee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Login" EntitySet="Logins" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="MTS_EMAILMASTER">
           <Key>
             <PropertyRef Name="ID" />
@@ -958,34 +858,12 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <Property Name="MAXERRORS" Type="Int16" />
           <Property Name="STATUS" Type="Byte" />
         </EntityType>
-        <EntityType Name="MTS_WORK_GROUP_MAPPING">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="WORK_ID" Type="Int32" Nullable="false" />
-          <Property Name="GROUP_ID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MTS_GROUPS" Relationship="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" FromRole="MTS_WORK_GROUP_MAPPING" ToRole="MTS_GROUPS" />
-          <NavigationProperty Name="WorkCodesActivity" Relationship="MTSTrexModel.FK__MTS_WORK___WORK___0B91BA14" FromRole="MTS_WORK_GROUP_MAPPING" ToRole="WorkCodesActivity" />
-        </EntityType>
-        <Association Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
-          <End Type="MTSTrexModel.MTS_GROUPS" Role="MTS_GROUPS" Multiplicity="1" />
-          <End Type="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Role="MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MTS_GROUPS">
-              <PropertyRef Name="Group_ID" />
-            </Principal>
-            <Dependent Role="MTS_WORK_GROUP_MAPPING">
-              <PropertyRef Name="GROUP_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="WorkCode">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Task">
           <Key>
@@ -1000,22 +878,10 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <Property Name="Hours" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Charge" Type="Decimal" Precision="10" Scale="2" />
-          <NavigationProperty Name="Employee" Relationship="MTSTrexModel.FK_EmployeeTask" FromRole="Task" ToRole="Employee" />
           <NavigationProperty Name="Project" Relationship="MTSTrexModel.FK_ProjectTask" FromRole="Task" ToRole="Project" />
           <NavigationProperty Name="WorkCodesActivity" Relationship="MTSTrexModel.FK__Tasks__WorkCodeA__123EB7A3" FromRole="Task" ToRole="WorkCodesActivity" />
+          <NavigationProperty Name="Employee" Relationship="MTSTrexModel.FK_EmployeeTask" FromRole="Task" ToRole="Employee" />
         </EntityType>
-        <Association Name="FK_EmployeeTask">
-          <End Type="MTSTrexModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="MTSTrexModel.Task" Role="Task" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Task">
-              <PropertyRef Name="EmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ProjectTask">
           <End Type="MTSTrexModel.Project" Role="Project" Multiplicity="1" />
           <End Type="MTSTrexModel.Task" Role="Task" Multiplicity="*" />
@@ -1036,22 +902,10 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
           <Property Name="Name" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="true" />
           <Property Name="Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Billable" Type="Boolean" Nullable="false" />
-          <Property Name="WorkCodeId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MTS_WORK_GROUP_MAPPING" Relationship="MTSTrexModel.FK__MTS_WORK___WORK___0B91BA14" FromRole="WorkCodesActivity" ToRole="MTS_WORK_GROUP_MAPPING" />
+          <Property Name="WorkCodeId" Type="Int32" />
           <NavigationProperty Name="Tasks" Relationship="MTSTrexModel.FK__Tasks__WorkCodeA__123EB7A3" FromRole="WorkCodesActivity" ToRole="Task" />
-        </EntityType>
-        <Association Name="FK__MTS_WORK___WORK___0B91BA14">
-          <End Type="MTSTrexModel.WorkCodesActivity" Role="WorkCodesActivity" Multiplicity="1" />
-          <End Type="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Role="MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WorkCodesActivity">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MTS_WORK_GROUP_MAPPING">
-              <PropertyRef Name="WORK_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+          <NavigationProperty Name="MTS_WORK_GROUP_MAPPING" Relationship="MTSTrexModel.FK__MTS_WORK___WORKC__71D1E811" FromRole="WorkCodesActivity" ToRole="MTS_WORK_GROUP_MAPPING" />
+          </EntityType>
         <Association Name="FK__Tasks__WorkCodeA__123EB7A3">
           <End Type="MTSTrexModel.WorkCodesActivity" Role="WorkCodesActivity" Multiplicity="1" />
           <End Type="MTSTrexModel.Task" Role="Task" Multiplicity="*" />
@@ -1064,7 +918,153 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="MTS_WORK_GROUP_MAPPING">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="WORKCODEACTIVITYID" Type="Int32" Nullable="false" />
+          <Property Name="GROUP_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MTS_GROUPS" Relationship="MTSTrexModel.FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS" FromRole="MTS_WORK_GROUP_MAPPING" ToRole="MTS_GROUPS" />
+          <NavigationProperty Name="WorkCodesActivity" Relationship="MTSTrexModel.FK__MTS_WORK___WORKC__71D1E811" FromRole="MTS_WORK_GROUP_MAPPING" ToRole="WorkCodesActivity" />
+        </EntityType>
+        <Association Name="FK_MTS_WORK_GROUP_MAPPING_MTS_GROUPS">
+          <End Type="MTSTrexModel.MTS_GROUPS" Role="MTS_GROUPS" Multiplicity="1" />
+          <End Type="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Role="MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MTS_GROUPS">
+              <PropertyRef Name="Group_ID" />
+            </Principal>
+            <Dependent Role="MTS_WORK_GROUP_MAPPING">
+              <PropertyRef Name="GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MTS_WORK___WORKC__71D1E811">
+          <End Type="MTSTrexModel.WorkCodesActivity" Role="WorkCodesActivity" Multiplicity="1" />
+          <End Type="MTSTrexModel.MTS_WORK_GROUP_MAPPING" Role="MTS_WORK_GROUP_MAPPING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkCodesActivity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MTS_WORK_GROUP_MAPPING">
+              <PropertyRef Name="WORKCODEACTIVITYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <Property Name="Prefix" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Suffix" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="BillRate" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="EmployeeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DOJ" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailReminder" Type="Boolean" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EmployeeProjects" Relationship="MTSTrexModel.FK_EmployeeEmployeeProject" FromRole="Employee" ToRole="EmployeeProject" />
+          <NavigationProperty Name="EmployeeRoles" Relationship="MTSTrexModel.FK_EmployeeEmployeeRole" FromRole="Employee" ToRole="EmployeeRole" />
+          <NavigationProperty Name="Tasks" Relationship="MTSTrexModel.FK_EmployeeTask" FromRole="Employee" ToRole="Task" />
+          <NavigationProperty Name="WeeklyReports" Relationship="MTSTrexModel.FK_EmployeeWeeklyReport" FromRole="Employee" ToRole="WeeklyReport" />
+          <NavigationProperty Name="Location" Relationship="MTSTrexModel.FK_LocationEmployee" FromRole="Employee" ToRole="Location" />
+          <NavigationProperty Name="Logins" Relationship="MTSTrexModel.FK_LoginEmployee" FromRole="Employee" ToRole="Login" />
+        </EntityType>
+        <Association Name="FK_EmployeeEmployeeProject">
+          <End Type="MTSTrexModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="MTSTrexModel.EmployeeProject" Role="EmployeeProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeProject">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeEmployeeRole">
+          <End Type="MTSTrexModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="MTSTrexModel.EmployeeRole" Role="EmployeeRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRole">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeTask">
+          <End Type="MTSTrexModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="MTSTrexModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeWeeklyReport">
+          <End Type="MTSTrexModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="MTSTrexModel.WeeklyReport" Role="WeeklyReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WeeklyReport">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationEmployee">
+          <End Type="MTSTrexModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="MTSTrexModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Employee_Id" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="MTSTrexModel.FK_LoginEmployee" FromRole="Login" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_LoginEmployee">
+          <End Type="MTSTrexModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="MTSTrexModel.Login" Role="Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Login">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1110,46 +1110,11 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="MTSTrexModel.Employee">
-              <MappingFragment StoreEntitySet="Employees">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="Prefix" ColumnName="Prefix" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Suffix" ColumnName="Suffix" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
-                <ScalarProperty Name="BillRate" ColumnName="BillRate" />
-                <ScalarProperty Name="EmployeeCode" ColumnName="EmployeeCode" />
-                <ScalarProperty Name="DOB" ColumnName="DOB" />
-                <ScalarProperty Name="DOJ" ColumnName="DOJ" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="DOR" ColumnName="DOR" />
-                <ScalarProperty Name="EmailReminder" ColumnName="EmailReminder" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Locations">
             <EntityTypeMapping TypeName="MTSTrexModel.Location">
               <MappingFragment StoreEntitySet="Locations">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Logins">
-            <EntityTypeMapping TypeName="MTSTrexModel.Login">
-              <MappingFragment StoreEntitySet="Logins">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Employee_Id" ColumnName="Employee_Id" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1297,15 +1262,6 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MTS_WORK_GROUP_MAPPING">
-            <EntityTypeMapping TypeName="MTSTrexModel.MTS_WORK_GROUP_MAPPING">
-              <MappingFragment StoreEntitySet="MTS_WORK_GROUP_MAPPING">
-                <ScalarProperty Name="GROUP_ID" ColumnName="GROUP_ID" />
-                <ScalarProperty Name="WORK_ID" ColumnName="WORK_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="WorkCodes">
             <EntityTypeMapping TypeName="MTSTrexModel.WorkCode">
               <MappingFragment StoreEntitySet="WorkCode">
@@ -1336,6 +1292,50 @@ warning 6002: The table/view 'MTSTrexDataBase.dbo.MTS_SERVICECONFIG' does not ha
                 <ScalarProperty Name="Billable" ColumnName="Billable" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MTS_WORK_GROUP_MAPPING">
+            <EntityTypeMapping TypeName="MTSTrexModel.MTS_WORK_GROUP_MAPPING">
+              <MappingFragment StoreEntitySet="MTS_WORK_GROUP_MAPPING">
+                <ScalarProperty Name="GROUP_ID" ColumnName="GROUP_ID" />
+                <ScalarProperty Name="WORKCODEACTIVITYID" ColumnName="WORKCODEACTIVITYID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="MTSTrexModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="EmailReminder" ColumnName="EmailReminder" />
+                <ScalarProperty Name="DOR" ColumnName="DOR" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DOJ" ColumnName="DOJ" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="EmployeeCode" ColumnName="EmployeeCode" />
+                <ScalarProperty Name="BillRate" ColumnName="BillRate" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Suffix" ColumnName="Suffix" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Prefix" ColumnName="Prefix" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logins">
+            <EntityTypeMapping TypeName="MTSTrexModel.Login">
+              <MappingFragment StoreEntitySet="Logins">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Employee_Id" ColumnName="Employee_Id" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

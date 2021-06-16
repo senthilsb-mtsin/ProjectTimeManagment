@@ -33,9 +33,9 @@ namespace TimeManagement.Models
         public System.DateTime From { get; set; }
         public System.DateTime To { get; set; }
     
-        public virtual Employee Employee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Note> Notes { get; set; }
         public virtual Project Project { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }
