@@ -76,20 +76,21 @@
         // $('#WorkCodeActivities').val(null).trigger('change');
        
         if (empid != null) { 
-            $('#workcodeActivity').select2({
-
-                ajax: {
+            $.ajax(
+                {
                     url: '/Report/GetWorkCodeActivities',
                     data: { id: empid },
                     dataType: 'json',
                     success: function (data) {
-                        //$('#WorkCodeActivities').append(data);
-                        $('#workcodeActivity').select2({
-                            data: data,
-                        })
+                        $.each(data, function (idx, obj) {
+                            $("#workcodeActivity").append('<option value="' + obj.id + '">' + obj.text + '</option>').selectpicker('refresh');
+                        });
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                        console.log(errorMessage);
                     }
-                }
-            })
+                });
+          
         }
 
     });
