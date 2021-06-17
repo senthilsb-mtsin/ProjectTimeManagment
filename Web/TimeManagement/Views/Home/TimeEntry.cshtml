@@ -193,7 +193,7 @@
         $("#projects").select2({
             placeholder: "Select Project",
             sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
-            
+
         });
 
         $("#workCodes").select2({
@@ -206,14 +206,14 @@
             sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
         });
 
-       
+
         $(document).on('change', '#workCodes', function () {
             $('#workCodeActivities').empty();
             $('#workcodeActivity').hide();
             $('#workcode').hide();
             $.ajax(
                 {
-                    url: "/Home/GetWorkCodeActivities",
+                    url: "@Url.Content("~/Home/GetWorkCodeActivities")",
                     dataType: 'json',
                     data: { id: $('#workCodes').val() },
                     success: function (data) {
@@ -221,7 +221,7 @@
                             placeholder: "Select WorkCodeActivity",
                             data: data,
                         })
-                        $('#workCodeActivities').trigger("change");  
+                        $('#workCodeActivities').trigger("change");
                     },
                     error: function (jqXhr, textStatus, errorMessage) {
                         console.log(errorMessage);
@@ -252,7 +252,7 @@
         if (workcodeActivity == "") {
             $('#workcodeActivity').show();
         }
-        
+
         if (description == "") {
             $('#desc').show();
         }
@@ -292,7 +292,7 @@
     });
 
     $("#projects").on('change', function () {
-        
+
         var projects = $('#projects').val();
         if (projects == "") {
             $('#project').show();
@@ -301,7 +301,7 @@
             $('#project').hide();
             return false;
         }
-       
+
         return false;
 
     });
@@ -318,7 +318,7 @@
         return false;
 
     });
-    
+
     $("#workCodeActivities").on('change', function () {
         if (workcodeActivity == "") {
             $('#workcodeActivity').show();
