@@ -12,7 +12,7 @@
 <script type="text/javascript">
     $('#name').change(function () {
         var val = $('#name').val();
-        var RegEx = /^[a-zA-Z0-9 ]+$/i; //accepts alphanumeric with space
+        var RegEx = /^[a-zA-Z ]+$/i; //accepts alphabets with space
         $('addBtn').attr("disabled", "disabled");
         if (RegEx.test(val) && val.trim() != '') {
             $("#name-error").text("");

@@ -8,8 +8,9 @@
 
     });
     $('#name').change(function () {
+        debugger
         var val = $('#name').val();
-        var RegEx = /^[a-zA-Z0-9 ]+$/i; //accepts alphanumeric with space
+        var RegEx = /^[a-zA-Z ]+$/i; //accepts alphabets with space
         if (RegEx.test(val) && val.trim() != '') {
             $("#name-error").text("");
             $('#editBtn').attr('disabled', false);
