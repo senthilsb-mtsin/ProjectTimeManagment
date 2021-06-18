@@ -11,9 +11,7 @@ namespace TimeManagement.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-
+    
     public partial class Location
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,7 +21,6 @@ namespace TimeManagement.Models
         }
     
         public int Id { get; set; }
-        [RegularExpression("^[A-Za-z][A-Za-z -\"]*$", ErrorMessage = "Invalid Name ")]
         public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

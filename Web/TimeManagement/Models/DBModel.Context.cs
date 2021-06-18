@@ -29,9 +29,7 @@ namespace TimeManagement.Models
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<EmployeeProject> EmployeeProjects { get; set; }
         public virtual DbSet<EmployeeRole> EmployeeRoles { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
-        public virtual DbSet<Login> Logins { get; set; }
         public virtual DbSet<Note> Notes { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
@@ -43,9 +41,11 @@ namespace TimeManagement.Models
         public virtual DbSet<MTS_GROUPS> MTS_GROUPS { get; set; }
         public virtual DbSet<MTS_SMTPDETAILS> MTS_SMTPDETAILS { get; set; }
         public virtual DbSet<MTS_SERVICECONFIG> MTS_SERVICECONFIG { get; set; }
-        public virtual DbSet<MTS_WORK_GROUP_MAPPING> MTS_WORK_GROUP_MAPPING { get; set; }
         public virtual DbSet<WorkCode> WorkCodes { get; set; }
-        public virtual DbSet<Task> Tasks { get; set; }      
+        public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<WorkCodesActivity> WorkCodesActivities { get; set; }
+        public virtual DbSet<MTS_WORK_GROUP_MAPPING> MTS_WORK_GROUP_MAPPING { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Login> Logins { get; set; }
     }
 }

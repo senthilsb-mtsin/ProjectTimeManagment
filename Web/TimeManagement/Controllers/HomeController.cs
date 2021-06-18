@@ -41,6 +41,7 @@ namespace TimeManagement.Controllers
 
             Login login = this.db.Logins.Where(x => x.UserId.ToUpper().Equals(userName.ToUpper())).FirstOrDefault();
 
+
             //Reset password
             if ((login != null) && (login.Status.Value == (int)LoginStatus.NEW))
             {
@@ -59,6 +60,7 @@ namespace TimeManagement.Controllers
                 TempData["error"] = "The user name or password provided is incorrect.";
                 return RedirectToAction("Index");
             }
+
         }
 
         /// <summary>
@@ -139,7 +141,7 @@ namespace TimeManagement.Controllers
 
             Temp = new SelectList(workCodes, "Id", "Name").ToList();
             Temp.Insert(0, new SelectListItem() { Text = "", Value = "" });
-            
+
 
             ViewBag.WorkCodes = Temp;
             Temp = new List<SelectListItem>();
@@ -184,10 +186,10 @@ namespace TimeManagement.Controllers
                 task.Charge = login.Employee.BillRate.Value * task.Hours;
                 this.db.Tasks.Add(task);
                 this.db.SaveChanges();
-               
+
                 return Json(new { message, task.Id });
             }
-            
+
             catch (Exception ex)
             {
 

@@ -27,10 +27,7 @@ namespace TimeManagement
         protected void Application_Error(object sender, EventArgs e)
         {
             Exception ex = Server.GetLastError();
-            if (ex != null)
-            {
-                MTSExceptionHandler.HandleException(ref ex);
-            }
+            MTSExceptionHandler.HandleException(ref ex);
         }
 
         protected void Application_Start()
