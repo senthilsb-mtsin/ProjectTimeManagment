@@ -34,12 +34,12 @@
                             {"data-bind", "value:workCodeId"},
                              {"class", "form-control required"},
                         })
-                                </div>
-                                <div id="workcode" class="requi">
-                                    Workcode is Required
-                                </div>
+                            </div>
+                            <div id="workcode" class="requi">
+                                Workcode is Required
                             </div>
                         </div>
+                    </div>
                     <div class="col-lg-3">
                         <div class="col-lg-12 pad0 gap-bottom5">
                             <b>Work Code Activity</b>
@@ -51,12 +51,12 @@
                             {"data-bind", "value:workCodeActivityId"},
                              {"class", "form-control required"}
                         })
-                             </div>
+                            </div>
                             <div id="workcodeActivity" class="requi">
-                                    WorkcodeActivity is Required
-                                </div>
+                                WorkcodeActivity is Required
                             </div>
                         </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-1">
@@ -75,7 +75,7 @@
                             <b>Hours</b>
                         </div>
                         <div class="col-lg-12 pad-left10">
-                            <input data-bind="value:hours" class="form-control required" id="hours" style="width: 100px !important"/>
+                            <input data-bind="value:hours" class="form-control required" id="hours" style="width: 100px !important" />
                             <div id="Hours" class="requi">
                                 Hours is Required
                             </div>
@@ -101,10 +101,10 @@
                             <button id="btnAdd" data-bind="click:addTask" type="button" class="btn btn-info pull-left gap-left2 gap-right10 gap-top10">
                                 Add
                             </button>
-                            <button id="btnEdit" data-bind="click:editTask" type="button" class="btn btn-info pull-right gap-right10">
+                            <button id="btnEdit" data-bind="click:editTask" type="button" class="btn btn-info pull-right gap-right10" style="width:60px">
                                 Save
                             </button>
-                            <button id="btnCancel" type="button" class="btn btn-info pull-right gap-right10 ">
+                            <button id="btnCancel" type="button" class="btn btn-info pull-right gap-top10 gap-right10 ">
                                 Cancel
                             </button>
                         </div>
@@ -123,7 +123,7 @@
                                     Project
                                 </th>
                                 <th width="15%">
-                                    Work Code 
+                                    Work Code
                                 </th>
                                 <th width="15%">
                                     Work Code Activity
@@ -191,19 +191,18 @@
         $('#desc').hide();
 
         $("#projects").select2({
-            placeholder: "Select Project",
             sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
-
+            placeholder: "Select Project",
         });
 
         $("#workCodes").select2({
-            placeholder: "Select WorkCode",
             sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
+            placeholder: "Select WorkCode",
         });
 
         $("#workCodeActivities").select2({
-            placeholder: "Select WorkCodeActivity",
             sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
+            placeholder: "Select WorkCodeActivity",
         });
 
 
@@ -249,7 +248,7 @@
             $('#workcode').show();
         }
 
-        if (workcodeActivity == "") {
+        if (workcodeActivity == "" || workcodeActivity == null) {
             $('#workcodeActivity').show();
         }
 
@@ -260,8 +259,13 @@
             $('#Hours').show();
             return false;
         }
+
+        if(project == "" || workcode == "" || workcodeActivity == "" || workcodeActivity == null) {
+            return false
+        }
         return true;
     }
+
     $("#date").on('click', function () {
         var date = $('#date').val();
         if (date == "") {
@@ -343,6 +347,17 @@
         return false;
 
     });
+
+    $('#hours').keypress(function (e) {
+
+        var charCode = (e.which) ? e.which : event.keyCode
+
+        if (String.fromCharCode(charCode).match(/[^0-9]/g)) {
+
+            return false;
+        }
+    });
+
     $("#hours").change(function () {
         var hours = $('#hours').val();
         if (hours == "" ) {
@@ -371,7 +386,7 @@
 <script type="text/javascript">
     var viewModal;
     function task(modal) {
-       
+
          return {
             id: ko.observable(modal.taskId()),
             executionDate: ko.observable(modal.executionDate()),
@@ -383,7 +398,7 @@
              workCodeActivityId: ko.observable(modal.workCodeActivityId()),
              hours: ko.observable(parseFloat(modal.hours()).toFixed(2)),
              description: ko.observable(modal.description()),
-             
+
 
             removeTask: function () {
                 var self = this;
@@ -413,8 +428,7 @@
                 }
             },
 
-            editTask: function() {
-
+             editTask: function () {
                 $("#btnAdd").hide();
                 $("#btnEdit").show();
                 $("#btnCancel").show();
@@ -467,7 +481,7 @@
         });
 
         this.addTask = function () {
-            
+
            var showhide = validate();
             if (showhide) {
                 var newTask = new task(self);
@@ -490,36 +504,38 @@
             }
         };
 
-        this.editTask = function() {
+        this.editTask = function () {
 
             var updatedTask = new task(self);
-            $("#spinner").show();
-            $.ajax({
-                url: "@Url.Content("~/Home/EditTask")",
-                type: "POST",
-                data: ko.toJSON(updatedTask),
-                contentType: "application/json",
-                success: function(result) {
-                    $.each(self.tasks(), function(i){
-                        var task = self.tasks()[i];
-                        if(task.id() == updatedTask.id())
-                        {
-                            $("#spinner").hide();
-                            self.tasks.replace(task, updatedTask);
-                            return;
-                        }
-                    });
+            var showhide = validate();
+            if (showhide) {
+                $("#spinner").show();
+                $.ajax({
+                    url: "@Url.Content("~/Home/EditTask")",
+                    type: "POST",
+                    data: ko.toJSON(updatedTask),
+                    contentType: "application/json",
+                    success: function (result) {
+                        $.each(self.tasks(), function (i) {
+                            var task = self.tasks()[i];
+                            if (task.id() == updatedTask.id()) {
+                                $("#spinner").hide();
+                                self.tasks.replace(task, updatedTask);
+                                return;
+                            }
+                        });
 
-                    //calculateTotal
-                    calculateTotal();
+                        //calculateTotal
+                        calculateTotal();
 
-                    $("#btnAdd").show();
-                    $("#btnEdit").hide();
-                    $("#btnCancel").hide();
-                   // clearData();
-                   clearDataonadd();
-                }
-            });
+                        $("#btnAdd").show();
+                        $("#btnEdit").hide();
+                        $("#btnCancel").hide();
+                        // clearData();
+                        clearDataonadd();
+                    }
+                });
+            }
         };
     }
 
