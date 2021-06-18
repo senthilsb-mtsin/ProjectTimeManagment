@@ -68,17 +68,15 @@
         $('#workcode').selectpicker({ noneSelectedText: "Select WorkCode" });
         $('#workcodeActivity').selectpicker({ noneSelectedText: "Select workcodeActivity" });
         $('#location').selectpicker({ noneSelectedText: "Select Location" });
-        
     });
 
     $(document.body).on("change", "#workcode", function () {
         var empid = this.value;
         // $('#WorkCodeActivities').val(null).trigger('change');
-       
-        if (empid != null) { 
+        if (empid != null) {
             $.ajax(
                 {
-                    url: '/Report/GetWorkCodeActivities',
+                    url: '@Url.Content("~/Report/GetWorkCodeActivities")',
                     data: { id: empid },
                     dataType: 'json',
                     success: function (data) {
@@ -90,9 +88,7 @@
                         console.log(errorMessage);
                     }
                 });
-          
         }
-
     });
     function fundate() {
         var fromdate = $('#fromdate').val();
@@ -191,7 +187,7 @@
                                          , { "mData": "ProjectName", "sTitle": "Project" }
                                             , { "mData": "WorkCode", "sTitle": "WorkCode" }
                                           , { "mData": "WorkCodeName", "sTitle": "WorkCode Activity" }
-                                
+
                                         , { "mData": "Hours", "sTitle": "Hours", "sClass": "text-center"}
                                         , { "mData": "Description", "sTitle": "Description" }
 
@@ -251,7 +247,7 @@
                             <b>Location</b>
                         </div>
                         <div class="col-lg-12 pad0">
-                            @Html.DropDownList("locations", null, " ", new { @class = "form-control  multiple-select", id = "location", multiple = "multiple" })
+                            @Html.DropDownList("locations", null, new { @class = "form-control  multiple-select", id = "location", multiple = "multiple" })
                         </div>
                     </div>
                     <div class="col-lg-2">
@@ -259,7 +255,7 @@
                             <b>Project</b>
                         </div>
                         <div class="col-lg-12 pad0">
-                            @Html.DropDownList("Projects", null, " ", new { @class = "form-control", id = "project", multiple = "multiple" })
+                            @Html.DropDownList("Projects", null, new { @class = "form-control", id = "project", multiple = "multiple" })
                         </div>
                     </div>
                     <div class="col-lg-2">
@@ -275,7 +271,7 @@
                             <b>WorkCode Activity</b>
                         </div>
                         <div class="col-lg-12 pad0">
-                            @Html.DropDownList("WorkCodeActivity", null, " ", new { @class = "form-control", id = "workcodeActivity", multiple = "multiple" })
+                            @Html.DropDownList("WorkCodeActivity", null, new { @class = "form-control", id = "workcodeActivity", multiple = "multiple" })
                         </div>
                     </div>
                     <div class="col-lg-2">
@@ -283,7 +279,7 @@
                             <b>Employee</b>
                         </div>
                         <div class="col-lg-12 pad0">
-                            @Html.DropDownList("Employees", null, " ", new { @class = "form-control", id = "employee" })
+                            @Html.DropDownList("Employees", null, new { @class = "form-control", id = "employee" })
                         </div>
                     </div>
                 </div>

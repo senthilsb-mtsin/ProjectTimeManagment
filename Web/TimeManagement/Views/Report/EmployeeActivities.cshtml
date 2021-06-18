@@ -84,7 +84,7 @@
             return false;
         } else if ((fromdate == "") && (todate != "")) {
             $('#fdate').removeClass('hidden');
-            $('#tdate').addclass('hidden');
+            $('#tdate').addClass('hidden');
             $("#exporttoCSV").hide();
             return false;
         }
@@ -209,7 +209,7 @@
                                     <b>Project</b>
                                 </div>
                                 <div class="col-lg-12 pad0">
-                                    @Html.DropDownList("Projects", null, " ", new { @class = "form-control", id = "project", })
+                                    @Html.DropDownList("Projects", null, new { @class = "form-control", id = "project", })
                                 </div>
                             </div>
 
