@@ -67,14 +67,13 @@ namespace TimeManagement.Controllers
 
             return new List<SelectListItem>();
         }
-        public JsonResult GetWorkCodeActivities(int? id)
+        public JsonResult GetWorkCodeActivities(string[] arr)
         {
             List<Select2ListModel> items = new List<Select2ListModel>();
-            if (id != null)
+            if (arr != null)
             {
-                List<string> WorkCodeActivities = this.db.WorkCodesActivities.Where(x => x.WorkCodeId == id).OrderBy(x => x.Name).Select(x => x.Name).ToList();
-                items = this.db.WorkCodesActivities.Where(x => x.WorkCodeId == id).OrderBy(x => x.Name).Select(x => new Select2ListModel() { id = x.Name, text = x.Name }).ToList();
-
+                items = this.db.WorkCodesActivities.Where(x => arr.Contains(x.WorkCodeId.ToString())).OrderBy(x => x.Name).Select(x => new Select2ListModel() { id = x.Name, text = x.Name }).ToList();
+                
             }
             return Json(items, JsonRequestBehavior.AllowGet);
         }

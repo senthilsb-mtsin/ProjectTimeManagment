@@ -71,23 +71,21 @@
     });
 
     $(document.body).on("change", "#workcode", function () {
-        var empid = this.value;
-        // $('#WorkCodeActivities').val(null).trigger('change');
+        $("#workcodeActivity").empty();
+        var empid = $('#workcode').val();
         if (empid != null) {
-            $.ajax(
-                {
-                    url: '@Url.Content("~/Report/GetWorkCodeActivities")',
-                    data: { id: empid },
-                    dataType: 'json',
-                    success: function (data) {
-                        $.each(data, function (idx, obj) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Content("~/Report/GetWorkCodeActivities")',
+                data: JSON.stringify(empid),
+                contentType: 'application/json; charset=utf-8',
+                datatype: 'json',
+                success: function (data) {
+                    $.each(data, function (idx, obj) {
                             $("#workcodeActivity").append('<option value="' + obj.id + '">' + obj.text + '</option>').selectpicker('refresh');
                         });
-                    },
-                    error: function (jqXhr, textStatus, errorMessage) {
-                        console.log(errorMessage);
-                    }
-                });
+                },
+            });
         }
     });
     function fundate() {
